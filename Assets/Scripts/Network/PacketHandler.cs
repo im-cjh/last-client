@@ -43,7 +43,7 @@ public class PacketHandler
         handlerMapping[ePacketID.L2C_CreateRoomResponse] = HandleCreateRoomResponsePacket;
 
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
-        //handlerMapping[ePacketID.B2C_GameStart] = HandleBattleGameStart;
+        handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
         //handlerMapping[ePacketID.B2C_Enter] = HandleEnterGame;
         //handlerMapping[ePacketID.B2C_Move] = HandleMove;
     }

@@ -49,8 +49,7 @@ public enum ePacketID : UInt16
     C2B_PositionUpdateRequest = 501,
     B2C_PositionUpdateNotification = 502,
     C2B_UseCardRequest = 503,
-    B2C_UseCardNotification = 504,
-
+    B2C_UseCardNotification = 504
 }
 
 [Serializable]
