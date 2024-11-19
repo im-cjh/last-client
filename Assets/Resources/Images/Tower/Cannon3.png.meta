@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 24f3dcfa6bb8e0044b9431cbce0f8bb2
+guid: e3bf57fbd50989646b351bd47e8a1b86
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8573975999917033648
-    second: packageIcon_0
+      213: -6435572131757580343
+    second: Cannon3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: packageIcon_0
+      name: Cannon3_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 22
-        width: 469
-        height: 469
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 202
+        height: 276
+      alignment: 9
+      pivot: {x: 0.5, y: 0.36554614}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b887cbbeb1ecf670800000000000000
-      internalID: 8573975999917033648
+      spriteID: 9cf9f284e3140b6a0800000000000000
+      internalID: -6435572131757580343
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3d30b673f209cd345924f33adc57679d
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      packageIcon_0: 8573975999917033648
+      Cannon3_0: -6435572131757580343
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

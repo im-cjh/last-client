@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 24f3dcfa6bb8e0044b9431cbce0f8bb2
+guid: 45858c2e86296e64ba7baceccbf48084
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8573975999917033648
-    second: packageIcon_0
+      213: 5653806642901954993
+    second: Missile_Launcher3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: packageIcon_0
+      name: Missile_Launcher3_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 22
-        width: 469
-        height: 469
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 208
+        height: 198
+      alignment: 9
+      pivot: {x: 0.5, y: 0.42717084}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b887cbbeb1ecf670800000000000000
-      internalID: 8573975999917033648
+      spriteID: 1b13ae2cf2b567e40800000000000000
+      internalID: 5653806642901954993
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5c1d75d4cec59624ebb23dd31d0267ae
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      packageIcon_0: 8573975999917033648
+      Missile_Launcher3_0: 5653806642901954993
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
