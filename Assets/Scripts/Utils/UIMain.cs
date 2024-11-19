@@ -38,7 +38,7 @@ public class UIMain : UIListBase<ItemRoom>
     {
         Debug.Log("OnRefreshRoomList Called");
         Protocol.C2L_GetRoomListRequest pkt = new Protocol.C2L_GetRoomListRequest();
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_GetRooms, 0);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_GetRoomListRequest, 0);
         NetworkManager.instance.SendLobbyPacket(sendBuffer);
     }
 
@@ -80,7 +80,7 @@ public class UIMain : UIListBase<ItemRoom>
         
         Protocol.C2L_JoinRoomRequest pkt = new Protocol.C2L_JoinRoomRequest();
         pkt.RoomId = roomId;
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_EnterRoom, 0);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_JoinRoomRequest, 0);
 
         NetworkManager.instance.SendLobbyPacket(sendBuffer);
     }

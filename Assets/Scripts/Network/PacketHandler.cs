@@ -37,7 +37,7 @@ public class PacketHandler
     static void Init()
     {
         handlerMapping[ePacketID.L2C_Init] = HandleInitPacket;
-        handlerMapping[ePacketID.L2C_GetRoom] = HandleRoomsPacket;
+        handlerMapping[ePacketID.L2C_GetRoomListResponse] = HandleRoomsPacket;
         handlerMapping[ePacketID.L2C_JoinRoomResponse] = HandleJoinRoomResponsePacket;
         handlerMapping[ePacketID.L2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
         handlerMapping[ePacketID.L2C_CreateRoomResponse] = HandleCreateRoomResponsePacket;

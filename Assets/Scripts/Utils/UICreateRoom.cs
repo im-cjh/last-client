@@ -24,7 +24,7 @@ public class UICreateRoom: UIBase
         pkt.Name = roomName.text;
         pkt.MaxUserNum = count.value;
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_CreateRoom, 0);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_CreateRoomRequest, 0);
         NetworkManager.instance.SendLobbyPacket(sendBuffer);
 
         this.Closed();
