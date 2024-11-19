@@ -54,18 +54,47 @@ public class NetworkManager : MonoBehaviour
             return false;
         }
     }
+    public bool ConnectToBattleServer(string ip, int port, int pRoomId)
+    {
+        Debug.Log("ConnectToBattleServer");
+        try
+        {
+            mBattleTcpClient = new TcpClient(ip, port);
+            mBattleStream = mBattleTcpClient.GetStream();
+            Debug.Log($"Connected to {ip}:{port}");
 
+            StartBattleReceiving();
+
+            Protocol.C2B_Init pkt = new Protocol.C2B_Init();
+            
+            pkt.RoomId = pRoomId;
+            pkt.UserData = new Protocol.UserData
+            {
+                Id = PlayerInfoManager.instance.userId,
+                Name = PlayerInfoManager.instance.nickname,
+                Character = PlayerInfoManager.instance.characterData
+            };
+
+            byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_Init, 0);
+            SendBattlePacket(sendBuffer);
+            return true;
+        }
+        catch (SocketException e)
+        {
+            Debug.LogError($"SocketException: {e}");
+            return false;
+        }
+    }
     void StartGame()
     {
         // 게임 시작 코드 작성
-        Debug.Log("Game Started");
         StartLobbyReceiving(); // Start receiving data
         SendInitialPacket();
     }
     public async void SendLobbyPacket(byte[] sendBuffer)
     {
 
-        await Task.Delay(PlayerInfoManager.instance.latency);
+        //await Task.Delay(PlayerInfoManager.instance.latency);
         //await Task.Delay(GameManager.instance.latency);
 
         // 패킷 전송
@@ -81,18 +110,11 @@ public class NetworkManager : MonoBehaviour
 
     void SendInitialPacket()
     {
-        Protocol.C2L_InitialPacket pkt = new Protocol.C2L_InitialPacket();
-        pkt.Meta = new Protocol.C2S_Metadata
-        {
-            ClientVersion = PlayerInfoManager.instance.version,
-            UserId = PlayerInfoManager.instance.playerId,
-        };
-        pkt.Latency = PlayerInfoManager.instance.latency;
+        Protocol.C2L_Init pkt = new Protocol.C2L_Init();
+        pkt.UserId = PlayerInfoManager.instance.userId;
         pkt.Nickname = PlayerInfoManager.instance.nickname;
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_Init, PlayerInfoManager.instance.GetNextSequence());
-        
-        Debug.Log(sendBuffer.Length);
         
         SendLobbyPacket(sendBuffer);
     }

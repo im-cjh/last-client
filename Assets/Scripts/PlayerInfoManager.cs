@@ -12,9 +12,11 @@ public class PlayerInfoManager : MonoBehaviour
     public int sequence = 0;
 
     [Header("# Player Info")]
-    public int playerId = 1;
+    public string userId = "dd";
     public string nickname = "test";
-    public int roomId;
+    public Protocol.CharacterData characterData = new Protocol.CharacterData { CharacterType = Protocol.CharacterType.NoneCharacter};
+
+    public Protocol.B2C_GameStartNotification tmp_gameStartPacket;
 
     void Awake()
     {

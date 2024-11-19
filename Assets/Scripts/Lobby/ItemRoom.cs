@@ -25,6 +25,7 @@ public class ItemRoom : MonoBehaviour // UIListItem Á¦°Å
 
     public void OnClickItem()
     {
+        Debug.Log("OnClickItem");
         callback?.Invoke(roomData.Id);
     }
 }

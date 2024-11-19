@@ -22,6 +22,12 @@ public class UIMain : UIListBase<ItemRoom>
         }
     }
 
+    public void SetActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+    }
+
+
     public void SetRoomList(List<RoomData> rooms)
     {
         this.rooms = rooms;
@@ -30,12 +36,10 @@ public class UIMain : UIListBase<ItemRoom>
 
     public void OnRefreshRoomList()
     {
-        //if (SocketManager.instance.isConnected)
-        //{
-        //    GamePacket packet = new GamePacket();
-        //    packet.GetRoomListRequest = new C2SGetRoomListRequest();
-        //    SocketManager.instance.Send(packet);
-        //}
+        Debug.Log("OnRefreshRoomList Called");
+        Protocol.C2L_GetRoomListRequest pkt = new Protocol.C2L_GetRoomListRequest();
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_GetRooms, 0);
+        NetworkManager.instance.SendLobbyPacket(sendBuffer);
     }
 
     public override void HideDirect()
@@ -45,6 +49,7 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void SetList()
     {
+        Debug.Log("SetList Called");
         ClearList();
         for (int i = 0; i < rooms.Count; i++)
         {
@@ -65,16 +70,18 @@ public class UIMain : UIListBase<ItemRoom>
 
     public void OnClickCreateRoom()
     {
+        
         //UIManager.Show<PopupRoomCreate>();
     }
 
-    public void OnJoinRoom(int idx)
+    public void OnJoinRoom(int roomId)
     {
-        //if (SocketManager.instance.isConnected)
-        //{
-        //    GamePacket packet = new GamePacket();
-        //    packet.JoinRoomRequest = new C2SJoinRoomRequest() { RoomId = idx };
-        //    SocketManager.instance.Send(packet);
-        //}
+        Debug.Log("OnJoinRoom Called");
+        
+        Protocol.C2L_JoinRoomRequest pkt = new Protocol.C2L_JoinRoomRequest();
+        pkt.RoomId = roomId;
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_EnterRoom, 0);
+
+        NetworkManager.instance.SendLobbyPacket(sendBuffer);
     }
 }

@@ -12,15 +12,17 @@ public enum ePacketID : UInt16
     C2L_LeaveRoom = 3,
     C2L_GetRooms = 4,
     C2L_GameStart = 5,
+    C2L_CreateRoom = 6,
     C2B_Init = 21,
     C2B_Move = 22,
     L2C_Init = 51,
-    L2C_EnterRoomMe = 52,
-    L2C_EnterRoomOther = 53,
+    L2C_JoinRoomResponse = 52,
+    L2C_JoinRoomNotification = 53,
     L2C_LeaveRoomMe = 54,
     L2C_LeaveRoomOther = 55,
     L2C_GetRoom = 56,
     L2C_GameStart = 57,
+    L2C_CreateRoomResponse = 58,
     L2B_Init = 61,
     L2B_CreateRoom = 62,
     B2C_Enter = 101,
@@ -33,7 +35,7 @@ public enum ePacketID : UInt16
 [Serializable]
 public struct PacketHeader
 {
-    public int size;
+    public Int16 size;
     public ePacketID id; // 프로토콜ID 
-    public int sequence;
+    public Int32 sequence;
 }
