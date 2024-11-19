@@ -5,18 +5,6 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
-    [SerializeField]
-    private float minX;
-
-    [SerializeField]
-    private float maxX;
-
-    [SerializeField]
-    private float minY;
-
-    [SerializeField]
-    private float maxY;
-
     void Start()
     {
         transform.position = player.transform.position;

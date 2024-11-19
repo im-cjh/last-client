@@ -3,11 +3,11 @@ using UnityEngine.Tilemaps;
 
 public class TowerPlacer : MonoBehaviour
 {
-    public Tilemap tilemap;
-    public GameObject towerPrefab; // 설치할 타워 프리팹
-    public LayerMask towerLayer;    // 타워 레이어 설정
-    public LayerMask characterLayer; // 캐릭터 레이어 설정
-    public float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
+    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private GameObject towerPrefab; // 설치할 타워 프리팹
+    [SerializeField] private LayerMask towerLayer;    // 타워 레이어 설정
+    [SerializeField] private LayerMask characterLayer; // 캐릭터 레이어 설정
+    [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
     void Update()
     {

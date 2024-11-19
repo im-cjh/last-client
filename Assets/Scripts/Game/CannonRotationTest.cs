@@ -5,8 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class CannonRotationTest : MonoBehaviour
 {
-    public Transform cannon;
-    public float roationSpeed = 50f;
+    [SerializeField] private Transform cannon;
 
     void Update()
     {
