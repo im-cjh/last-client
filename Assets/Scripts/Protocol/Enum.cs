@@ -25,13 +25,13 @@ namespace Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgplbnVtLnByb3RvEghQcm90b2NvbCozCg1Sb29tU3RhdGVUeXBlEggKBFdB",
-            "SVQQABILCgdQUkVQQVJFEAESCwoHSU5BR0FNRRACKjkKCk9iamVjdFR5cGUS",
-            "CQoFVE9XRVIQABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISBwoDRU5WEAMq",
-            "MgoIQ2FyZFR5cGUSEAoMQVRUQUNLX1RPV0VSEAASFAoQU1RSX0FUVEFDS19U",
-            "T1dFUhABKoABCg1DaGFyYWN0ZXJUeXBlEhEKDU5vbmVDaGFyYWN0ZXIQABIH",
-            "CgNSZWQQARIJCgVTaGFyaxADEgoKBk1hbGFuZxAFEgoKBkZyb2dneRAHEgsK",
-            "B0JvbWJNYW4QCBILCgdTbG93TWFuEAkSCAoETWFzaxAKEgwKCERpbm9zb3Vy",
-            "EAxiBnByb3RvMw=="));
+            "SVQQABILCgdQUkVQQVJFEAESCwoHSU5BR0FNRRACKkkKCk9iamVjdFR5cGUS",
+            "CQoFVE9XRVIQABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISDgoKUFJPSkVD",
+            "VElMRRADEgcKA0VOVhAEKjIKCENhcmRUeXBlEhAKDEFUVEFDS19UT1dFUhAA",
+            "EhQKEFNUUl9BVFRBQ0tfVE9XRVIQASqAAQoNQ2hhcmFjdGVyVHlwZRIRCg1O",
+            "b25lQ2hhcmFjdGVyEAASBwoDUmVkEAESCQoFU2hhcmsQAxIKCgZNYWxhbmcQ",
+            "BRIKCgZGcm9nZ3kQBxILCgdCb21iTWFuEAgSCwoHU2xvd01hbhAJEggKBE1h",
+            "c2sQChIMCghEaW5vc291chAMYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.RoomStateType), typeof(global::Protocol.ObjectType), typeof(global::Protocol.CardType), typeof(global::Protocol.CharacterType), }, null, null));
@@ -53,7 +53,8 @@ namespace Protocol {
     [pbr::OriginalName("TOWER")] Tower = 0,
     [pbr::OriginalName("PLAYER")] Player = 1,
     [pbr::OriginalName("MONSTER")] Monster = 2,
-    [pbr::OriginalName("ENV")] Env = 3,
+    [pbr::OriginalName("PROJECTILE")] Projectile = 3,
+    [pbr::OriginalName("ENV")] Env = 4,
   }
 
   public enum CardType {

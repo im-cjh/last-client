@@ -8,12 +8,13 @@ public class PlayerInfoManager : MonoBehaviour
     [Header("# Game Control")]
     public int targetFrameRate;
     public string version = "1.0.0";
-    public int latency = 2;
+    public int latency = 1;
     public int sequence = 0;
 
     [Header("# Player Info")]
     public string userId = "dd";
     public string nickname = "test";
+    public int roomId = 0;
     public Protocol.CharacterData characterData = new Protocol.CharacterData { CharacterType = Protocol.CharacterType.NoneCharacter};
 
     public Protocol.B2C_GameStartNotification tmp_gameStartPacket;

@@ -44,8 +44,8 @@ public class PacketHandler
 
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
+        handlerMapping[ePacketID.B2C_PositionUpdateNotification] = HandleMove;
         //handlerMapping[ePacketID.B2C_Enter] = HandleEnterGame;
-        //handlerMapping[ePacketID.B2C_Move] = HandleMove;
     }
 
     static void HandleInitPacket(byte[] pBuffer)
@@ -110,7 +110,7 @@ public class PacketHandler
         Protocol.L2C_GameStart pkt = Protocol.L2C_GameStart.Parser.ParseFrom(pBuffer);
 
         Debug.Log("게임시작 1");
-
+        PlayerInfoManager.instance.roomId = pkt.RoomId;
         NetworkManager.instance.ConnectToBattleServer(pkt.Host, pkt.Port, pkt.RoomId);
     }
 
@@ -123,8 +123,26 @@ public class PacketHandler
         Debug.Log("끄어어억");
         Protocol.B2C_GameStartNotification pkt = Protocol.B2C_GameStartNotification.Parser.ParseFrom(pBuffer);
         PlayerInfoManager.instance.tmp_gameStartPacket = pkt;
-
+        
         SceneChanger.ChangeGameScene();
+    }
+
+/*---------------------------------------------
+    [이동 동기화]
+---------------------------------------------*/
+    static void HandleMove(byte[] pBuffer)
+    {
+        Debug.Log("HandleMove");
+        try
+        {
+            Protocol.B2C_PositionUpdateNotification response = Protocol.B2C_PositionUpdateNotification.Parser.ParseFrom(pBuffer);
+
+            //Spawner.instance.Spawn(response);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error HandleLocationPacket: {e.Message}");
+        }
     }
 }
 

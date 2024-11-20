@@ -94,8 +94,7 @@ public class NetworkManager : MonoBehaviour
     public async void SendLobbyPacket(byte[] sendBuffer)
     {
 
-        //await Task.Delay(PlayerInfoManager.instance.latency);
-        //await Task.Delay(GameManager.instance.latency);
+        await Task.Delay(PlayerInfoManager.instance.latency);
 
         // 패킷 전송
         mLobbyStream.Write(sendBuffer, 0, sendBuffer.Length);
