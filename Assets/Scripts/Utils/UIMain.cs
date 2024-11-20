@@ -36,7 +36,6 @@ public class UIMain : UIListBase<ItemRoom>
 
     public void OnRefreshRoomList()
     {
-        Debug.Log("OnRefreshRoomList Called");
         Protocol.C2L_GetRoomListRequest pkt = new Protocol.C2L_GetRoomListRequest();
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_GetRoomListRequest, 0);
         NetworkManager.instance.SendLobbyPacket(sendBuffer);
@@ -49,12 +48,12 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void SetList()
     {
-        Debug.Log("SetList Called");
+        
         ClearList();
         for (int i = 0; i < rooms.Count; i++)
         {
             var item = AddItem();
-            item.SetItem(rooms[i], OnJoinRoom);
+            item.SetItem(rooms[i], OnClickJoinRoom);
         }
     }
 
@@ -68,13 +67,8 @@ public class UIMain : UIListBase<ItemRoom>
         //}
     }
 
-    public void OnClickCreateRoom()
-    {
-        
-        //UIManager.Show<PopupRoomCreate>();
-    }
 
-    public void OnJoinRoom(int roomId)
+    public void OnClickJoinRoom(int roomId)
     {
         Debug.Log("OnJoinRoom Called");
         

@@ -11,7 +11,6 @@ public class UICreateRoom: UIBase
 
     public override void Opened(object[] param = null)
     {
-        Debug.Log("Opend Called");
         base.Opened(param);
         var roomNameSample = new List<string>() { "≥ ∏∏ ø¿∏È ∞Ì!", "∞≥≥‰¿÷¥¬ ªÁ∂˜∏∏", "æÓµÙ ≥—∫¡?", "¡Ò∞≈øÓ ∞‘¿” «—∆« «œΩØ?", "ªßæﬂ! ªßæﬂ!" };
         roomName.text = roomNameSample[Random.Range(0, roomNameSample.Count)];
@@ -19,10 +18,9 @@ public class UICreateRoom: UIBase
 
     public void RequestCreateRoom()
     {
-        Debug.Log("RequestCreateRoom Called");
         Protocol.C2L_CreateRoomRequest pkt = new C2L_CreateRoomRequest();
         pkt.Name = roomName.text;
-        pkt.MaxUserNum = count.value;
+        pkt.MaxUserNum = count.value+1; // 0∫Œ≈Õ Ω√¿€«ÿº≠ +1«ÿ¡‡æﬂ µ 
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_CreateRoomRequest, 0);
         NetworkManager.instance.SendLobbyPacket(sendBuffer);

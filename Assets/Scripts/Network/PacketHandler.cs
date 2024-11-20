@@ -87,12 +87,17 @@ public class PacketHandler
         LobbyManager.instance.OnJoinedRoomSomeone(pkt.JoinUser);
     }
 
+    /*---------------------------------------------
+    
+    [방 생성]
+---------------------------------------------*/
     static void HandleCreateRoomResponsePacket(byte[] pBuffer)
     {
         //패킷 역직렬화
         Protocol.L2C_CreateRoomResponse pkt = Protocol.L2C_CreateRoomResponse.Parser.ParseFrom(pBuffer);
-        //pkt.Room.
         
+        //방 입장 요청 보내기
+        LobbyManager.instance.uiMain.OnClickJoinRoom(pkt.Room.Id);
     }
 
     /*---------------------------------------------
