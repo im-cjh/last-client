@@ -72,7 +72,7 @@ public class LoginManager : MonoBehaviour
                     //byte[] sendBuffer = PacketHandler.SerializePacket(pkt, ePacketID.LOGIN_SUCCESS);
                     //await LobbySession.Instance.Send(sendBuffer);
 
-                    SceneChanger.ChangeLobbyScene();
+                    SceneChanger.ChangeScene(SceneChanger.SceneType.Lobby);
                 }
                 else
                 {

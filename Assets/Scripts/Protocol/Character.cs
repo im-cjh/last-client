@@ -25,18 +25,18 @@ namespace Protocol {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg9jaGFyYWN0ZXIucHJvdG8SCFByb3RvY29sGgxzdHJ1Y3QucHJvdG8aCmVu",
-            "dW0ucHJvdG8iVQoZQzJCX1Bvc2l0aW9uVXBkYXRlUmVxdWVzdBIoCgplbnRp",
-            "dHlEYXRhGAEgASgLMhQuUHJvdG9jb2wuRW50aXR5RGF0YRIOCgZyb29tSWQY",
-            "AiABKAUiWgoeQjJDX1Bvc2l0aW9uVXBkYXRlTm90aWZpY2F0aW9uEigKCmVu",
-            "dGl0eURhdGEYASABKAsyFC5Qcm90b2NvbC5FbnRpdHlEYXRhEg4KBnJvb21J",
-            "ZBgCIAEoBSI6ChJDMkJfVXNlQ2FyZFJlcXVlc3QSJAoIY2FyZFR5cGUYASAB",
-            "KA4yEi5Qcm90b2NvbC5DYXJkVHlwZSIsChdCMkNfVXNlQ2FyZE5vdGlmaWNh",
-            "dGlvbhIRCglpc1N1Y2Nlc3MYASABKAhiBnByb3RvMw=="));
+            "dW0ucHJvdG8iUAoZQzJCX1Bvc2l0aW9uVXBkYXRlUmVxdWVzdBIjCghwb3NJ",
+            "bmZvcxgBIAEoCzIRLlByb3RvY29sLlBvc0luZm8SDgoGcm9vbUlkGAIgASgF",
+            "IkUKHkIyQ19Qb3NpdGlvblVwZGF0ZU5vdGlmaWNhdGlvbhIjCghwb3NJbmZv",
+            "cxgBIAEoCzIRLlByb3RvY29sLlBvc0luZm8iOgoSQzJCX1VzZUNhcmRSZXF1",
+            "ZXN0EiQKCGNhcmRUeXBlGAEgASgOMhIuUHJvdG9jb2wuQ2FyZFR5cGUiLAoX",
+            "QjJDX1VzZUNhcmROb3RpZmljYXRpb24SEQoJaXNTdWNjZXNzGAEgASgIYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.StructReflection.Descriptor, global::Protocol.EnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_PositionUpdateRequest), global::Protocol.C2B_PositionUpdateRequest.Parser, new[]{ "EntityData", "RoomId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_PositionUpdateNotification), global::Protocol.B2C_PositionUpdateNotification.Parser, new[]{ "EntityData", "RoomId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_PositionUpdateRequest), global::Protocol.C2B_PositionUpdateRequest.Parser, new[]{ "PosInfos", "RoomId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_PositionUpdateNotification), global::Protocol.B2C_PositionUpdateNotification.Parser, new[]{ "PosInfos" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_UseCardRequest), global::Protocol.C2B_UseCardRequest.Parser, new[]{ "CardType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_UseCardNotification), global::Protocol.B2C_UseCardNotification.Parser, new[]{ "IsSuccess" }, null, null, null, null)
           }));
@@ -82,7 +82,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public C2B_PositionUpdateRequest(C2B_PositionUpdateRequest other) : this() {
-      entityData_ = other.entityData_ != null ? other.entityData_.Clone() : null;
+      posInfos_ = other.posInfos_ != null ? other.posInfos_.Clone() : null;
       roomId_ = other.roomId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -93,15 +93,15 @@ namespace Protocol {
       return new C2B_PositionUpdateRequest(this);
     }
 
-    /// <summary>Field number for the "entityData" field.</summary>
-    public const int EntityDataFieldNumber = 1;
-    private global::Protocol.EntityData entityData_;
+    /// <summary>Field number for the "posInfos" field.</summary>
+    public const int PosInfosFieldNumber = 1;
+    private global::Protocol.PosInfo posInfos_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Protocol.EntityData EntityData {
-      get { return entityData_; }
+    public global::Protocol.PosInfo PosInfos {
+      get { return posInfos_; }
       set {
-        entityData_ = value;
+        posInfos_ = value;
       }
     }
 
@@ -132,7 +132,7 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(EntityData, other.EntityData)) return false;
+      if (!object.Equals(PosInfos, other.PosInfos)) return false;
       if (RoomId != other.RoomId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -141,7 +141,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (entityData_ != null) hash ^= EntityData.GetHashCode();
+      if (posInfos_ != null) hash ^= PosInfos.GetHashCode();
       if (RoomId != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -161,9 +161,9 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (entityData_ != null) {
+      if (posInfos_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(EntityData);
+        output.WriteMessage(PosInfos);
       }
       if (RoomId != 0) {
         output.WriteRawTag(16);
@@ -179,9 +179,9 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (entityData_ != null) {
+      if (posInfos_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(EntityData);
+        output.WriteMessage(PosInfos);
       }
       if (RoomId != 0) {
         output.WriteRawTag(16);
@@ -197,8 +197,8 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (entityData_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityData);
+      if (posInfos_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PosInfos);
       }
       if (RoomId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomId);
@@ -215,11 +215,11 @@ namespace Protocol {
       if (other == null) {
         return;
       }
-      if (other.entityData_ != null) {
-        if (entityData_ == null) {
-          EntityData = new global::Protocol.EntityData();
+      if (other.posInfos_ != null) {
+        if (posInfos_ == null) {
+          PosInfos = new global::Protocol.PosInfo();
         }
-        EntityData.MergeFrom(other.EntityData);
+        PosInfos.MergeFrom(other.PosInfos);
       }
       if (other.RoomId != 0) {
         RoomId = other.RoomId;
@@ -240,10 +240,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (entityData_ == null) {
-              EntityData = new global::Protocol.EntityData();
+            if (posInfos_ == null) {
+              PosInfos = new global::Protocol.PosInfo();
             }
-            input.ReadMessage(EntityData);
+            input.ReadMessage(PosInfos);
             break;
           }
           case 16: {
@@ -266,10 +266,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (entityData_ == null) {
-              EntityData = new global::Protocol.EntityData();
+            if (posInfos_ == null) {
+              PosInfos = new global::Protocol.PosInfo();
             }
-            input.ReadMessage(EntityData);
+            input.ReadMessage(PosInfos);
             break;
           }
           case 16: {
@@ -320,8 +320,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public B2C_PositionUpdateNotification(B2C_PositionUpdateNotification other) : this() {
-      entityData_ = other.entityData_ != null ? other.entityData_.Clone() : null;
-      roomId_ = other.roomId_;
+      posInfos_ = other.posInfos_ != null ? other.posInfos_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -331,27 +330,15 @@ namespace Protocol {
       return new B2C_PositionUpdateNotification(this);
     }
 
-    /// <summary>Field number for the "entityData" field.</summary>
-    public const int EntityDataFieldNumber = 1;
-    private global::Protocol.EntityData entityData_;
+    /// <summary>Field number for the "posInfos" field.</summary>
+    public const int PosInfosFieldNumber = 1;
+    private global::Protocol.PosInfo posInfos_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Protocol.EntityData EntityData {
-      get { return entityData_; }
+    public global::Protocol.PosInfo PosInfos {
+      get { return posInfos_; }
       set {
-        entityData_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "roomId" field.</summary>
-    public const int RoomIdFieldNumber = 2;
-    private int roomId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int RoomId {
-      get { return roomId_; }
-      set {
-        roomId_ = value;
+        posInfos_ = value;
       }
     }
 
@@ -370,8 +357,7 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(EntityData, other.EntityData)) return false;
-      if (RoomId != other.RoomId) return false;
+      if (!object.Equals(PosInfos, other.PosInfos)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -379,8 +365,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (entityData_ != null) hash ^= EntityData.GetHashCode();
-      if (RoomId != 0) hash ^= RoomId.GetHashCode();
+      if (posInfos_ != null) hash ^= PosInfos.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -399,13 +384,9 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (entityData_ != null) {
+      if (posInfos_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(EntityData);
-      }
-      if (RoomId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(RoomId);
+        output.WriteMessage(PosInfos);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -417,13 +398,9 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (entityData_ != null) {
+      if (posInfos_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(EntityData);
-      }
-      if (RoomId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(RoomId);
+        output.WriteMessage(PosInfos);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -435,11 +412,8 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (entityData_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityData);
-      }
-      if (RoomId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomId);
+      if (posInfos_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PosInfos);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -453,14 +427,11 @@ namespace Protocol {
       if (other == null) {
         return;
       }
-      if (other.entityData_ != null) {
-        if (entityData_ == null) {
-          EntityData = new global::Protocol.EntityData();
+      if (other.posInfos_ != null) {
+        if (posInfos_ == null) {
+          PosInfos = new global::Protocol.PosInfo();
         }
-        EntityData.MergeFrom(other.EntityData);
-      }
-      if (other.RoomId != 0) {
-        RoomId = other.RoomId;
+        PosInfos.MergeFrom(other.PosInfos);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -478,14 +449,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (entityData_ == null) {
-              EntityData = new global::Protocol.EntityData();
+            if (posInfos_ == null) {
+              PosInfos = new global::Protocol.PosInfo();
             }
-            input.ReadMessage(EntityData);
-            break;
-          }
-          case 16: {
-            RoomId = input.ReadInt32();
+            input.ReadMessage(PosInfos);
             break;
           }
         }
@@ -504,14 +471,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (entityData_ == null) {
-              EntityData = new global::Protocol.EntityData();
+            if (posInfos_ == null) {
+              PosInfos = new global::Protocol.PosInfo();
             }
-            input.ReadMessage(EntityData);
-            break;
-          }
-          case 16: {
-            RoomId = input.ReadInt32();
+            input.ReadMessage(PosInfos);
             break;
           }
         }

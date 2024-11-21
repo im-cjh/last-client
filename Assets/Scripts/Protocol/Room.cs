@@ -34,19 +34,19 @@ namespace Protocol {
             "U3RhcnQSDgoGdXNlcklkGAEgASgJEg4KBnJvb21JZBgCIAEoBSI7Cg1MMkNf",
             "R2FtZVN0YXJ0EgwKBGhvc3QYASABKAkSDAoEcG9ydBgCIAEoBRIOCgZyb29t",
             "SWQYAyABKAUiOAoUTDJCX0dhbWVTdGFydFJlcXVlc3QSDAoEbmFtZRgBIAEo",
-            "CRISCgptYXhVc2VyTnVtGAIgASgFIkIKGUIyQ19HYW1lU3RhcnROb3RpZmlj",
-            "YXRpb24SJQoJdXNlckRhdGFzGAEgAygLMhIuUHJvdG9jb2wuVXNlckRhdGEi",
-            "GAoWQzJMX0dldFJvb21MaXN0UmVxdWVzdCI8ChdMMkNfR2V0Um9vbUxpc3RS",
-            "ZXNwb25zZRIhCgVyb29tcxgBIAMoCzISLlByb3RvY29sLlJvb21EYXRhIiUK",
-            "E0MyTF9Kb2luUm9vbVJlcXVlc3QSDgoGcm9vbUlkGAEgASgFIk8KFEwyQ19K",
-            "b2luUm9vbVJlc3BvbnNlEhEKCWlzU3VjY2VzcxgBIAEoCBIkCghyb29tSW5m",
-            "bxgCIAEoCzISLlByb3RvY29sLlJvb21EYXRhIkAKGEwyQ19Kb2luUm9vbU5v",
-            "dGlmaWNhdGlvbhIkCghqb2luVXNlchgBIAEoCzISLlByb3RvY29sLlVzZXJE",
-            "YXRhIigKE0IyQ19Kb2luUm9vbVJlcXVlc3QSEQoJaXNTdWNjZXNzGAEgASgI",
-            "IiYKFEMyTF9MZWF2ZVJvb21SZXF1ZXN0Eg4KBnJvb21JZBgBIAEoBSIqChVM",
-            "MkNfTGVhdmVSb29tUmVzcG9uc2USEQoJaXNTdWNjZXNzGAEgASgIIisKGUwy",
-            "Q19MZWF2ZVJvb21Ob3RpZmljYXRpb24SDgoGdXNlcklkGAEgASgJYgZwcm90",
-            "bzM="));
+            "CRISCgptYXhVc2VyTnVtGAIgASgFIkoKGUIyQ19HYW1lU3RhcnROb3RpZmlj",
+            "YXRpb24SLQoLcGxheWVyRGF0YXMYASADKAsyGC5Qcm90b2NvbC5HYW1lUGxh",
+            "eWVyRGF0YSIYChZDMkxfR2V0Um9vbUxpc3RSZXF1ZXN0IjwKF0wyQ19HZXRS",
+            "b29tTGlzdFJlc3BvbnNlEiEKBXJvb21zGAEgAygLMhIuUHJvdG9jb2wuUm9v",
+            "bURhdGEiJQoTQzJMX0pvaW5Sb29tUmVxdWVzdBIOCgZyb29tSWQYASABKAUi",
+            "TwoUTDJDX0pvaW5Sb29tUmVzcG9uc2USEQoJaXNTdWNjZXNzGAEgASgIEiQK",
+            "CHJvb21JbmZvGAIgASgLMhIuUHJvdG9jb2wuUm9vbURhdGEiQAoYTDJDX0pv",
+            "aW5Sb29tTm90aWZpY2F0aW9uEiQKCGpvaW5Vc2VyGAEgASgLMhIuUHJvdG9j",
+            "b2wuVXNlckRhdGEiKAoTQjJDX0pvaW5Sb29tUmVxdWVzdBIRCglpc1N1Y2Nl",
+            "c3MYASABKAgiJgoUQzJMX0xlYXZlUm9vbVJlcXVlc3QSDgoGcm9vbUlkGAEg",
+            "ASgFIioKFUwyQ19MZWF2ZVJvb21SZXNwb25zZRIRCglpc1N1Y2Nlc3MYASAB",
+            "KAgiKwoZTDJDX0xlYXZlUm9vbU5vdGlmaWNhdGlvbhIOCgZ1c2VySWQYASAB",
+            "KAliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -57,7 +57,7 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2L_GameStart), global::Protocol.C2L_GameStart.Parser, new[]{ "UserId", "RoomId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.L2C_GameStart), global::Protocol.L2C_GameStart.Parser, new[]{ "Host", "Port", "RoomId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.L2B_GameStartRequest), global::Protocol.L2B_GameStartRequest.Parser, new[]{ "Name", "MaxUserNum" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_GameStartNotification), global::Protocol.B2C_GameStartNotification.Parser, new[]{ "UserDatas" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_GameStartNotification), global::Protocol.B2C_GameStartNotification.Parser, new[]{ "PlayerDatas" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2L_GetRoomListRequest), global::Protocol.C2L_GetRoomListRequest.Parser, null, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.L2C_GetRoomListResponse), global::Protocol.L2C_GetRoomListResponse.Parser, new[]{ "Rooms" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2L_JoinRoomRequest), global::Protocol.C2L_JoinRoomRequest.Parser, new[]{ "RoomId" }, null, null, null, null),
@@ -1750,7 +1750,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public B2C_GameStartNotification(B2C_GameStartNotification other) : this() {
-      userDatas_ = other.userDatas_.Clone();
+      playerDatas_ = other.playerDatas_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1760,18 +1760,18 @@ namespace Protocol {
       return new B2C_GameStartNotification(this);
     }
 
-    /// <summary>Field number for the "userDatas" field.</summary>
-    public const int UserDatasFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Protocol.UserData> _repeated_userDatas_codec
-        = pb::FieldCodec.ForMessage(10, global::Protocol.UserData.Parser);
-    private readonly pbc::RepeatedField<global::Protocol.UserData> userDatas_ = new pbc::RepeatedField<global::Protocol.UserData>();
+    /// <summary>Field number for the "playerDatas" field.</summary>
+    public const int PlayerDatasFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Protocol.GamePlayerData> _repeated_playerDatas_codec
+        = pb::FieldCodec.ForMessage(10, global::Protocol.GamePlayerData.Parser);
+    private readonly pbc::RepeatedField<global::Protocol.GamePlayerData> playerDatas_ = new pbc::RepeatedField<global::Protocol.GamePlayerData>();
     /// <summary>
     ///UserData를 wrapping한 새로운 struct 필요할 듯
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Protocol.UserData> UserDatas {
-      get { return userDatas_; }
+    public pbc::RepeatedField<global::Protocol.GamePlayerData> PlayerDatas {
+      get { return playerDatas_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1789,7 +1789,7 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!userDatas_.Equals(other.userDatas_)) return false;
+      if(!playerDatas_.Equals(other.playerDatas_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1797,7 +1797,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= userDatas_.GetHashCode();
+      hash ^= playerDatas_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1816,7 +1816,7 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      userDatas_.WriteTo(output, _repeated_userDatas_codec);
+      playerDatas_.WriteTo(output, _repeated_playerDatas_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1827,7 +1827,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      userDatas_.WriteTo(ref output, _repeated_userDatas_codec);
+      playerDatas_.WriteTo(ref output, _repeated_playerDatas_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1838,7 +1838,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      size += userDatas_.CalculateSize(_repeated_userDatas_codec);
+      size += playerDatas_.CalculateSize(_repeated_playerDatas_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1851,7 +1851,7 @@ namespace Protocol {
       if (other == null) {
         return;
       }
-      userDatas_.Add(other.userDatas_);
+      playerDatas_.Add(other.playerDatas_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1868,7 +1868,7 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            userDatas_.AddEntriesFrom(input, _repeated_userDatas_codec);
+            playerDatas_.AddEntriesFrom(input, _repeated_playerDatas_codec);
             break;
           }
         }
@@ -1887,7 +1887,7 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            userDatas_.AddEntriesFrom(ref input, _repeated_userDatas_codec);
+            playerDatas_.AddEntriesFrom(ref input, _repeated_playerDatas_codec);
             break;
           }
         }

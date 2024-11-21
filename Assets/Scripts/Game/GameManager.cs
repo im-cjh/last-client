@@ -4,14 +4,13 @@ using Unity.Mathematics;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Protocol;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     [Header("# Game Object")]
-    //public PoolManager pool;
-    //public Player player;
     public GameObject hud;
     public GameObject GameStartUI;
 
@@ -22,7 +21,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //player.gameObject.SetActive(true);
         //hud.SetActive(true);
         //GameStartUI.SetActive(false);
         
@@ -49,17 +47,22 @@ public class GameManager : MonoBehaviour
 
     public void SendLocationUpdatePacket(float x, float y)
     {
-        Protocol.C2B_PositionUpdateRequest pkt = new Protocol.C2B_PositionUpdateRequest();
-        pkt.EntityData = new Protocol.EntityData
+        Debug.Log("my pos: " + x + " , " + y); 
+        Protocol.C2B_PositionUpdateRequest pkt = new Protocol.C2B_PositionUpdateRequest
         {
-            ObjectType = Protocol.ObjectType.Player,
-            Pos = new Protocol.PosInfo { X = x, Y = y },
-            Uuid = PlayerInfoManager.instance.userId
+            PosInfos = new Protocol.PosInfo
+            {
+                Uuid = PlayerInfoManager.instance.userId,
+                X = x,
+                Y = y
+            },
+            RoomId = PlayerInfoManager.instance.roomId
         };
-        pkt.RoomId = PlayerInfoManager.instance.roomId;
+        
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PositionUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
         NetworkManager.instance.SendBattlePacket(sendBuffer);
     }
+
 
 }

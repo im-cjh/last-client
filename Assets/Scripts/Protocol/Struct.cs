@@ -36,12 +36,12 @@ namespace Protocol {
             "ZRgDIAEoCRISCgptYXhVc2VyTnVtGAQgASgFEiYKBXN0YXRlGAUgASgOMhcu",
             "UHJvdG9jb2wuUm9vbVN0YXRlVHlwZRIhCgV1c2VycxgGIAMoCzISLlByb3Rv",
             "Y29sLlVzZXJEYXRhIj8KDUNoYXJhY3RlckRhdGESLgoNY2hhcmFjdGVyVHlw",
-            "ZRgBIAEoDjIXLlByb3RvY29sLkNoYXJhY3RlclR5cGUiHwoHUG9zSW5mbxIJ",
-            "CgF4GAEgASgCEgkKAXkYAiABKAIiZAoKRW50aXR5RGF0YRIeCgNwb3MYASAB",
-            "KAsyES5Qcm90b2NvbC5Qb3NJbmZvEigKCm9iamVjdFR5cGUYAiABKA4yFC5Q",
-            "cm90b2NvbC5PYmplY3RUeXBlEgwKBHV1aWQYAyABKAkiMgoJRXJyb3JEYXRh",
-            "EhQKDHJlc3BvbnNlQ29kZRgBIAEoBRIPCgdtZXNzYWdlGAIgASgJYgZwcm90",
-            "bzM="));
+            "ZRgBIAEoDjIXLlByb3RvY29sLkNoYXJhY3RlclR5cGUiLQoHUG9zSW5mbxIM",
+            "CgR1dWlkGAEgASgJEgkKAXgYAiABKAISCQoBeRgDIAEoAiJ3Cg5HYW1lUGxh",
+            "eWVyRGF0YRIjCghwb3NpdGlvbhgBIAEoCzIRLlByb3RvY29sLlBvc0luZm8S",
+            "EAoIbmlja25hbWUYAiABKAkSLgoNY2hhcmFjdGVyVHlwZRgDIAEoDjIXLlBy",
+            "b3RvY29sLkNoYXJhY3RlclR5cGUiMgoJRXJyb3JEYXRhEhQKDHJlc3BvbnNl",
+            "Q29kZRgBIAEoBRIPCgdtZXNzYWdlGAIgASgJYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -51,8 +51,8 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.UserData), global::Protocol.UserData.Parser, new[]{ "Id", "Name", "Character" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.RoomData), global::Protocol.RoomData.Parser, new[]{ "Id", "OwnerId", "Name", "MaxUserNum", "State", "Users" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.CharacterData), global::Protocol.CharacterData.Parser, new[]{ "CharacterType" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PosInfo), global::Protocol.PosInfo.Parser, new[]{ "X", "Y" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.EntityData), global::Protocol.EntityData.Parser, new[]{ "Pos", "ObjectType", "Uuid" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PosInfo), global::Protocol.PosInfo.Parser, new[]{ "Uuid", "X", "Y" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.GamePlayerData), global::Protocol.GamePlayerData.Parser, new[]{ "Position", "Nickname", "CharacterType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.ErrorData), global::Protocol.ErrorData.Parser, new[]{ "ResponseCode", "Message" }, null, null, null, null)
           }));
     }
@@ -1782,6 +1782,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public PosInfo(PosInfo other) : this() {
+      uuid_ = other.uuid_;
       x_ = other.x_;
       y_ = other.y_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -1793,8 +1794,20 @@ namespace Protocol {
       return new PosInfo(this);
     }
 
+    /// <summary>Field number for the "uuid" field.</summary>
+    public const int UuidFieldNumber = 1;
+    private string uuid_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Uuid {
+      get { return uuid_; }
+      set {
+        uuid_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "x" field.</summary>
-    public const int XFieldNumber = 1;
+    public const int XFieldNumber = 2;
     private float x_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1806,7 +1819,7 @@ namespace Protocol {
     }
 
     /// <summary>Field number for the "y" field.</summary>
-    public const int YFieldNumber = 2;
+    public const int YFieldNumber = 3;
     private float y_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1832,6 +1845,7 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Uuid != other.Uuid) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(X, other.X)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -1841,6 +1855,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (Uuid.Length != 0) hash ^= Uuid.GetHashCode();
       if (X != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(X);
       if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
       if (_unknownFields != null) {
@@ -1861,12 +1876,16 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      if (Uuid.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Uuid);
+      }
       if (X != 0F) {
-        output.WriteRawTag(13);
+        output.WriteRawTag(21);
         output.WriteFloat(X);
       }
       if (Y != 0F) {
-        output.WriteRawTag(21);
+        output.WriteRawTag(29);
         output.WriteFloat(Y);
       }
       if (_unknownFields != null) {
@@ -1879,12 +1898,16 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Uuid.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Uuid);
+      }
       if (X != 0F) {
-        output.WriteRawTag(13);
+        output.WriteRawTag(21);
         output.WriteFloat(X);
       }
       if (Y != 0F) {
-        output.WriteRawTag(21);
+        output.WriteRawTag(29);
         output.WriteFloat(Y);
       }
       if (_unknownFields != null) {
@@ -1897,6 +1920,9 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (Uuid.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Uuid);
+      }
       if (X != 0F) {
         size += 1 + 4;
       }
@@ -1914,6 +1940,9 @@ namespace Protocol {
     public void MergeFrom(PosInfo other) {
       if (other == null) {
         return;
+      }
+      if (other.Uuid.Length != 0) {
+        Uuid = other.Uuid;
       }
       if (other.X != 0F) {
         X = other.X;
@@ -1936,11 +1965,15 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 13: {
-            X = input.ReadFloat();
+          case 10: {
+            Uuid = input.ReadString();
             break;
           }
           case 21: {
+            X = input.ReadFloat();
+            break;
+          }
+          case 29: {
             Y = input.ReadFloat();
             break;
           }
@@ -1959,11 +1992,15 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 13: {
-            X = input.ReadFloat();
+          case 10: {
+            Uuid = input.ReadString();
             break;
           }
           case 21: {
+            X = input.ReadFloat();
+            break;
+          }
+          case 29: {
             Y = input.ReadFloat();
             break;
           }
@@ -1974,16 +2011,16 @@ namespace Protocol {
 
   }
 
-  public sealed partial class EntityData : pb::IMessage<EntityData>
+  public sealed partial class GamePlayerData : pb::IMessage<GamePlayerData>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<EntityData> _parser = new pb::MessageParser<EntityData>(() => new EntityData());
+    private static readonly pb::MessageParser<GamePlayerData> _parser = new pb::MessageParser<GamePlayerData>(() => new GamePlayerData());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<EntityData> Parser { get { return _parser; } }
+    public static pb::MessageParser<GamePlayerData> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1999,7 +2036,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EntityData() {
+    public GamePlayerData() {
       OnConstruction();
     }
 
@@ -2007,73 +2044,76 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EntityData(EntityData other) : this() {
-      pos_ = other.pos_ != null ? other.pos_.Clone() : null;
-      objectType_ = other.objectType_;
-      uuid_ = other.uuid_;
+    public GamePlayerData(GamePlayerData other) : this() {
+      position_ = other.position_ != null ? other.position_.Clone() : null;
+      nickname_ = other.nickname_;
+      characterType_ = other.characterType_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public EntityData Clone() {
-      return new EntityData(this);
+    public GamePlayerData Clone() {
+      return new GamePlayerData(this);
     }
 
-    /// <summary>Field number for the "pos" field.</summary>
-    public const int PosFieldNumber = 1;
-    private global::Protocol.PosInfo pos_;
+    /// <summary>Field number for the "position" field.</summary>
+    public const int PositionFieldNumber = 1;
+    private global::Protocol.PosInfo position_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Protocol.PosInfo Pos {
-      get { return pos_; }
+    public global::Protocol.PosInfo Position {
+      get { return position_; }
       set {
-        pos_ = value;
+        position_ = value;
       }
     }
 
-    /// <summary>Field number for the "objectType" field.</summary>
-    public const int ObjectTypeFieldNumber = 2;
-    private global::Protocol.ObjectType objectType_ = global::Protocol.ObjectType.Tower;
+    /// <summary>Field number for the "nickname" field.</summary>
+    public const int NicknameFieldNumber = 2;
+    private string nickname_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Protocol.ObjectType ObjectType {
-      get { return objectType_; }
+    public string Nickname {
+      get { return nickname_; }
       set {
-        objectType_ = value;
+        nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "uuid" field.</summary>
-    public const int UuidFieldNumber = 3;
-    private string uuid_ = "";
+    /// <summary>Field number for the "characterType" field.</summary>
+    public const int CharacterTypeFieldNumber = 3;
+    private global::Protocol.CharacterType characterType_ = global::Protocol.CharacterType.NoneCharacter;
+    /// <summary>
+    ///  string status = 4; // 예: "moving", "attacking", "idle"
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string Uuid {
-      get { return uuid_; }
+    public global::Protocol.CharacterType CharacterType {
+      get { return characterType_; }
       set {
-        uuid_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        characterType_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as EntityData);
+      return Equals(other as GamePlayerData);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(EntityData other) {
+    public bool Equals(GamePlayerData other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(Pos, other.Pos)) return false;
-      if (ObjectType != other.ObjectType) return false;
-      if (Uuid != other.Uuid) return false;
+      if (!object.Equals(Position, other.Position)) return false;
+      if (Nickname != other.Nickname) return false;
+      if (CharacterType != other.CharacterType) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2081,9 +2121,9 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (pos_ != null) hash ^= Pos.GetHashCode();
-      if (ObjectType != global::Protocol.ObjectType.Tower) hash ^= ObjectType.GetHashCode();
-      if (Uuid.Length != 0) hash ^= Uuid.GetHashCode();
+      if (position_ != null) hash ^= Position.GetHashCode();
+      if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
+      if (CharacterType != global::Protocol.CharacterType.NoneCharacter) hash ^= CharacterType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2102,17 +2142,17 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (pos_ != null) {
+      if (position_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(Pos);
+        output.WriteMessage(Position);
       }
-      if (ObjectType != global::Protocol.ObjectType.Tower) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) ObjectType);
+      if (Nickname.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Nickname);
       }
-      if (Uuid.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Uuid);
+      if (CharacterType != global::Protocol.CharacterType.NoneCharacter) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) CharacterType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2124,17 +2164,17 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (pos_ != null) {
+      if (position_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(Pos);
+        output.WriteMessage(Position);
       }
-      if (ObjectType != global::Protocol.ObjectType.Tower) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) ObjectType);
+      if (Nickname.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Nickname);
       }
-      if (Uuid.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Uuid);
+      if (CharacterType != global::Protocol.CharacterType.NoneCharacter) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) CharacterType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -2146,14 +2186,14 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (pos_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Pos);
+      if (position_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Position);
       }
-      if (ObjectType != global::Protocol.ObjectType.Tower) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ObjectType);
+      if (Nickname.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
       }
-      if (Uuid.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Uuid);
+      if (CharacterType != global::Protocol.CharacterType.NoneCharacter) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) CharacterType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2163,21 +2203,21 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(EntityData other) {
+    public void MergeFrom(GamePlayerData other) {
       if (other == null) {
         return;
       }
-      if (other.pos_ != null) {
-        if (pos_ == null) {
-          Pos = new global::Protocol.PosInfo();
+      if (other.position_ != null) {
+        if (position_ == null) {
+          Position = new global::Protocol.PosInfo();
         }
-        Pos.MergeFrom(other.Pos);
+        Position.MergeFrom(other.Position);
       }
-      if (other.ObjectType != global::Protocol.ObjectType.Tower) {
-        ObjectType = other.ObjectType;
+      if (other.Nickname.Length != 0) {
+        Nickname = other.Nickname;
       }
-      if (other.Uuid.Length != 0) {
-        Uuid = other.Uuid;
+      if (other.CharacterType != global::Protocol.CharacterType.NoneCharacter) {
+        CharacterType = other.CharacterType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2195,18 +2235,18 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (pos_ == null) {
-              Pos = new global::Protocol.PosInfo();
+            if (position_ == null) {
+              Position = new global::Protocol.PosInfo();
             }
-            input.ReadMessage(Pos);
+            input.ReadMessage(Position);
             break;
           }
-          case 16: {
-            ObjectType = (global::Protocol.ObjectType) input.ReadEnum();
+          case 18: {
+            Nickname = input.ReadString();
             break;
           }
-          case 26: {
-            Uuid = input.ReadString();
+          case 24: {
+            CharacterType = (global::Protocol.CharacterType) input.ReadEnum();
             break;
           }
         }
@@ -2225,18 +2265,18 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (pos_ == null) {
-              Pos = new global::Protocol.PosInfo();
+            if (position_ == null) {
+              Position = new global::Protocol.PosInfo();
             }
-            input.ReadMessage(Pos);
+            input.ReadMessage(Position);
             break;
           }
-          case 16: {
-            ObjectType = (global::Protocol.ObjectType) input.ReadEnum();
+          case 18: {
+            Nickname = input.ReadString();
             break;
           }
-          case 26: {
-            Uuid = input.ReadString();
+          case 24: {
+            CharacterType = (global::Protocol.CharacterType) input.ReadEnum();
             break;
           }
         }

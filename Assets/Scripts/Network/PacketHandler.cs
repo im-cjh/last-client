@@ -120,29 +120,69 @@ public class PacketHandler
 ---------------------------------------------*/
     static void HandleBattleGameStart(byte[] pBuffer)
     {
-        Debug.Log("끄어어억");
+        // 1. 패킷 파싱
         Protocol.B2C_GameStartNotification pkt = Protocol.B2C_GameStartNotification.Parser.ParseFrom(pBuffer);
-        PlayerInfoManager.instance.tmp_gameStartPacket = pkt;
-        
-        SceneChanger.ChangeGameScene();
+        Debug.Log("게임 시작 패킷 수신");
+
+        // 2. PlayerManager에 데이터 저장
+        foreach (var playerData in pkt.PlayerDatas)
+        {
+            Debug.Log(playerData);
+            PlayerManager.Instance.AddPlayer(playerData);
+        }
+
+        // 3. 게임 씬으로 전환
+        SceneChanger.ChangeScene(SceneChanger.SceneType.Game);
+
+        // 4. 씬 전환 후 캐릭터 초기화 (중복 등록 방지)
+        SceneChanger.OnSceneLoaded -= InitializeCharacters; // 기존 이벤트 제거
+        SceneChanger.OnSceneLoaded += InitializeCharacters; // 새로운 이벤트 등록
     }
 
-/*---------------------------------------------
-    [이동 동기화]
----------------------------------------------*/
+    // 캐릭터 초기화 메서드 (독립적인 메서드로 분리)
+    private static void InitializeCharacters()
+    {
+        Debug.Log("게임 씬 로드 완료. 캐릭터 초기화 시작");
+        CharacterManager.Instance.InitializeCharacters();
+    }
+
+
+
+    /*---------------------------------------------
+       [이동 동기화]
+   ---------------------------------------------*/
     static void HandleMove(byte[] pBuffer)
     {
-        Debug.Log("HandleMove");
         try
         {
+            // 1. 패킷 파싱
             Protocol.B2C_PositionUpdateNotification response = Protocol.B2C_PositionUpdateNotification.Parser.ParseFrom(pBuffer);
 
-            //Spawner.instance.Spawn(response);
+            // 2. 단일 위치 정보 처리
+            var posInfo = response.PosInfos;
+            Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
+            // 3. 캐릭터 검색
+            Character character = CharacterManager.Instance.GetCharacter(posInfo.Uuid);
+
+            if (character != null)
+            {
+                // 로컬 플레이어가 아닌 경우에만 업데이트
+                if (!character.isLocalPlayer)
+                {
+                    character.UpdatePositionFromServer(posInfo.X, posInfo.Y);
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"캐릭터를 찾을 수 없습니다: {posInfo.Uuid}");
+            }
         }
         catch (Exception e)
         {
-            Debug.LogError($"Error HandleLocationPacket: {e.Message}");
+            Debug.LogError($"Error in HandleMove: {e.Message}");
         }
     }
+
+
 }
 

@@ -68,13 +68,19 @@ public class NetworkManager : MonoBehaviour
             Protocol.C2B_Init pkt = new Protocol.C2B_Init();
             
             pkt.RoomId = pRoomId;
-            pkt.UserData = new Protocol.UserData
+            pkt.PlayerData = new Protocol.GamePlayerData
             {
-                Id = PlayerInfoManager.instance.userId,
-                Name = PlayerInfoManager.instance.nickname,
-                Character = PlayerInfoManager.instance.characterData
+                Position = new Protocol.PosInfo
+                {
+                    Uuid = PlayerInfoManager.instance.userId,
+                    X = 0,
+                    Y = 0,
+                },
+                Nickname= PlayerInfoManager.instance.nickname,
+                CharacterType = PlayerInfoManager.instance.characterData.CharacterType,
             };
 
+            Debug.Log(pkt);
             byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_Init, 0);
             SendBattlePacket(sendBuffer);
             return true;

@@ -8,11 +8,11 @@ public class PlayerInfoManager : MonoBehaviour
     [Header("# Game Control")]
     public int targetFrameRate;
     public string version = "1.0.0";
-    public int latency = 1;
+    public int latency = 20;
     public int sequence = 0;
 
     [Header("# Player Info")]
-    public string userId = "dd";
+    public string userId = "ddd";
     public string nickname = "test";
     public int roomId = 0;
     public Protocol.CharacterData characterData = new Protocol.CharacterData { CharacterType = Protocol.CharacterType.NoneCharacter};
@@ -24,6 +24,12 @@ public class PlayerInfoManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this);
         Application.targetFrameRate = targetFrameRate;
+    }
+
+    private void Start()
+    {
+        //TODO 임시로 작성, 추후에 로그인 서버로부터 받아야 함 
+        userId = Guid.NewGuid().ToString();
     }
 
     public int GetNextSequence()
