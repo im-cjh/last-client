@@ -159,7 +159,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      skeleton-Attack_14_0: -8490338679323498174
+      skeleton-Attack_14_1: 3202825544820252247
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
