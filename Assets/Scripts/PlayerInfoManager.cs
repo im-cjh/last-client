@@ -8,7 +8,7 @@ public class PlayerInfoManager : MonoBehaviour
     [Header("# Game Control")]
     public int targetFrameRate;
     public string version = "1.0.0";
-    public int latency = 20;
+    public int latency = 200;
     public int sequence = 0;
 
     [Header("# Player Info")]

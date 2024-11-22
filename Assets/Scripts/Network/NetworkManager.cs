@@ -54,6 +54,7 @@ public class NetworkManager : MonoBehaviour
             return false;
         }
     }
+
     public bool ConnectToBattleServer(string ip, int port, int pRoomId)
     {
         Debug.Log("ConnectToBattleServer");
@@ -105,6 +106,7 @@ public class NetworkManager : MonoBehaviour
         // 패킷 전송
         mLobbyStream.Write(sendBuffer, 0, sendBuffer.Length);
     }
+
     public async void SendBattlePacket(byte[] sendBuffer)
     {
         await Task.Delay(PlayerInfoManager.instance.latency);

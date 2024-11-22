@@ -74,9 +74,13 @@ public class Character : MonoBehaviour
     /// 캐릭터 방향 업데이트
     private void UpdateSpriteDirection()
     {
-        if (inputVec.x != 0)
+        if (inputVec.x > 0)
         {
-            spriteRenderer.flipX = inputVec.x < 0; // 왼쪽으로 이동 시 반전
+            spriteRenderer.flipX = true; 
+        }
+        else if(inputVec.x < 0)
+        {
+            spriteRenderer.flipX = false;
         }
     }
 
