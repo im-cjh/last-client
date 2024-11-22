@@ -10,6 +10,10 @@ public class TowerPlacer : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer; // 적 레이어 설정
     [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
+    private void Start()
+    {
+        tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
+    }
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) // 마우스 클릭
