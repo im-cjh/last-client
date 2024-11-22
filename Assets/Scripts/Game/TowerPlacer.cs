@@ -7,6 +7,7 @@ public class TowerPlacer : MonoBehaviour
     [SerializeField] private GameObject towerPrefab; // 설치할 타워 프리팹
     [SerializeField] private LayerMask towerLayer;    // 타워 레이어 설정
     [SerializeField] private LayerMask characterLayer; // 캐릭터 레이어 설정
+    [SerializeField] private LayerMask enemyLayer; // 적 레이어 설정
     [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
     void Update()
@@ -33,6 +34,7 @@ public class TowerPlacer : MonoBehaviour
 
             Collider2D towerHitCollider = Physics2D.OverlapPoint(cellCenterWorld, towerLayer);
             Collider2D characterHitCollider = Physics2D.OverlapPoint(cellCenterWorld, characterLayer);
+            Collider2D enemyHitCollider = Physics2D.OverlapPoint(cellCenterWorld, enemyLayer);
             
             if(towerHitCollider != null)
             {
@@ -42,6 +44,11 @@ public class TowerPlacer : MonoBehaviour
             else if(characterHitCollider != null)
             {
                 Debug.Log("설치하려는 타일에 캐릭터가 있어 설치가 불가능합니다.");
+                return;
+            }
+            else if (enemyHitCollider != null)
+            {
+                Debug.Log("설치하려는 타일에 적이 있어 설치가 불가능합니다.");
                 return;
             }
 

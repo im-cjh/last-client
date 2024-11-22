@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Enemy
+  - Base
+  - Tower
   layers:
   - Default
   - TransparentFX
@@ -16,8 +19,8 @@ TagManager:
   - Tower
   - Character
   - Obstacle
-  - 
-  - 
+  - Base
+  - Enemy
   - 
   - 
   - 
@@ -47,8 +50,20 @@ TagManager:
   - name: Ground
     uniqueID: 699740311
     locked: 0
+  - name: Characters
+    uniqueID: 4223350035
+    locked: 0
+  - name: Enemies
+    uniqueID: 2031739859
+    locked: 0
   - name: Object
     uniqueID: 2059779093
+    locked: 0
+  - name: Bullet
+    uniqueID: 3753261839
+    locked: 0
+  - name: HP bar
+    uniqueID: 4111580671
     locked: 0
   m_RenderingLayers:
   - Default
