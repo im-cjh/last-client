@@ -20,8 +20,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6cad44fec0958b3498b3e95087c591db
+    m_Address: Prefab/Enemy/Robot5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 741878bfebdb129449447aa2ac8cd502
     m_Address: Thumbnail/BombMan.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 944db4ea260428e4cbe435ce9a24a565
+    m_Address: Prefab/Enemy/Robot4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b94e7f88dea2949469941c1f68f0e09f
+    m_Address: Prefab/Enemy/Robot3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dae543b8df7760a48ba44ff9e4dda93f
+    m_Address: Prefab/Enemy/Robot2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3a6fee1721cda741b483901a260624d
+    m_Address: Prefab/Enemy/Robot1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -45,7 +45,7 @@ public class PacketHandler
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
         handlerMapping[ePacketID.B2C_PositionUpdateNotification] = HandleMove;
-        //handlerMapping[ePacketID.B2C_Enter] = HandleEnterGame;
+        handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
     }
 
     static void HandleInitPacket(byte[] pBuffer)
@@ -181,6 +181,14 @@ public class PacketHandler
         {
             Debug.LogError($"Error in HandleMove: {e.Message}");
         }
+    }
+
+    static void HandleSpawnMonster(byte[] pBuffer)
+    {
+        Debug.Log("HandleSpawnMonster Called");
+
+        B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
+        EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfos);
     }
 
 

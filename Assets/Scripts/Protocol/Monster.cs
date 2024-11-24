@@ -24,24 +24,22 @@ namespace Protocol {
     static MonsterReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1tb25zdGVyLnByb3RvEghQcm90b2NvbCIZChdDMkJfU3Bhd25Nb25zdGVy",
-            "UmVxdWVzdCJEChhCMkNfU3Bhd25Nb25zdGVyUmVzcG9uc2USEQoJbW9uc3Rl",
-            "cklkGAEgASgFEhUKDW1vbnN0ZXJOdW1iZXIYAiABKAUiSAocUzJCX1NwYXdu",
-            "TW9uc3Rlck5vdGlmaWNhdGlvbhIRCgltb25zdGVySWQYASABKAUSFQoNbW9u",
-            "c3Rlck51bWJlchgCIAEoBSJDCh1CMlNfTW9uc3RlckF0dGFja1Rvd2VyUmVx",
-            "dWVzdBIRCgltb25zdGVySWQYASABKAUSDwoHdG93ZXJJZBgCIAEoBSJICh1T",
-            "MkJfVXBkYXRlVG93ZXJIUE5vdGlmaWNhdGlvbhIPCgd0b3dlcklkGAEgASgF",
-            "EhYKDnVwZGF0ZWRUb3dlckhQGAIgASgFIi4KHEIyU19Nb25zdGVyQXR0YWNr",
-            "QmFzZVJlcXVlc3QSDgoGZGFtYWdlGAEgASgFIiwKF0MyQl9Nb25zdGVyRGVh",
-            "dGhSZXF1ZXN0EhEKCW1vbnN0ZXJJZBgBIAEoBSIxChxCMkNfTW9uc3RlckRl",
-            "YXRoTm90aWZpY2F0aW9uEhEKCW1vbnN0ZXJJZBgBIAEoBWIGcHJvdG8z"));
+            "Cg1tb25zdGVyLnByb3RvEghQcm90b2NvbBoMc3RydWN0LnByb3RvIhkKF0My",
+            "Ql9TcGF3bk1vbnN0ZXJSZXF1ZXN0IlUKHEIyQ19TcGF3bk1vbnN0ZXJOb3Rp",
+            "ZmljYXRpb24SIwoIcG9zSW5mb3MYASABKAsyES5Qcm90b2NvbC5Qb3NJbmZv",
+            "EhAKCHByZWZhYklkGAIgASgJIkMKHUMyQl9Nb25zdGVyQXR0YWNrVG93ZXJS",
+            "ZXF1ZXN0EhEKCW1vbnN0ZXJJZBgBIAEoBRIPCgd0b3dlcklkGAIgASgFIkgK",
+            "HVMyQl9VcGRhdGVUb3dlckhQTm90aWZpY2F0aW9uEg8KB3Rvd2VySWQYASAB",
+            "KAUSFgoOdXBkYXRlZFRvd2VySFAYAiABKAUiLgocQjJTX01vbnN0ZXJBdHRh",
+            "Y2tCYXNlUmVxdWVzdBIOCgZkYW1hZ2UYASABKAUiLAoXQzJCX01vbnN0ZXJE",
+            "ZWF0aFJlcXVlc3QSEQoJbW9uc3RlcklkGAEgASgFIjEKHEIyQ19Nb25zdGVy",
+            "RGVhdGhOb3RpZmljYXRpb24SEQoJbW9uc3RlcklkGAEgASgFYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_SpawnMonsterRequest), global::Protocol.C2B_SpawnMonsterRequest.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_SpawnMonsterResponse), global::Protocol.B2C_SpawnMonsterResponse.Parser, new[]{ "MonsterId", "MonsterNumber" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S2B_SpawnMonsterNotification), global::Protocol.S2B_SpawnMonsterNotification.Parser, new[]{ "MonsterId", "MonsterNumber" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2S_MonsterAttackTowerRequest), global::Protocol.B2S_MonsterAttackTowerRequest.Parser, new[]{ "MonsterId", "TowerId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_SpawnMonsterNotification), global::Protocol.B2C_SpawnMonsterNotification.Parser, new[]{ "PosInfos", "PrefabId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_MonsterAttackTowerRequest), global::Protocol.C2B_MonsterAttackTowerRequest.Parser, new[]{ "MonsterId", "TowerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S2B_UpdateTowerHPNotification), global::Protocol.S2B_UpdateTowerHPNotification.Parser, new[]{ "TowerId", "UpdatedTowerHP" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2S_MonsterAttackBaseRequest), global::Protocol.B2S_MonsterAttackBaseRequest.Parser, new[]{ "Damage" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_MonsterDeathRequest), global::Protocol.C2B_MonsterDeathRequest.Parser, new[]{ "MonsterId" }, null, null, null, null),
@@ -204,16 +202,16 @@ namespace Protocol {
 
   }
 
-  public sealed partial class B2C_SpawnMonsterResponse : pb::IMessage<B2C_SpawnMonsterResponse>
+  public sealed partial class B2C_SpawnMonsterNotification : pb::IMessage<B2C_SpawnMonsterNotification>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<B2C_SpawnMonsterResponse> _parser = new pb::MessageParser<B2C_SpawnMonsterResponse>(() => new B2C_SpawnMonsterResponse());
+    private static readonly pb::MessageParser<B2C_SpawnMonsterNotification> _parser = new pb::MessageParser<B2C_SpawnMonsterNotification>(() => new B2C_SpawnMonsterNotification());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<B2C_SpawnMonsterResponse> Parser { get { return _parser; } }
+    public static pb::MessageParser<B2C_SpawnMonsterNotification> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -229,7 +227,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_SpawnMonsterResponse() {
+    public B2C_SpawnMonsterNotification() {
       OnConstruction();
     }
 
@@ -237,59 +235,59 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_SpawnMonsterResponse(B2C_SpawnMonsterResponse other) : this() {
-      monsterId_ = other.monsterId_;
-      monsterNumber_ = other.monsterNumber_;
+    public B2C_SpawnMonsterNotification(B2C_SpawnMonsterNotification other) : this() {
+      posInfos_ = other.posInfos_ != null ? other.posInfos_.Clone() : null;
+      prefabId_ = other.prefabId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_SpawnMonsterResponse Clone() {
-      return new B2C_SpawnMonsterResponse(this);
+    public B2C_SpawnMonsterNotification Clone() {
+      return new B2C_SpawnMonsterNotification(this);
     }
 
-    /// <summary>Field number for the "monsterId" field.</summary>
-    public const int MonsterIdFieldNumber = 1;
-    private int monsterId_;
+    /// <summary>Field number for the "posInfos" field.</summary>
+    public const int PosInfosFieldNumber = 1;
+    private global::Protocol.PosInfo posInfos_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int MonsterId {
-      get { return monsterId_; }
+    public global::Protocol.PosInfo PosInfos {
+      get { return posInfos_; }
       set {
-        monsterId_ = value;
+        posInfos_ = value;
       }
     }
 
-    /// <summary>Field number for the "monsterNumber" field.</summary>
-    public const int MonsterNumberFieldNumber = 2;
-    private int monsterNumber_;
+    /// <summary>Field number for the "prefabId" field.</summary>
+    public const int PrefabIdFieldNumber = 2;
+    private string prefabId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int MonsterNumber {
-      get { return monsterNumber_; }
+    public string PrefabId {
+      get { return prefabId_; }
       set {
-        monsterNumber_ = value;
+        prefabId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as B2C_SpawnMonsterResponse);
+      return Equals(other as B2C_SpawnMonsterNotification);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(B2C_SpawnMonsterResponse other) {
+    public bool Equals(B2C_SpawnMonsterNotification other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (MonsterId != other.MonsterId) return false;
-      if (MonsterNumber != other.MonsterNumber) return false;
+      if (!object.Equals(PosInfos, other.PosInfos)) return false;
+      if (PrefabId != other.PrefabId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -297,8 +295,8 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (MonsterId != 0) hash ^= MonsterId.GetHashCode();
-      if (MonsterNumber != 0) hash ^= MonsterNumber.GetHashCode();
+      if (posInfos_ != null) hash ^= PosInfos.GetHashCode();
+      if (PrefabId.Length != 0) hash ^= PrefabId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -317,13 +315,13 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (MonsterId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(MonsterId);
+      if (posInfos_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(PosInfos);
       }
-      if (MonsterNumber != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(MonsterNumber);
+      if (PrefabId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(PrefabId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -335,13 +333,13 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (MonsterId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(MonsterId);
+      if (posInfos_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(PosInfos);
       }
-      if (MonsterNumber != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(MonsterNumber);
+      if (PrefabId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(PrefabId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -353,11 +351,11 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (MonsterId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MonsterId);
+      if (posInfos_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PosInfos);
       }
-      if (MonsterNumber != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MonsterNumber);
+      if (PrefabId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PrefabId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -367,15 +365,18 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(B2C_SpawnMonsterResponse other) {
+    public void MergeFrom(B2C_SpawnMonsterNotification other) {
       if (other == null) {
         return;
       }
-      if (other.MonsterId != 0) {
-        MonsterId = other.MonsterId;
+      if (other.posInfos_ != null) {
+        if (posInfos_ == null) {
+          PosInfos = new global::Protocol.PosInfo();
+        }
+        PosInfos.MergeFrom(other.PosInfos);
       }
-      if (other.MonsterNumber != 0) {
-        MonsterNumber = other.MonsterNumber;
+      if (other.PrefabId.Length != 0) {
+        PrefabId = other.PrefabId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -392,12 +393,15 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            MonsterId = input.ReadInt32();
+          case 10: {
+            if (posInfos_ == null) {
+              PosInfos = new global::Protocol.PosInfo();
+            }
+            input.ReadMessage(PosInfos);
             break;
           }
-          case 16: {
-            MonsterNumber = input.ReadInt32();
+          case 18: {
+            PrefabId = input.ReadString();
             break;
           }
         }
@@ -415,12 +419,15 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            MonsterId = input.ReadInt32();
+          case 10: {
+            if (posInfos_ == null) {
+              PosInfos = new global::Protocol.PosInfo();
+            }
+            input.ReadMessage(PosInfos);
             break;
           }
-          case 16: {
-            MonsterNumber = input.ReadInt32();
+          case 18: {
+            PrefabId = input.ReadString();
             break;
           }
         }
@@ -430,16 +437,16 @@ namespace Protocol {
 
   }
 
-  public sealed partial class S2B_SpawnMonsterNotification : pb::IMessage<S2B_SpawnMonsterNotification>
+  public sealed partial class C2B_MonsterAttackTowerRequest : pb::IMessage<C2B_MonsterAttackTowerRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<S2B_SpawnMonsterNotification> _parser = new pb::MessageParser<S2B_SpawnMonsterNotification>(() => new S2B_SpawnMonsterNotification());
+    private static readonly pb::MessageParser<C2B_MonsterAttackTowerRequest> _parser = new pb::MessageParser<C2B_MonsterAttackTowerRequest>(() => new C2B_MonsterAttackTowerRequest());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<S2B_SpawnMonsterNotification> Parser { get { return _parser; } }
+    public static pb::MessageParser<C2B_MonsterAttackTowerRequest> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -455,7 +462,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public S2B_SpawnMonsterNotification() {
+    public C2B_MonsterAttackTowerRequest() {
       OnConstruction();
     }
 
@@ -463,233 +470,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public S2B_SpawnMonsterNotification(S2B_SpawnMonsterNotification other) : this() {
-      monsterId_ = other.monsterId_;
-      monsterNumber_ = other.monsterNumber_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public S2B_SpawnMonsterNotification Clone() {
-      return new S2B_SpawnMonsterNotification(this);
-    }
-
-    /// <summary>Field number for the "monsterId" field.</summary>
-    public const int MonsterIdFieldNumber = 1;
-    private int monsterId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int MonsterId {
-      get { return monsterId_; }
-      set {
-        monsterId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "monsterNumber" field.</summary>
-    public const int MonsterNumberFieldNumber = 2;
-    private int monsterNumber_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int MonsterNumber {
-      get { return monsterNumber_; }
-      set {
-        monsterNumber_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as S2B_SpawnMonsterNotification);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(S2B_SpawnMonsterNotification other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (MonsterId != other.MonsterId) return false;
-      if (MonsterNumber != other.MonsterNumber) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (MonsterId != 0) hash ^= MonsterId.GetHashCode();
-      if (MonsterNumber != 0) hash ^= MonsterNumber.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (MonsterId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(MonsterId);
-      }
-      if (MonsterNumber != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(MonsterNumber);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (MonsterId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(MonsterId);
-      }
-      if (MonsterNumber != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(MonsterNumber);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (MonsterId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MonsterId);
-      }
-      if (MonsterNumber != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MonsterNumber);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(S2B_SpawnMonsterNotification other) {
-      if (other == null) {
-        return;
-      }
-      if (other.MonsterId != 0) {
-        MonsterId = other.MonsterId;
-      }
-      if (other.MonsterNumber != 0) {
-        MonsterNumber = other.MonsterNumber;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            MonsterId = input.ReadInt32();
-            break;
-          }
-          case 16: {
-            MonsterNumber = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            MonsterId = input.ReadInt32();
-            break;
-          }
-          case 16: {
-            MonsterNumber = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class B2S_MonsterAttackTowerRequest : pb::IMessage<B2S_MonsterAttackTowerRequest>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<B2S_MonsterAttackTowerRequest> _parser = new pb::MessageParser<B2S_MonsterAttackTowerRequest>(() => new B2S_MonsterAttackTowerRequest());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<B2S_MonsterAttackTowerRequest> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[3]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2S_MonsterAttackTowerRequest() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2S_MonsterAttackTowerRequest(B2S_MonsterAttackTowerRequest other) : this() {
+    public C2B_MonsterAttackTowerRequest(C2B_MonsterAttackTowerRequest other) : this() {
       monsterId_ = other.monsterId_;
       towerId_ = other.towerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -697,8 +478,8 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2S_MonsterAttackTowerRequest Clone() {
-      return new B2S_MonsterAttackTowerRequest(this);
+    public C2B_MonsterAttackTowerRequest Clone() {
+      return new C2B_MonsterAttackTowerRequest(this);
     }
 
     /// <summary>Field number for the "monsterId" field.</summary>
@@ -728,12 +509,12 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as B2S_MonsterAttackTowerRequest);
+      return Equals(other as C2B_MonsterAttackTowerRequest);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(B2S_MonsterAttackTowerRequest other) {
+    public bool Equals(C2B_MonsterAttackTowerRequest other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -819,7 +600,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(B2S_MonsterAttackTowerRequest other) {
+    public void MergeFrom(C2B_MonsterAttackTowerRequest other) {
       if (other == null) {
         return;
       }
@@ -896,7 +677,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1122,7 +903,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1311,7 +1092,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1500,7 +1281,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Protocol.MonsterReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

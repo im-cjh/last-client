@@ -63,6 +63,4 @@ public class GameManager : MonoBehaviour
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PositionUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
         NetworkManager.instance.SendBattlePacket(sendBuffer);
     }
-
-
 }
