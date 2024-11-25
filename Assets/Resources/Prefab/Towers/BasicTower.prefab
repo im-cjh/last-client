@@ -208,8 +208,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2059779093
-  m_SortingLayer: 5
+  m_SortingLayerID: -286598461
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -6809907661698028246, guid: 619dbb3ff18c28e4a95fddd7377700ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -505,7 +505,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -286598461
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7316229441688303391, guid: ba9c345da85996a46a46bf93ea0c2fb9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -576,8 +576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827fc5d93428bf24c86d195f5a92e425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannon: {fileID: 6074059183675523648}
+  towerExplosion: {fileID: 5218235734879889509, guid: 79d7c360e08092a458cfd28862483a9d, type: 3}
+  maxHp: 100
   attackRange: 5
-  attackCoolDown: 2
-  bulletPrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  attackCoolDown: 0.7
+  bullet: {fileID: 7942084093754132198, guid: a9976d99e0ebbdd428cd296e42c9a531, type: 3}
