@@ -1,16 +1,29 @@
+using System;
 using UnityEngine;
 
 public class Base : MonoBehaviour
 {
+    [SerializeField] private GameObject baseExplosion;
+    private HpBar hpBar; // 체력바
+    [SerializeField] private float maxHp; // 최대체력
+    private float hp; // 현재 체력
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        hpBar = GetComponentInChildren<HpBar>();
+        hp = maxHp;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GetDamage(float damage)
     {
-        
+        hp -= damage;
+        hpBar.SetHp(hp, maxHp);
+
+        if (hp <= 0)
+        {
+            Instantiate(baseExplosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }

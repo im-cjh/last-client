@@ -459,18 +459,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b701789e34aa64bbb0ad36d726eee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterPrefabs:
-  - {fileID: 7475456590910534101, guid: e3a6fee1721cda741b483901a260624d, type: 3}
-  - {fileID: 4357996446804648643, guid: dae543b8df7760a48ba44ff9e4dda93f, type: 3}
-  - {fileID: 3047928873282548784, guid: b94e7f88dea2949469941c1f68f0e09f, type: 3}
-  - {fileID: 4096619229910253539, guid: 944db4ea260428e4cbe435ce9a24a565, type: 3}
-  - {fileID: 8755036157194854560, guid: 6cad44fec0958b3498b3e95087c591db, type: 3}
-  spawnPoints:
-  - {fileID: 1648631468}
-  - {fileID: 73906225}
-  - {fileID: 1689478639}
-  - {fileID: 879688830}
-  spawnInterval: 2
 --- !u!4 &341726054
 Transform:
   m_ObjectHideFlags: 0
@@ -614,6 +602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hud: {fileID: 0}
   GameStartUI: {fileID: 0}
+  enemySpawner: {fileID: 341726053}
 --- !u!1 &546667549
 GameObject:
   m_ObjectHideFlags: 0

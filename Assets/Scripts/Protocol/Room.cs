@@ -1765,9 +1765,6 @@ namespace Protocol {
     private static readonly pb::FieldCodec<global::Protocol.GamePlayerData> _repeated_playerDatas_codec
         = pb::FieldCodec.ForMessage(10, global::Protocol.GamePlayerData.Parser);
     private readonly pbc::RepeatedField<global::Protocol.GamePlayerData> playerDatas_ = new pbc::RepeatedField<global::Protocol.GamePlayerData>();
-    /// <summary>
-    ///UserData를 wrapping한 새로운 struct 필요할 듯
-    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pbc::RepeatedField<global::Protocol.GamePlayerData> PlayerDatas {
