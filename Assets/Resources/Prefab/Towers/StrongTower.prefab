@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 5170674638241529836}
   - component: {fileID: 3385435866974015860}
   - component: {fileID: 4375962485437394006}
-  - component: {fileID: 7187720623924725025}
+  - component: {fileID: -8318875336239201386}
   m_Layer: 8
   m_Name: StrongTower
   m_TagString: Tower
@@ -445,7 +445,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.7, y: 2.7}
   m_EdgeRadius: 0
---- !u!114 &7187720623924725025
+--- !u!114 &-8318875336239201386
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -454,11 +454,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8502727748603339796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f406ea87858ee543bdad8fa31b17f4c, type: 3}
+  m_Script: {fileID: 11500000, guid: 827fc5d93428bf24c86d195f5a92e425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 0}
   cannon: {fileID: 6074059183675523648}
+  attackRange: 5
+  attackCoolDown: 2
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
 --- !u!1 &8865820448654967024
 GameObject:
   m_ObjectHideFlags: 0

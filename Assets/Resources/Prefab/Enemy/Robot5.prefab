@@ -121,7 +121,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -208,7 +208,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 2
   m_Sprite: {fileID: -5278734259511242463, guid: 5aabb4be75173e34e846c6f43a6868cf, type: 3}
   m_Color: {r: 0.0795412, g: 0.4056604, b: 0, a: 1}
@@ -295,7 +295,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -320,8 +320,8 @@ GameObject:
   - component: {fileID: 8433565607275113693}
   - component: {fileID: 7459706954793424969}
   - component: {fileID: 7318270787640759209}
-  - component: {fileID: 4412890604016418849}
   - component: {fileID: 3304847941239938296}
+  - component: {fileID: 6350460481075395662}
   m_Layer: 12
   m_Name: Robot5
   m_TagString: Enemy
@@ -387,7 +387,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2031739859
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: -4786435206649176259, guid: 992cdc001d9bb6340bb401f888b8a289, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -449,8 +449,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &4412890604016418849
-BoxCollider2D:
+--- !u!114 &3304847941239938296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8755036157194854560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff2aa49ad28e3ba49b700cb52df58b86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  robotDeath: {fileID: 4439013494382861041, guid: 6caa43cd0937c9449bddc9510123845b, type: 3}
+  maxHp: 50
+  detectRange: 5
+  defaultAttackDistanceX: 1.5
+  defaultAttackDistanceY: 1.5
+  attackDamage: 50
+  attackCoolDown: 5
+  moveSpeed: 0.8
+--- !u!58 &6350460481075395662
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -483,31 +503,5 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.2706461}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.1266667, y: 1.4433334}
-    newSize: {x: 1.1266667, y: 1.4433334}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.1266667, y: 0.9922571}
-  m_EdgeRadius: 0
---- !u!114 &3304847941239938296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8755036157194854560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff2aa49ad28e3ba49b700cb52df58b86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 3
-  attackDamage: 10
-  attackCoolDown: 2
-  moveSpeed: 0.8
+  m_Offset: {x: 0.02, y: -0.23168263}
+  m_Radius: 0.41925445

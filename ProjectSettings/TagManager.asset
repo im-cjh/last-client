@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Base
   - Tower
+  - Bullet
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - Obstacle
   - Base
   - Enemy
-  - 
+  - Obstacle
   - 
   - 
   - 
@@ -50,14 +52,14 @@ TagManager:
   - name: Ground
     uniqueID: 699740311
     locked: 0
-  - name: Characters
-    uniqueID: 4223350035
-    locked: 0
   - name: Tower
     uniqueID: 4008368835
     locked: 0
   - name: Enemies
     uniqueID: 2031739859
+    locked: 0
+  - name: Characters
+    uniqueID: 4223350035
     locked: 0
   - name: Object
     uniqueID: 2059779093

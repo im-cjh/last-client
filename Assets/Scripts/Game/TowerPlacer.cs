@@ -8,6 +8,7 @@ public class TowerPlacer : MonoBehaviour
     [SerializeField] private LayerMask towerLayer;    // 타워 레이어 설정
     [SerializeField] private LayerMask characterLayer; // 캐릭터 레이어 설정
     [SerializeField] private LayerMask enemyLayer; // 적 레이어 설정
+    [SerializeField] private LayerMask obstacleLayer; // 적 레이어 설정
     [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
     private void Start()
@@ -22,7 +23,7 @@ public class TowerPlacer : MonoBehaviour
         }
     }
 
-    void PlaceTower()
+    private void PlaceTower()
     {
         // 마우스 위치를 월드 좌표로 변환
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -39,13 +40,14 @@ public class TowerPlacer : MonoBehaviour
             Collider2D towerHitCollider = Physics2D.OverlapPoint(cellCenterWorld, towerLayer);
             Collider2D characterHitCollider = Physics2D.OverlapPoint(cellCenterWorld, characterLayer);
             Collider2D enemyHitCollider = Physics2D.OverlapPoint(cellCenterWorld, enemyLayer);
-            
-            if(towerHitCollider != null)
+            Collider2D obstacleHitCollider = Physics2D.OverlapPoint(cellCenterWorld, obstacleLayer);
+
+            if (towerHitCollider != null)
             {
                 Debug.Log("설치하려는 타일에 타워가 있어 설치가 불가능합니다.");
                 return;
             }
-            else if(characterHitCollider != null)
+            else if (characterHitCollider != null)
             {
                 Debug.Log("설치하려는 타일에 캐릭터가 있어 설치가 불가능합니다.");
                 return;
@@ -55,11 +57,16 @@ public class TowerPlacer : MonoBehaviour
                 Debug.Log("설치하려는 타일에 적이 있어 설치가 불가능합니다.");
                 return;
             }
+            else if (obstacleHitCollider != null)
+            {
+                Debug.Log("설치하려는 타일에 장애물이 있어 설치가 불가능합니다.");
+                return;
+            }
 
             // 캐릭터와의 거리 계산
             float distance = Vector3.Distance(transform.position, cellCenterWorld);
 
-            if(distance <= maxPlacementDistance)
+            if (distance <= maxPlacementDistance)
             {
                 // 최대 거리 안이면 타워 생성
                 Instantiate(towerPrefab, cellCenterWorld, Quaternion.identity);
