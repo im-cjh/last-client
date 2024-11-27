@@ -7,7 +7,8 @@ public class SceneChanger : MonoBehaviour
     public enum SceneType
     {
         Lobby, // 로비 씬
-        Game   // 게임 씬
+        Game,   // 게임 씬
+        TestGame
     }
 
     public static event Action OnSceneLoaded; // 씬 로드 완료 시 실행될 이벤트
@@ -34,6 +35,7 @@ public class SceneChanger : MonoBehaviour
         {
             SceneType.Lobby => "LobbyScene",
             SceneType.Game => "GameScene",
+            SceneType.TestGame => "TestGameScene",
             _ => throw new ArgumentException("잘못된 씬 타입입니다."),
         };
     }

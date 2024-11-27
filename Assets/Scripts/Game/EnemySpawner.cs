@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     /*---------------------------------------------
-        [¸â¹ö º¯¼ö]
+        [ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½]
 ---------------------------------------------*/
     public static EnemySpawner instance;
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
@@ -19,11 +19,11 @@ public class EnemySpawner : MonoBehaviour
 
 
     /*---------------------------------------------
-        [ÇÁ¸®ÆÕ ·Îµå ¹× µî·Ï]
+        [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½]
     ---------------------------------------------*/
     async void Start()
     {
-        // ÇÊ¿äÇÑ ÇÁ¸®ÆÕµéÀ» ·Îµå ¹× µî·Ï
+        // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ ï¿½Îµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
         await RegisterPrefab("Prefab/Enemy/Robot1");
         await RegisterPrefab("Prefab/Enemy/Robot2");
         await RegisterPrefab("Prefab/Enemy/Robot3");
@@ -32,22 +32,22 @@ public class EnemySpawner : MonoBehaviour
     }
 
     /*---------------------------------------------
-        [ÇÁ¸®ÆÕ µî·Ï]
-        -ÇÁ¸®ÆÕÀ» Addressables¿¡¼­ ·ÎµåÇÏ°í Dictionary¿¡ µî·ÏÇÕ´Ï´Ù.
+        [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½]
+        -ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Addressablesï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ï°ï¿½ Dictionaryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
     ---------------------------------------------*/
     private async Task RegisterPrefab(string key)
     {
-        // Å°¸¦ °£¼ÒÈ­ (¿¹: Prefab/Enemy/Robot1 -> Robot1)
+        // Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ (ï¿½ï¿½: Prefab/Enemy/Robot1 -> Robot1)
         string shortKey = ExtractShortKey(key);
 
-        // ÀÌ¹Ì µî·ÏµÈ ÇÁ¸®ÆÕÀº ¹«½Ã
+        // ï¿½Ì¹ï¿½ ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (prefabMap.ContainsKey(shortKey))
         {
             Debug.LogWarning($"Prefab '{shortKey}' is already registered.");
             return;
         }
 
-        // ÇÁ¸®ÆÕ ·Îµå
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
         GameObject prefab = await AssetManager.LoadAsset<GameObject>(key);
 
         if (prefab != null)
@@ -61,27 +61,27 @@ public class EnemySpawner : MonoBehaviour
         }
     }
     /*---------------------------------------------
-      [ÇÁ¸®ÆÕ Å° ÃßÃâ]
+      [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å° ï¿½ï¿½ï¿½ï¿½]
    ---------------------------------------------*/
     private string ExtractShortKey(string key)
     {
-        // ½½·¡½Ã·Î ºÐ¸®ÇÏ¿© ¸¶Áö¸· ºÎºÐ¸¸ ¹ÝÈ¯
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ ï¿½Ð¸ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÎºÐ¸ï¿½ ï¿½ï¿½È¯
         return key.Substring(key.LastIndexOf('/') + 1);
     }
 
 
     /*---------------------------------------------
-        [¸ó½ºÅÍ ½ºÆù]
-        -µî·ÏµÈ ÇÁ¸®ÆÕÀ» »ç¿ëÇÏ¿© ¸ó½ºÅÍ¸¦ ½ºÆùÇÕ´Ï´Ù.
+        [ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½]
+        -ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
     ---------------------------------------------*/
 
     public void SpawnMonster(string prefabId, PosInfo pos)
     {
         if (prefabMap.TryGetValue(prefabId, out GameObject prefab))
         {
-            // 2D °ÔÀÓ¿¡¼­´Â rotation ±âº»°ªÀ¸·Î Quaternion.identity »ç¿ë
+            // 2D ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½ rotation ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Quaternion.identity ï¿½ï¿½ï¿½
             Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
-            Debug.Log($"Monster spawned: {prefabId} at {pos}");
+            // Debug.Log($"Monster spawned: {prefabId} at {pos}");
         }
         else
         {

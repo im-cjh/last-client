@@ -1,17 +1,30 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+using Protocol;
+using Unity.Collections;
 
 public class TowerPlacer : MonoBehaviour
 {
     private Tilemap tilemap;
-    [SerializeField] private GameObject towerPrefab; // 설치할 타워 프리팹
+    [SerializeField] private List<GameObject> towerPrefabs; // 설치할 타워 프리팹
     [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
     [SerializeField] private GameObject isValidTile; // 설치 가능한 타일 색상
     [SerializeField] private GameObject isUnvalidTile; // 설치 불가능한 타일 색상
     private GameObject currentHighlight;
     private Vector3Int previousCellPosition = Vector3Int.zero;
+
+    public static TowerPlacer instance = null;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
@@ -25,14 +38,14 @@ public class TowerPlacer : MonoBehaviour
             HighlightTile();
             if (Input.GetMouseButtonDown(0)) // 마우스 클릭
             {
-                PlaceTower();
+                PlaceTower("", 0);
                 Destroy(currentHighlight);
             }
         }
 
     }
 
-    private void PlaceTower()
+    private void PlaceTower(string towerId, int towerNum)
     {
         // 마우스 위치를 월드 좌표로 변환
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -46,47 +59,59 @@ public class TowerPlacer : MonoBehaviour
             // 셀의 중심 월드 좌표 계산
             Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
 
-            Collider2D towerHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Tower"));
-            Collider2D characterHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Character"));
-            Collider2D enemyHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Enemy"));
-            Collider2D obstacleHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Obstacle"));
-
-            if (towerHitCollider != null)
+            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellCenterWorld, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
+            if (hitcolliders.Length > 0)
             {
-                Debug.Log("설치하려는 타일에 타워가 있어 설치가 불가능합니다.");
-                return;
-            }
-            else if (characterHitCollider != null)
-            {
-                Debug.Log("설치하려는 타일에 캐릭터가 있어 설치가 불가능합니다.");
-                return;
-            }
-            else if (enemyHitCollider != null)
-            {
-                Debug.Log("설치하려는 타일에 적이 있어 설치가 불가능합니다.");
-                return;
-            }
-            else if (obstacleHitCollider != null)
-            {
-                Debug.Log("설치하려는 타일에 장애물이 있어 설치가 불가능합니다.");
+                Debug.Log("설치할 수 없는 위치입니다.");
                 return;
             }
 
             // 캐릭터와의 거리 계산
             float distance = Vector3.Distance(transform.position, cellCenterWorld);
-
-            if (distance <= maxPlacementDistance)
-            {
-                // 최대 거리 안이면 타워 생성
-                Instantiate(towerPrefab, cellCenterWorld, Quaternion.identity);
-                Debug.Log($"타워가 {cellPosition} 위치에 설치되었습니다.");
-                TowerPlacementManager.instance.SetPlacementState(false);
-            }
-            else
+            if (distance > maxPlacementDistance)
             {
                 Debug.Log("거리가 너무 멉니다.");
+                return;
             }
+
+            // 최대 거리 안이면 타워 생성 요청 보냄
+            SendBuildRequestToServer(towerNum, cellPosition.x, cellPosition.y);
+
+            // Instantiate(towerPrefabs[towerNum], cellCenterWorld, Quaternion.identity);
+            // Debug.Log($"타워가 {cellPosition} 위치에 설치되었습니다.");
+            // TowerPlacementManager.instance.SetPlacementState(false);
         }
+    }
+
+    private void SendBuildRequestToServer(int towerNum, float x, float y)
+    {
+        // tower의 uuid는 서버에서 만들어서 보내줌
+        Debug.Log($"towerNum:{towerNum}, x:{x}, y:{y}");
+        Protocol.C2B_TowerBuildRequest pkt = new Protocol.C2B_TowerBuildRequest
+        {
+            Tower = new Protocol.TowerData
+            {
+                TowerNumber = towerNum,
+                TowerPos = new Protocol.PosInfo
+                {
+                    X = x,
+                    Y = y,
+                }
+            }
+        };
+
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendBattlePacket(sendBuffer);
+    }
+
+    public void BuildTower(TowerData towerData)
+    {
+        int towerNum = towerData.TowerNumber;
+        Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X, towerData.TowerPos.Y);
+
+        Instantiate(towerPrefabs[towerNum], cellCenterWorld, Quaternion.identity);
+        Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
+        TowerPlacementManager.instance.SetPlacementState(false);
     }
 
     private void HighlightTile()

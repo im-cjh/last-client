@@ -6,6 +6,8 @@ public class Tower : MonoBehaviour
 {
     [SerializeField] private GameObject towerExplosion;
 
+    private string towerId;
+
     private HpBar hpBar; // 체력바
     [SerializeField] private float maxHp = 100f; // 최대체력
     private float hp; // 현재 체력

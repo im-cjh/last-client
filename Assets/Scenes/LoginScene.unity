@@ -246,7 +246,7 @@ MonoBehaviour:
   version: 1.0.0
   latency: 2
   sequence: 0
-  playerId: 1
+  userId: ddd
   nickname: test
   roomId: 0
 --- !u!1 &187742437

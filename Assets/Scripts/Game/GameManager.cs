@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     public void SendLocationUpdatePacket(float x, float y)
     {
-        Debug.Log("my pos: " + x + " , " + y);
+        // Debug.Log("my pos: " + x + " , " + y);
         Protocol.C2B_PositionUpdateRequest pkt = new Protocol.C2B_PositionUpdateRequest
         {
             PosInfos = new Protocol.PosInfo

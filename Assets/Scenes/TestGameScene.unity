@@ -711,9 +711,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4223483524656494278, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
+      propertyPath: towerPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4223483524656494278, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
+      propertyPath: 'towerPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8502727748603339796, guid: dc883e8653b8569408462d9486c54cc2, type: 3}
     - target: {fileID: 5800219005008998565, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 5800219005008998565, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22191,7 +22203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &987468289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23454,7 +23466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 563557502}
   obstaclePrefab: {fileID: 5282747258405209397, guid: 416d9f17359d2bd4ba13d738d3017b90, type: 3}
-  obstacleCount: 10
+  obstacleCount: 100
 --- !u!4 &1797662271
 Transform:
   m_ObjectHideFlags: 0
