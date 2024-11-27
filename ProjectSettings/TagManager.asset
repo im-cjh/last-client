@@ -23,7 +23,7 @@ TagManager:
   - Obstacle
   - Base
   - Enemy
-  - Obstacle
+  - 
   - 
   - 
   - 
@@ -58,11 +58,14 @@ TagManager:
   - name: Enemies
     uniqueID: 2031739859
     locked: 0
+  - name: Object
+    uniqueID: 2059779093
+    locked: 0
   - name: Characters
     uniqueID: 4223350035
     locked: 0
-  - name: Object
-    uniqueID: 2059779093
+  - name: IsValidTIle
+    uniqueID: 1043249713
     locked: 0
   - name: Bullet
     uniqueID: 3753261839

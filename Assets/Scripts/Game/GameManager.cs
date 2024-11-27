@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public GameObject hud;
     public GameObject GameStartUI;
 
+    [Header("# Managers")]
+    [SerializeField] private HandManager handManager;
+    private int initialHands = 7;
+
     void Awake()
     {
         instance = this;
@@ -23,9 +27,14 @@ public class GameManager : MonoBehaviour
     {
         //hud.SetActive(true);
         //GameStartUI.SetActive(false);
-        
+
         //AudioManager.instance.PlayBgm(true);
         //AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+
+        for (int i = 0; i < initialHands; i++)
+        {
+            handManager.AddCard();
+        }
     }
 
     public void GameOver()
@@ -47,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     public void SendLocationUpdatePacket(float x, float y)
     {
-        Debug.Log("my pos: " + x + " , " + y); 
+        Debug.Log("my pos: " + x + " , " + y);
         Protocol.C2B_PositionUpdateRequest pkt = new Protocol.C2B_PositionUpdateRequest
         {
             PosInfos = new Protocol.PosInfo
@@ -58,7 +67,7 @@ public class GameManager : MonoBehaviour
             },
             RoomId = PlayerInfoManager.instance.roomId
         };
-        
+
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PositionUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
         NetworkManager.instance.SendBattlePacket(sendBuffer);

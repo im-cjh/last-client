@@ -9,6 +9,7 @@ public class Tower : MonoBehaviour
     private HpBar hpBar; // 체력바
     [SerializeField] private float maxHp = 100f; // 최대체력
     private float hp; // 현재 체력
+
     [SerializeField] private float attackRange = 5f; // 공격 범위 (인식 범위)
     [SerializeField] private float attackCoolDown = 2f; // 공격속도
     private float lastAttackTime; // 마지막 공격 시간
@@ -16,13 +17,20 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject bullet; // 총알
     private Transform firePoint; // 총알 나가는 위치
 
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Color hitColor;
+    private Color originalColor;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         hpBar = GetComponentInChildren<HpBar>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         cannon = transform.Find("Cannon");
         firePoint = cannon.transform.Find("FirePoint");
         hp = maxHp;
+        originalColor = spriteRenderer.color;
     }
 
     // Update is called once per frame
@@ -83,6 +91,17 @@ public class Tower : MonoBehaviour
             Instantiate(towerExplosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+        else
+        {
+            // 맞았을 때 잠깐동안 색이 바뀜
+            spriteRenderer.color = hitColor;
+            Invoke("ResetColor", 0.1f);
+        }
+    }
+
+    private void ResetColor()
+    {
+        spriteRenderer.color = originalColor;
     }
 }
 
