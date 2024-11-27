@@ -163,7 +163,7 @@ public class PacketHandler
 
             // 2. 단일 위치 정보 처리
             var posInfo = response.PosInfos;
-            Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
+            // Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
             // 3. 캐릭터 검색
             Character character = CharacterManager.Instance.GetCharacter(posInfo.Uuid);
 
