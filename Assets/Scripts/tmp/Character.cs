@@ -4,31 +4,33 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     // Public Fields
-    public string nickname;          // Ä³¸¯ÅÍ ´Ð³×ÀÓ
-    public float speed = 5f;         // ÀÌµ¿ ¼Óµµ
-    public bool isLocalPlayer;       // ·ÎÄÃ ÇÃ·¹ÀÌ¾î ¿©ºÎ
+    public string nickname;          // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
+    public float speed = 5f;         // ï¿½Ìµï¿½ ï¿½Óµï¿½
+    public bool isLocalPlayer;       // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     // Private Fields
-    private Vector2 inputVec;        // ÀÌµ¿ ¹æÇâ
-    private Rigidbody2D rigid;       // Rigidbody2D ÄÄÆ÷³ÍÆ®
-    private SpriteRenderer spriteRenderer;  // SpriteRenderer ÄÄÆ÷³ÍÆ®
-    private TextMeshPro nicknameText;      // ´Ð³×ÀÓ ÅØ½ºÆ®
-    private Vector2 lastSyncedPosition; // ¸¶Áö¸·À¸·Î ¼­¹ö¿¡ Àü¼ÛµÈ À§Ä¡
+    private Vector2 inputVec;        // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
+    private Rigidbody2D rigid;       // Rigidbody2D ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    private SpriteRenderer spriteRenderer;  // SpriteRenderer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    private TextMeshPro nicknameText;      // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®
+    private Vector2 lastSyncedPosition; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½Ä¡
+    private Animator animator;
 
     // Constants
-    private const float SyncThreshold = 0.1f; // ¼­¹ö µ¿±âÈ­ ÃÖ¼Ò °Å¸®
+    private const float SyncThreshold = 0.1f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ ï¿½Ö¼ï¿½ ï¿½Å¸ï¿½
 
     private void Awake()
     {
-        // ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
         rigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         nicknameText = GetComponentInChildren<TextMeshPro>();
+        animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
     {
-        // ´Ð³×ÀÓ Ç¥½Ã ¼³Á¤
+        // ï¿½Ð³ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         nicknameText.text = nickname;
         nicknameText.GetComponent<MeshRenderer>().sortingOrder = 6;
     }
@@ -37,18 +39,18 @@ public class Character : MonoBehaviour
     {
         if (isLocalPlayer)
         {
-            HandleInput();          // ·ÎÄÃ ÇÃ·¹ÀÌ¾î¸¸ ÀÔ·Â Ã³¸®
-            TrySendPositionToServer(); // ·ÎÄÃ ÇÃ·¹ÀÌ¾î À§Ä¡ µ¿±âÈ­
+            HandleInput();          // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¸ ï¿½Ô·ï¿½ Ã³ï¿½ï¿½
+            TrySendPositionToServer(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½È­
         }
 
-        UpdateSpriteDirection(); // ¸ðµç Ä³¸¯ÅÍÀÇ ¹æÇâ ¾÷µ¥ÀÌÆ®
+        UpdateSpriteDirection(); // ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     }
 
     private void FixedUpdate()
     {
         if (isLocalPlayer)
         {
-            MoveCharacter(); // ·ÎÄÃ ÇÃ·¹ÀÌ¾î ÀÌµ¿ Ã³¸®
+            MoveCharacter(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½
         }
     }
 
@@ -57,34 +59,53 @@ public class Character : MonoBehaviour
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
-    /// ÀÔ·Â Ã³¸® (·ÎÄÃ ÇÃ·¹ÀÌ¾î Àü¿ë)
+    /// ï¿½Ô·ï¿½ Ã³ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½)
     private void HandleInput()
     {
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
+
+        if (inputVec.magnitude > 0)
+        {
+            animator.SetBool("isWalk", true);
+        }
+        else
+        {
+            animator.SetBool("isWalk", false);
+        }
+
+        if (inputVec.x > 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (inputVec.x < 0)
+        {
+            spriteRenderer.flipX = false;
+        }
     }
 
-    /// Ä³¸¯ÅÍ ÀÌµ¿ Ã³¸®
+    /// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½
     private void MoveCharacter()
     {
         Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
 
-    /// Ä³¸¯ÅÍ ¹æÇâ ¾÷µ¥ÀÌÆ®
+    /// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     private void UpdateSpriteDirection()
     {
+        Vector3 curScale = transform.localScale;
         if (inputVec.x > 0)
         {
-            spriteRenderer.flipX = true; 
+            transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
         }
-        else if(inputVec.x < 0)
+        else if (inputVec.x < 0)
         {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
         }
     }
 
-    /// ¼­¹ö·Î À§Ä¡ µ¿±âÈ­ (·ÎÄÃ ÇÃ·¹ÀÌ¾î Àü¿ë)
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½È­ (ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½)
     private void TrySendPositionToServer()
     {
         if (Vector2.Distance(lastSyncedPosition, rigid.position) > SyncThreshold)
@@ -94,14 +115,14 @@ public class Character : MonoBehaviour
         }
     }
 
-    /// ¼­¹ö·ÎºÎÅÍ ¹ÞÀº À§Ä¡ µ¥ÀÌÅÍ·Î Ä³¸¯ÅÍ À§Ä¡ ¾÷µ¥ÀÌÆ®
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     public void UpdatePositionFromServer(float x, float y)
     {
-        if (!isLocalPlayer) // ·ÎÄÃ ÇÃ·¹ÀÌ¾î´Â ¼­¹ö¿¡¼­ ¹ÞÀº À§Ä¡¸¦ Àû¿ëÇÏÁö ¾ÊÀ½
+        if (!isLocalPlayer) // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             Vector2 serverPosition = new Vector2(x, y);
-            //rigid.MovePosition(Vector2.Lerp(rigid.position, serverPosition, 0.1f)); // ºÎµå·´°Ô À§Ä¡ º¸°£
-            rigid.MovePosition(serverPosition); // ¼ø°£ÀÌµ¿
+            //rigid.MovePosition(Vector2.Lerp(rigid.position, serverPosition, 0.1f)); // ï¿½Îµå·´ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
+            rigid.MovePosition(serverPosition); // ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
         }
     }
 }

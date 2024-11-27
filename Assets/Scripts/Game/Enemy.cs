@@ -19,6 +19,10 @@ public class Enemy : MonoBehaviour
     private float lastAttackTime;
     [SerializeField] private float moveSpeed = 2f;
 
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Color hitColor;
+    private Color originalColor;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,7 +30,9 @@ public class Enemy : MonoBehaviour
 
         hpBar = GetComponentInChildren<HpBar>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         hp = maxHp;
+        originalColor = spriteRenderer.color;
     }
 
     // Update is called once per frame
@@ -102,10 +108,22 @@ public class Enemy : MonoBehaviour
             {
                 Instantiate(robotDeath, transform.position, Quaternion.identity);
                 Destroy(gameObject);
+                ScoreManager.instance.AddScore();
+            }
+            else
+            {
+                // 맞았을 때 잠깐동안 색이 바뀜
+                spriteRenderer.color = hitColor;
+                Invoke("ResetColor", 0.1f);
             }
 
             hpBar.SetHp(hp, maxHp);
         }
+    }
+
+    private void ResetColor()
+    {
+        spriteRenderer.color = originalColor;
     }
 
     GameObject FindNearestTower()

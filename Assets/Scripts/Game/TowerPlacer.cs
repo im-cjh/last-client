@@ -1,26 +1,35 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TowerPlacer : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap;
+    private Tilemap tilemap;
     [SerializeField] private GameObject towerPrefab; // 설치할 타워 프리팹
-    [SerializeField] private LayerMask towerLayer;    // 타워 레이어 설정
-    [SerializeField] private LayerMask characterLayer; // 캐릭터 레이어 설정
-    [SerializeField] private LayerMask enemyLayer; // 적 레이어 설정
-    [SerializeField] private LayerMask obstacleLayer; // 적 레이어 설정
     [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
-    private void Start()
+    [SerializeField] private GameObject isValidTile; // 설치 가능한 타일 색상
+    [SerializeField] private GameObject isUnvalidTile; // 설치 불가능한 타일 색상
+    private GameObject currentHighlight;
+    private Vector3Int previousCellPosition = Vector3Int.zero;
+
+    void Start()
     {
         tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
     }
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // 마우스 클릭
+        if (TowerPlacementManager.instance.IsPlacementActive())
         {
-            PlaceTower();
+            HighlightTile();
+            if (Input.GetMouseButtonDown(0)) // 마우스 클릭
+            {
+                PlaceTower();
+                Destroy(currentHighlight);
+            }
         }
+
     }
 
     private void PlaceTower()
@@ -37,10 +46,10 @@ public class TowerPlacer : MonoBehaviour
             // 셀의 중심 월드 좌표 계산
             Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
 
-            Collider2D towerHitCollider = Physics2D.OverlapPoint(cellCenterWorld, towerLayer);
-            Collider2D characterHitCollider = Physics2D.OverlapPoint(cellCenterWorld, characterLayer);
-            Collider2D enemyHitCollider = Physics2D.OverlapPoint(cellCenterWorld, enemyLayer);
-            Collider2D obstacleHitCollider = Physics2D.OverlapPoint(cellCenterWorld, obstacleLayer);
+            Collider2D towerHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Tower"));
+            Collider2D characterHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Character"));
+            Collider2D enemyHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Enemy"));
+            Collider2D obstacleHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Obstacle"));
 
             if (towerHitCollider != null)
             {
@@ -71,11 +80,58 @@ public class TowerPlacer : MonoBehaviour
                 // 최대 거리 안이면 타워 생성
                 Instantiate(towerPrefab, cellCenterWorld, Quaternion.identity);
                 Debug.Log($"타워가 {cellPosition} 위치에 설치되었습니다.");
+                TowerPlacementManager.instance.SetPlacementState(false);
             }
             else
             {
                 Debug.Log("거리가 너무 멉니다.");
             }
+        }
+    }
+
+    private void HighlightTile()
+    {
+        // 마우스 위치를 월드 좌표로 변환
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // 월드 좌표를 타일맵의 Cell 좌표로 변환
+        Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
+
+        // 마우스가 새로운 타일에 위치했을 때만 처리
+        if (cellPosition != previousCellPosition)
+        {
+            // 기존 하이라이트 제거
+            if (currentHighlight != null)
+            {
+                Destroy(currentHighlight);
+            }
+
+            // 현재 타일을 하이라이트
+            if (tilemap.HasTile(cellPosition))
+            {
+                Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
+
+                Collider2D towerHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Tower"));
+                Collider2D characterHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Character"));
+                Collider2D enemyHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Enemy"));
+                Collider2D obstacleHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Obstacle"));
+
+                float distance = Vector3.Distance(transform.position, cellCenterWorld);
+
+                // 설치 가능 여부에 따라 적절한 하이라이트 생성
+                if (towerHitCollider == null && characterHitCollider == null && enemyHitCollider == null &&
+                    obstacleHitCollider == null && distance <= maxPlacementDistance)
+                {
+                    currentHighlight = Instantiate(isValidTile, cellCenterWorld, Quaternion.identity);
+                }
+                else
+                {
+                    currentHighlight = Instantiate(isUnvalidTile, cellCenterWorld, Quaternion.identity);
+                }
+            }
+
+            // 새로운 타일 위치 업데이트
+            previousCellPosition = cellPosition;
         }
     }
 }

@@ -18,8 +18,10 @@ public class RandomObstacleSpawner : MonoBehaviour
         for (int i = 0; i < obstacleCount; i++)
         {
             // 랜덤 좌표 생성
-            int x = Random.Range(bounds.xMin, bounds.xMax);
-            int y = Random.Range(bounds.yMin, bounds.yMax);
+            int x = Random.Range(-11, 10);
+            int y = Random.Range(-14, 13);
+            // int x = Random.Range(bounds.xMin, bounds.xMax);
+            // int y = Random.Range(bounds.yMin, bounds.yMax);
             Vector3Int cellPosition = new Vector3Int(x, y, 0);
 
             // 타일이 있는 위치인지 확인
