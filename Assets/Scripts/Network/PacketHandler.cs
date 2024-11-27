@@ -210,6 +210,7 @@ public class PacketHandler
         Debug.Log("HandleBuildTowerNotification Called");
 
         B2C_TowerBuildNotification packet = Protocol.B2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
+
         TowerPlacer.instance.BuildTower(packet.Tower);
     }
 }

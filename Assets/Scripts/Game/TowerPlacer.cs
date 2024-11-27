@@ -4,11 +4,12 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using Protocol;
 using Unity.Collections;
+using System.Threading.Tasks;
 
 public class TowerPlacer : MonoBehaviour
 {
     private Tilemap tilemap;
-    [SerializeField] private List<GameObject> towerPrefabs; // 설치할 타워 프리팹
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
     [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
     [SerializeField] private GameObject isValidTile; // 설치 가능한 타일 색상
@@ -26,9 +27,44 @@ public class TowerPlacer : MonoBehaviour
         }
     }
 
-    void Start()
+    async void Start()
     {
         tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
+        await RegisterPrefab("Prefab/Towers/BasicTower");
+        await RegisterPrefab("Prefab/Towers/BuffTower");
+        await RegisterPrefab("Prefab/Towers/IceTower");
+    }
+
+    private async Task RegisterPrefab(string key)
+    {
+        // Ű�� ����ȭ (��: Prefab/Enemy/Robot1 -> Robot1)
+        string shortKey = ExtractShortKey(key);
+
+        // �̹� ��ϵ� �������� ����
+        if (prefabMap.ContainsKey(shortKey))
+        {
+            Debug.LogWarning($"Prefab '{shortKey}' is already registered.");
+            return;
+        }
+
+        // ������ �ε�
+        GameObject prefab = await AssetManager.LoadAsset<GameObject>(key);
+
+        if (prefab != null)
+        {
+            prefabMap[shortKey] = prefab;
+            //Debug.Log($"Prefab '{shortKey}' loaded and registered.");
+        }
+        else
+        {
+            Debug.LogError($"Failed to load prefab: {key}");
+        }
+    }
+
+    private string ExtractShortKey(string key)
+    {
+        // �����÷� �и��Ͽ� ������ �κи� ��ȯ
+        return key.Substring(key.LastIndexOf('/') + 1);
     }
 
     void Update()
@@ -38,14 +74,14 @@ public class TowerPlacer : MonoBehaviour
             HighlightTile();
             if (Input.GetMouseButtonDown(0)) // 마우스 클릭
             {
-                PlaceTower("", 0);
+                PlaceTower("BasicTower");
                 Destroy(currentHighlight);
             }
         }
 
-    }
+    }    
 
-    private void PlaceTower(string towerId, int towerNum)
+    private void PlaceTower(string prefabId)
     {
         // 마우스 위치를 월드 좌표로 변환
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -75,7 +111,7 @@ public class TowerPlacer : MonoBehaviour
             }
 
             // 최대 거리 안이면 타워 생성 요청 보냄
-            SendBuildRequestToServer(towerNum, cellPosition.x, cellPosition.y);
+            SendBuildRequestToServer(prefabId, cellPosition.x, cellPosition.y);
 
             // Instantiate(towerPrefabs[towerNum], cellCenterWorld, Quaternion.identity);
             // Debug.Log($"타워가 {cellPosition} 위치에 설치되었습니다.");
@@ -83,23 +119,23 @@ public class TowerPlacer : MonoBehaviour
         }
     }
 
-    private void SendBuildRequestToServer(int towerNum, float x, float y)
+    private void SendBuildRequestToServer(string prefabId, float x, float y)
     {
         // tower의 uuid는 서버에서 만들어서 보내줌
-        Debug.Log($"서버에게 타워 설치 요청: towerNum:{towerNum}, x:{x}, y:{y}");
+        Debug.Log($"서버에게 타워 설치 요청: prefabId:{prefabId}, x:{x}, y:{y}");
         Protocol.C2B_TowerBuildRequest pkt = new Protocol.C2B_TowerBuildRequest
         {
             Tower = new Protocol.TowerData
             {
-                TowerNumber = towerNum,
                 TowerPos = new Protocol.PosInfo
                 {
                     X = x,
                     Y = y,
-                }
+                },
+                PrefabId = prefabId
             },
             RoomId = PlayerInfoManager.instance.roomId,
-            OwnerId = PlayerInfoManager.instance.userId
+            OwnerId = PlayerInfoManager.instance.userId,
         };
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
@@ -108,10 +144,9 @@ public class TowerPlacer : MonoBehaviour
 
     public void BuildTower(TowerData towerData)
     {
-        int towerNum = towerData.TowerNumber;
         Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X, towerData.TowerPos.Y);
 
-        Instantiate(towerPrefabs[towerNum], cellCenterWorld, Quaternion.identity);
+        Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
         Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
         TowerPlacementManager.instance.SetPlacementState(false);
     }

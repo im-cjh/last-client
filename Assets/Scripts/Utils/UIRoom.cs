@@ -89,16 +89,12 @@ public class UIRoom : UIBase
 
     public void AddUserToSlot(UserData user)
     {
-        Debug.Log("AddUserToSlot" + user.Name);
-        Debug.Log("AddUserToSlot" + slots.Count);
 
         // 빈 슬롯 찾기
         for (int i = 0; i < slots.Count; i++)
         {
-            Debug.Log("AddUserToSlot" + user.Name);
             if (slots[i].IsEmpty())
             {
-                Debug.Log("true");
                 slots[i].SetItem(user); // 빈 슬롯에 유저 데이터 설정
                 users.Add(user);       // 내부 리스트에 유저 추가
                 UpdateRoomCount();     // 방 인원 수 갱신

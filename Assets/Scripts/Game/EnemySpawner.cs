@@ -53,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
         if (prefab != null)
         {
             prefabMap[shortKey] = prefab;
-            Debug.Log($"Prefab '{shortKey}' loaded and registered.");
+            //Debug.Log($"Prefab '{shortKey}' loaded and registered.");
         }
         else
         {
