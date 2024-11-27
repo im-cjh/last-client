@@ -46,6 +46,9 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
         handlerMapping[ePacketID.B2C_PositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
+
+        handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
+        handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
     }
 
     static void HandleInitPacket(byte[] pBuffer)
@@ -53,7 +56,7 @@ public class PacketHandler
         //패킷 역직렬화
         Protocol.L2C_Init pkt = Protocol.L2C_Init.Parser.ParseFrom(pBuffer);
         //임시
-       // SceneChanger.ChangeLobbyScene();
+        // SceneChanger.ChangeLobbyScene();
         //GameManager.instance.GameStart();
     }
 
@@ -77,13 +80,13 @@ public class PacketHandler
         Debug.Log("HandleJoinRoomResponsePacket");
         Protocol.L2C_JoinRoomResponse pkt = Protocol.L2C_JoinRoomResponse.Parser.ParseFrom(pBuffer);
         LobbyManager.instance.OnEnteredRoom(pkt.RoomInfo);
-        
+
     }
     static void HandleJoinRoomNotificationPacket(byte[] pBuffer)
     {
         //패킷 역직렬화
-        Protocol.L2C_JoinRoomNotification pkt  = Protocol.L2C_JoinRoomNotification.Parser.ParseFrom(pBuffer);
-        
+        Protocol.L2C_JoinRoomNotification pkt = Protocol.L2C_JoinRoomNotification.Parser.ParseFrom(pBuffer);
+
         LobbyManager.instance.OnJoinedRoomSomeone(pkt.JoinUser);
     }
 
@@ -95,7 +98,7 @@ public class PacketHandler
     {
         //패킷 역직렬화
         Protocol.L2C_CreateRoomResponse pkt = Protocol.L2C_CreateRoomResponse.Parser.ParseFrom(pBuffer);
-        
+
         //방 입장 요청 보내기
         LobbyManager.instance.uiMain.OnClickJoinRoom(pkt.Room.Id);
     }
@@ -132,7 +135,7 @@ public class PacketHandler
         }
 
         // 3. 게임 씬으로 전환
-        SceneChanger.ChangeScene(SceneChanger.SceneType.Game);
+        SceneChanger.ChangeScene(SceneChanger.SceneType.TestGame);
 
         // 4. 씬 전환 후 캐릭터 초기화 (중복 등록 방지)
         SceneChanger.OnSceneLoaded -= InitializeCharacters; // 기존 이벤트 제거
@@ -160,7 +163,7 @@ public class PacketHandler
 
             // 2. 단일 위치 정보 처리
             var posInfo = response.PosInfos;
-            Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
+            // Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
             // 3. 캐릭터 검색
             Character character = CharacterManager.Instance.GetCharacter(posInfo.Uuid);
 
@@ -191,6 +194,24 @@ public class PacketHandler
         EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfos);
     }
 
+    static void HandleBuildTowerResponse(byte[] pBuffer)
+    {
+        Debug.Log("HandleBuildTowerResponse Called");
 
+        B2C_TowerBuildResponse packet = Protocol.B2C_TowerBuildResponse.Parser.ParseFrom(pBuffer);
+        if (!packet.IsSuccess)
+        {
+            Debug.Log("타워 설치에 실패하였습니다.");
+        }
+    }
+
+    static void HandleBuildTowerNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleBuildTowerNotification Called");
+
+        B2C_TowerBuildNotification packet = Protocol.B2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
+
+        TowerPlacer.instance.BuildTower(packet.Tower);
+    }
 }
 

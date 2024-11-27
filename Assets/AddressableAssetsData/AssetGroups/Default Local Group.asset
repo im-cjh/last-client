@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 683d04a4952c4474392bc7cfaa83384a
   m_SerializeEntries:
+  - m_GUID: 27fc6c20b7a822a44ba255482a47f5b9
+    m_Address: Prefab/Towers/IceTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e51f709590a7a54088250e866ebf69f
     m_Address: Thumbnail
     m_ReadOnly: 0
@@ -42,6 +47,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dae543b8df7760a48ba44ff9e4dda93f
     m_Address: Prefab/Enemy/Robot2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc883e8653b8569408462d9486c54cc2
+    m_Address: Prefab/Towers/BasicTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1be64377d3758a45a72e7d5740f01a1
+    m_Address: Prefab/Towers/BuffTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

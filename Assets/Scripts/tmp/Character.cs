@@ -4,16 +4,16 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     // Public Fields
-    public string nickname;          // ĳ���� �г���
-    public float speed = 5f;         // �̵� �ӵ�
-    public bool isLocalPlayer;       // ���� �÷��̾� ����
+    public string nickname;          //// 캐릭터 닉네임
+    public float speed = 5f;         // 이동 속도
+    public bool isLocalPlayer;       // 로컬 플레이어 여부
 
     // Private Fields
-    private Vector2 inputVec;        // �̵� ����
-    private Rigidbody2D rigid;       // Rigidbody2D ������Ʈ
-    private SpriteRenderer spriteRenderer;  // SpriteRenderer ������Ʈ
-    private TextMeshPro nicknameText;      // �г��� �ؽ�Ʈ
-    private Vector2 lastSyncedPosition; // ���������� ������ ���۵� ��ġ
+    private Vector2 inputVec;        // 이동 방향
+    private Rigidbody2D rigid;       // Rigidbody2D컴포넌트
+    private SpriteRenderer spriteRenderer;  // SpriteRenderer 컴포넌트
+    private TextMeshPro nicknameText;      // 닉네임 텍스트
+    private Vector2 lastSyncedPosition; // 마지막으로 서버에 전송된 위치
     private Animator animator;
 
     // Constants
@@ -39,18 +39,18 @@ public class Character : MonoBehaviour
     {
         if (isLocalPlayer)
         {
-            HandleInput();          // ���� �÷��̾ �Է� ó��
-            TrySendPositionToServer(); // ���� �÷��̾� ��ġ ����ȭ
+            HandleInput();          // 로컬 플레이어만 입력 처리
+            TrySendPositionToServer(); // 로컬 플레이어 위치 동기화
         }
 
-        UpdateSpriteDirection(); // ��� ĳ������ ���� ������Ʈ
+        UpdateSpriteDirection(); // 모든 캐릭터의 방향 업데이트
     }
 
     private void FixedUpdate()
     {
         if (isLocalPlayer)
         {
-            MoveCharacter(); // ���� �÷��̾� �̵� ó��
+            MoveCharacter(); // 로컬 플레이어 이동 처리
         }
     }
 
@@ -59,7 +59,7 @@ public class Character : MonoBehaviour
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
-    /// �Է� ó�� (���� �÷��̾� ����)
+    // 입력 처리 (로컬 플레이어 전용)
     private void HandleInput()
     {
         inputVec.x = Input.GetAxisRaw("Horizontal");
@@ -84,14 +84,13 @@ public class Character : MonoBehaviour
         }
     }
 
-    /// ĳ���� �̵� ó��
+    // 캐릭터 이동 처리
     private void MoveCharacter()
     {
         Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
 
-    /// ĳ���� ���� ������Ʈ
     private void UpdateSpriteDirection()
     {
         Vector3 curScale = transform.localScale;
@@ -105,7 +104,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    /// ������ ��ġ ����ȭ (���� �÷��̾� ����)
+    // 서버로 위치 동기화 (로컬 플레이어 전용)
     private void TrySendPositionToServer()
     {
         if (Vector2.Distance(lastSyncedPosition, rigid.position) > SyncThreshold)
@@ -115,13 +114,13 @@ public class Character : MonoBehaviour
         }
     }
 
-    /// �����κ��� ���� ��ġ �����ͷ� ĳ���� ��ġ ������Ʈ
+    // 서버로부터 받은 위치 데이터로 캐릭터 위치 업데이트
     public void UpdatePositionFromServer(float x, float y)
     {
-        if (!isLocalPlayer) // ���� �÷��̾�� �������� ���� ��ġ�� �������� ����
+        if (!isLocalPlayer) // 로컬 플레이어는 서버에서 받은 위치를 적용하지 않음
         {
             Vector2 serverPosition = new Vector2(x, y);
-            //rigid.MovePosition(Vector2.Lerp(rigid.position, serverPosition, 0.1f)); // �ε巴�� ��ġ ����
+            //rigid.MovePosition(Vector2.Lerp(rigid.position, serverPosition, 0.1f)); // 부드럽게 위치 보간
             rigid.MovePosition(serverPosition); // �����̵�
         }
     }

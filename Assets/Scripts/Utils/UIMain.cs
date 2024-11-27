@@ -69,9 +69,7 @@ public class UIMain : UIListBase<ItemRoom>
 
 
     public void OnClickJoinRoom(int roomId)
-    {
-        Debug.Log("OnJoinRoom Called");
-        
+    {  
         Protocol.C2L_JoinRoomRequest pkt = new Protocol.C2L_JoinRoomRequest();
         pkt.RoomId = roomId;
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_JoinRoomRequest, 0);

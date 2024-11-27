@@ -377,7 +377,7 @@ MonoBehaviour:
   robotDeath: {fileID: 4439013494382861041, guid: 6caa43cd0937c9449bddc9510123845b, type: 3}
   maxHp: 30
   detectRange: 3
-  defaultAttackDistanceX: 1.1
+  defaultAttackDistanceX: 1.2
   defaultAttackDistanceY: 1.2
   attackDamage: 10
   attackCoolDown: 2
