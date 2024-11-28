@@ -101,7 +101,7 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.tag == "Bullet")
         {
             Bullet bullet = other.gameObject.GetComponent<Bullet>();
-            hp -= bullet.damage;
+            hp -= bullet.attackDamage;
             bullet.Remove();
 
             if (hp <= 0)

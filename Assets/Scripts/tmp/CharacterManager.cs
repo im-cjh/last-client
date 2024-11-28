@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Protocol;
+using static UnityEditor.PlayerSettings;
 
 public class CharacterManager : MonoBehaviour
 {
     public static CharacterManager Instance { get; private set; }
 
-    public GameObject characterPrefab; // 캐릭터 프리팹
+    //public GameObject characterPrefab; // 캐릭터 프리팹
 
     private Dictionary<string, Character> characters = new Dictionary<string, Character>(); // UUID와 캐릭터 매핑
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); 
 
     private void Awake()
     {
@@ -25,10 +27,17 @@ public class CharacterManager : MonoBehaviour
             return;
         }
         // 서버에서 받은 스폰 위치 사용
-        Vector3 position = new Vector3(playerData.Position.X, playerData.Position.Y, 0);
+        Vector3 pos = new Vector3(playerData.Position.X, playerData.Position.Y, 0);
+
+        if (!prefabMap.TryGetValue(playerData.PrefabId, out GameObject prefab))
+        {
+            Debug.LogError($"Prefab not found: {playerData.PrefabId}");
+            return;
+        }
 
         // 캐릭터 생성
-        GameObject character = Instantiate(characterPrefab, position, Quaternion.identity);
+        // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
+        GameObject character = Instantiate(prefab, pos, Quaternion.identity);
         Character chara = character.GetComponent<Character>();
 
         if (chara != null)
@@ -44,8 +53,10 @@ public class CharacterManager : MonoBehaviour
     }
 
     // 모든 플레이어 캐릭터 생성
-    public void InitializeCharacters()
+    public async void InitializeCharacters()
     {
+        await Utilities.RegisterPrefab("Prefab/Characters/Red", prefabMap);
+
         foreach (var playerData in PlayerManager.Instance.GetAllPlayers())
         {
             SpawnCharacter(playerData);

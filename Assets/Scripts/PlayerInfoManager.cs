@@ -15,7 +15,7 @@ public class PlayerInfoManager : MonoBehaviour
     public string userId = "ddd";
     public string nickname = "test";
     public int roomId = 0;
-    public Protocol.CharacterData characterData = new Protocol.CharacterData { CharacterType = Protocol.CharacterType.NoneCharacter};
+    public string prefabId = "Red";
 
     public Protocol.B2C_GameStartNotification tmp_gameStartPacket;
 

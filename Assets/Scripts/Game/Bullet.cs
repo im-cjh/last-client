@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject explosion;
     [SerializeField] private float moveSpeed = 5f;
-    public float damage = 3f;
+    public float attackDamage = 3f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

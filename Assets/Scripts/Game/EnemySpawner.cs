@@ -19,55 +19,56 @@ public class EnemySpawner : MonoBehaviour
 
 
     /*---------------------------------------------
-        [������ �ε� �� ���]
-    ---------------------------------------------*/
+    [프리팹 로드 및 등록]
+---------------------------------------------*/
     async void Start()
     {
-        // �ʿ��� �����յ��� �ε� �� ���
-        await RegisterPrefab("Prefab/Enemy/Robot1");
-        await RegisterPrefab("Prefab/Enemy/Robot2");
-        await RegisterPrefab("Prefab/Enemy/Robot3");
-        await RegisterPrefab("Prefab/Enemy/Robot4");
-        await RegisterPrefab("Prefab/Enemy/Robot5");
+        // 필요한 프리팹들을 로드 및 등록
+        await Utilities.RegisterPrefab("Prefab/Enemy/Robot1", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Enemy/Robot1", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Enemy/Robot2", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Enemy/Robot3", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Enemy/Robot4", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Enemy/Robot5", prefabMap);
     }
 
-    /*---------------------------------------------
-        [������ ���]
-        -�������� Addressables���� �ε��ϰ� Dictionary�� ����մϴ�.
-    ---------------------------------------------*/
-    private async Task RegisterPrefab(string key)
-    {
-        // Ű�� ����ȭ (��: Prefab/Enemy/Robot1 -> Robot1)
-        string shortKey = ExtractShortKey(key);
+   // /*---------------------------------------------
+   //     [������ ���]
+   //     -�������� Addressables���� �ε��ϰ� Dictionary�� ����մϴ�.
+   // ---------------------------------------------*/
+   // private async Task RegisterPrefab(string key)
+   // {
+   //     // Ű�� ����ȭ (��: Prefab/Enemy/Robot1 -> Robot1)
+   //     string shortKey = ExtractShortKey(key);
 
-        // �̹� ��ϵ� �������� ����
-        if (prefabMap.ContainsKey(shortKey))
-        {
-            Debug.LogWarning($"Prefab '{shortKey}' is already registered.");
-            return;
-        }
+   //     // �̹� ��ϵ� �������� ����
+   //     if (prefabMap.ContainsKey(shortKey))
+   //     {
+   //         Debug.LogWarning($"Prefab '{shortKey}' is already registered.");
+   //         return;
+   //     }
 
-        // ������ �ε�
-        GameObject prefab = await AssetManager.LoadAsset<GameObject>(key);
+   //     // ������ �ε�
+   //     GameObject prefab = await AssetManager.LoadAsset<GameObject>(key);
 
-        if (prefab != null)
-        {
-            prefabMap[shortKey] = prefab;
-            //Debug.Log($"Prefab '{shortKey}' loaded and registered.");
-        }
-        else
-        {
-            Debug.LogError($"Failed to load prefab: {key}");
-        }
-    }
-    /*---------------------------------------------
-      [������ Ű ����]
-   ---------------------------------------------*/
-    private string ExtractShortKey(string key)
-    {
-        // �����÷� �и��Ͽ� ������ �κи� ��ȯ
-        return key.Substring(key.LastIndexOf('/') + 1);
-    }
+   //     if (prefab != null)
+   //     {
+   //         prefabMap[shortKey] = prefab;
+   //         //Debug.Log($"Prefab '{shortKey}' loaded and registered.");
+   //     }
+   //     else
+   //     {
+   //         Debug.LogError($"Failed to load prefab: {key}");
+   //     }
+   // }
+   // /*---------------------------------------------
+   //   [������ Ű ����]
+   //---------------------------------------------*/
+   // private string ExtractShortKey(string key)
+   // {
+   //     // �����÷� �и��Ͽ� ������ �κи� ��ȯ
+   //     return key.Substring(key.LastIndexOf('/') + 1);
+   // }
 
 
     /*---------------------------------------------
@@ -79,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (prefabMap.TryGetValue(prefabId, out GameObject prefab))
         {
-            // 2D ���ӿ����� rotation �⺻������ Quaternion.identity ���
+            // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
             Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
             // Debug.Log($"Monster spawned: {prefabId} at {pos}");
         }

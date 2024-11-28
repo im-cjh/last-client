@@ -59,5 +59,44 @@ static public class Utilities
             Debug.LogError("Failed to write to log file: " + ex.Message);
         }
     }
+
+    /*---------------------------------------------
+     [프리팹 등록]
+ ---------------------------------------------*/
+    static public async Task RegisterPrefab(string key, Dictionary<string, GameObject> prefabMap)
+    {
+        // 키를 간소화 (예: Prefab/Enemy/Robot1 -> Robot1)
+        string shortKey = ExtractShortKey(key);
+
+        // 이미 등록된 프리팹은 무시
+        if (prefabMap.ContainsKey(shortKey))
+        {
+            Debug.LogWarning($"Prefab '{shortKey}' is already registered.");
+            return;
+        }
+
+        // 프리팹 로드
+        GameObject prefab = await AssetManager.LoadAsset<GameObject>(key);
+
+        if (prefab != null)
+        {
+            prefabMap[shortKey] = prefab;
+            Debug.Log($"Prefab '{shortKey}' loaded and registered.");
+        }
+        else
+        {
+            Debug.LogError($"Failed to load prefab: {key}");
+        }
+    }
+
+
+    /*---------------------------------------------
+     [프리팹 키 추출]
+  ---------------------------------------------*/
+    static string ExtractShortKey(string key)
+    {
+        // 슬래시로 분리하여 마지막 부분만 반환
+        return key.Substring(key.LastIndexOf('/') + 1);
+    }
 }
 

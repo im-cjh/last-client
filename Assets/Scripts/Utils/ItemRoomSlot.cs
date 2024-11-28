@@ -22,7 +22,7 @@ public class ItemRoomSlot : MonoBehaviour
         if (userData != null)
         {
             nickname.text = userData.Name; // 사용자 이름 설정
-            OnChangeCharacter(userData.Character.CharacterType.ToString()); // 캐릭터 이미지 변경
+            OnChangeCharacter(userData.PrefabId); // 캐릭터 이미지 변경
             gameObject.SetActive(true);
         }
         else

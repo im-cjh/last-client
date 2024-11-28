@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33f68cfdb4652034b94dbf41c992e95e
+    m_Address: Prefab/Characters/Red
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e51f709590a7a54088250e866ebf69f
     m_Address: Thumbnail
     m_ReadOnly: 0
@@ -42,6 +47,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b94e7f88dea2949469941c1f68f0e09f
     m_Address: Prefab/Enemy/Robot3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d221f45cd64a5cd4eba0cd1c06a8f036
+    m_Address: Thumbnail/Dino.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

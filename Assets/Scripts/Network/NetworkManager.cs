@@ -78,7 +78,7 @@ public class NetworkManager : MonoBehaviour
                     Y = 0,
                 },
                 Nickname= PlayerInfoManager.instance.nickname,
-                CharacterType = PlayerInfoManager.instance.characterData.CharacterType,
+                PrefabId = PlayerInfoManager.instance.prefabId,
             };
 
             Debug.Log(pkt);
