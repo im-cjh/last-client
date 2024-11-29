@@ -57,9 +57,9 @@ public class GameManager : MonoBehaviour
     public void SendLocationUpdatePacket(float x, float y)
     {
         // Debug.Log("my pos: " + x + " , " + y);
-        Protocol.C2B_PositionUpdateRequest pkt = new Protocol.C2B_PositionUpdateRequest
+        Protocol.C2B_PlayerPositionUpdateRequest pkt = new Protocol.C2B_PlayerPositionUpdateRequest
         {
-            PosInfos = new Protocol.PosInfo
+            PosInfo = new Protocol.PosInfo
             {
                 Uuid = PlayerInfoManager.instance.userId,
                 X = x,

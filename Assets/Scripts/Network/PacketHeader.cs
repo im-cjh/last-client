@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,28 +28,25 @@ public enum ePacketID : UInt16
     L2C_LeaveRoomResponse = 115,
     L2C_LeaveRoomNotification = 116,
     B2C_JoinRoomResponse = 117,
-    B2C_SpawnMonsterResponse = 202,
-    B2C_SpawnMonsterNotification = 203,
-    B2S_MonsterAttackTowerRequest = 204,
-    S2B_UpdateTowerHPNotification = 205,
-    B2S_MonsterAttackBaseRequest = 206,
-    C2B_MonsterDeathRequest = 207,
-    B2C_MonsterDeathNotification = 208,
+    B2C_SpawnMonsterNotification = 201,
+    B2C_MonsterPositionUpdateNotification = 202,
+    B2C_MonsterAttackTowerNotification = 203,
+    B2C_MonsterAttackBaseNotification = 204,
+    B2C_MonsterDeathNotification = 205,
     C2B_TowerBuildRequest = 301,
     B2C_TowerBuildResponse = 302,
     B2C_TowerBuildNotification = 303,
-    B2C_TowerAttackRequest = 304,
-    B2C_TowerAttackNotification = 305,
-    C2B_TowerDestroyRequest = 306,
-    C2B_TowerDestroyResponse = 307,
-    C2B_TowerDestroyNotification = 308,
+    B2C_TowerAttackNotification = 304,
+    B2C_TowerDestroyNotification = 305,
+    B2C_BaseDestroyNotification = 306,
+    B2C_ObstacleSpawnNotification = 307,
     C2B_SkillRequest = 401,
     C2B_SkillResponse = 402,
     C2B_SkillNotify = 403,
     C2B_PositionUpdateRequest = 501,
-    B2C_PositionUpdateNotification = 502,
+    B2C_PlayerPositionUpdateNotification = 502,
     C2B_UseCardRequest = 503,
-    B2C_UseCardNotification = 504
+    B2C_UseCardNotification = 504,
 }
 
 [Serializable]

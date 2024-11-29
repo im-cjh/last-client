@@ -78,6 +78,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnMonster(string prefabId, PosInfo pos)
     {
+        Debug.Log(prefabId);
         if (prefabMap.TryGetValue(prefabId, out GameObject prefab))
         {
             // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용

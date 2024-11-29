@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33f68cfdb4652034b94dbf41c992e95e
+    m_Address: Prefab/Characters/Red
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e51f709590a7a54088250e866ebf69f
     m_Address: Thumbnail
     m_ReadOnly: 0

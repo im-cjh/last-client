@@ -1,4 +1,4 @@
-﻿using Protocol;
+using Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +44,7 @@ public class PacketHandler
 
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
-        handlerMapping[ePacketID.B2C_PositionUpdateNotification] = HandleMove;
+        handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
         handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
 
@@ -160,10 +160,10 @@ public class PacketHandler
         try
         {
             // 1. 패킷 파싱
-            Protocol.B2C_PositionUpdateNotification response = Protocol.B2C_PositionUpdateNotification.Parser.ParseFrom(pBuffer);
+            Protocol.B2C_PlayerPositionUpdateNotification response = Protocol.B2C_PlayerPositionUpdateNotification.Parser.ParseFrom(pBuffer);
 
             // 2. 단일 위치 정보 처리
-            var posInfo = response.PosInfos;
+            var posInfo = response.PosInfo;
             // Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
             // 3. 캐릭터 검색
             Character character = CharacterManager.Instance.GetCharacter(posInfo.Uuid);
@@ -189,10 +189,12 @@ public class PacketHandler
 
     static void HandleSpawnMonster(byte[] pBuffer)
     {
-        Debug.Log("HandleSpawnMonster Called");
-
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
-        EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfos);
+        Debug.Log("HandleSpawnMonster: ");
+        Debug.Log(packet.PrefabId);
+        Debug.Log(packet.PosInfo);
+
+        EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
     }
 
     static void HandleMonsterDeath(byte[] pBuffer)
