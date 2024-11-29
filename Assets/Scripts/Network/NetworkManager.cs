@@ -44,7 +44,6 @@ public class NetworkManager : MonoBehaviour
         {
             mLobbyTcpClient = new TcpClient(ip, port);
             mLobbyStream = mLobbyTcpClient.GetStream();
-            Debug.Log($"Connected to {ip}:{port}");
 
             return true;
         }
@@ -57,12 +56,10 @@ public class NetworkManager : MonoBehaviour
 
     public bool ConnectToBattleServer(string ip, int port, int pRoomId)
     {
-        Debug.Log("ConnectToBattleServer");
         try
         {
             mBattleTcpClient = new TcpClient(ip, port);
             mBattleStream = mBattleTcpClient.GetStream();
-            Debug.Log($"Connected to {ip}:{port}");
 
             StartBattleReceiving();
 
