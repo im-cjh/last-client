@@ -42,8 +42,6 @@ public class Character : MonoBehaviour
             HandleInput();          // 로컬 플레이어만 입력 처리
             TrySendPositionToServer(); // 로컬 플레이어 위치 동기화
         }
-
-        UpdateSpriteDirection(); // 모든 캐릭터의 방향 업데이트
     }
 
     private void FixedUpdate()
@@ -74,13 +72,17 @@ public class Character : MonoBehaviour
             animator.SetBool("isWalk", false);
         }
 
+        Vector3 curScale = transform.localScale;
+        Vector3 curTextScale = nicknameText.transform.localScale;
         if (inputVec.x > 0)
         {
-            spriteRenderer.flipX = true;
+            transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
+            nicknameText.transform.localScale = new Vector3(-Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
         }
-        else if (inputVec.x < 0)
+        else
         {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
+            nicknameText.transform.localScale = new Vector3(Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
         }
     }
 
@@ -89,19 +91,6 @@ public class Character : MonoBehaviour
     {
         Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
-    }
-
-    private void UpdateSpriteDirection()
-    {
-        Vector3 curScale = transform.localScale;
-        if (inputVec.x > 0)
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
-        }
-        else if (inputVec.x < 0)
-        {
-            transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
-        }
     }
 
     // 서버로 위치 동기화 (로컬 플레이어 전용)

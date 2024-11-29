@@ -9,6 +9,7 @@ TagManager:
   - Tower
   - Bullet
   - Obstacle
+  - Explosion
   layers:
   - Default
   - TransparentFX

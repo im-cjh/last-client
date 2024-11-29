@@ -249,6 +249,7 @@ MonoBehaviour:
   attackCoolDown: 1
   moveSpeed: 2
   hitColor: {r: 1, g: 0, b: 0, a: 1}
+  slowColor: {r: 0, g: 0.87058824, b: 1, a: 1}
 --- !u!58 &2332327316679256914
 CircleCollider2D:
   m_ObjectHideFlags: 0

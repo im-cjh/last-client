@@ -34,30 +34,28 @@ public class HandManager : MonoBehaviour
         {
             cards.Remove(card);
             Destroy(card);
-            UpdateCardPosition();
+            UpdateCardPosition(); // 카드 정렬
         }
     }
 
     public void SetHighlightedCard(GameObject card)
     {
         highlightedCard = card;
-        // UpdateCardPosition();
     }
 
     public void ClearHighlightedCard()
     {
         highlightedCard = null;
-        // UpdateCardPosition();
     }
 
     public void UpdateCardPosition()
     {
-        float cardSpacing = 70f;
-        float startX = -200f;
+        float cardSpacing = 70f; // 카드 간격
+        float startX = -200f; // 첫 패 위치
 
         for (int i = 0; i < cards.Count; i++)
         {
-            if (cards[i] == highlightedCard) continue;
+            if (cards[i] == highlightedCard) continue; // 마우스가 올라가 있는 카드는 정렬 대상에서 제외
 
             Vector3 targetPosition = new Vector3(startX + i * cardSpacing, -10, 0);
             cards[i].transform.DOLocalMove(targetPosition, 0.5f).SetEase(Ease.OutQuad);

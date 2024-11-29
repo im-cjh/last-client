@@ -200,7 +200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dfac22033940a544a1ba1296f425c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 8502727748603339796, guid: dc883e8653b8569408462d9486c54cc2, type: 3}
   maxPlacementDistance: 5
   isValidTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
   isUnvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
@@ -218,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickname: Duzzang
   speed: 5
-  isLocalPlayer: 1
+  isLocalPlayer: 0
 --- !u!1 &8680587044116734378
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +243,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8680587044116734378}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -253,8 +252,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 3.15}
-  m_SizeDelta: {x: 20, y: 5}
+  m_AnchoredPosition: {x: 0, y: 1.3}
+  m_SizeDelta: {x: 2, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2332203406335208580
 MeshRenderer:
@@ -386,7 +385,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 1.3596959, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0

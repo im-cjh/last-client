@@ -46,6 +46,7 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
         handlerMapping[ePacketID.B2C_PositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
+        handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
 
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
@@ -192,6 +193,14 @@ public class PacketHandler
 
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
         EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfos);
+    }
+
+    static void HandleMonsterDeath(byte[] pBuffer)
+    {
+        Debug.Log("HandleMonsterDeath Called");
+
+        B2C_MonsterDeathNotification packet = Protocol.B2C_MonsterDeathNotification.Parser.ParseFrom(pBuffer);
+        ScoreManager.instance.AddScore();
     }
 
     static void HandleBuildTowerResponse(byte[] pBuffer)

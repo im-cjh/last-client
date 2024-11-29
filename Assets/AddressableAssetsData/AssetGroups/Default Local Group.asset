@@ -15,18 +15,28 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 683d04a4952c4474392bc7cfaa83384a
   m_SerializeEntries:
+  - m_GUID: 26bdf5920610f9b45a4db5afa44f4513
+    m_Address: Prefab/Towers/TankTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 27fc6c20b7a822a44ba255482a47f5b9
     m_Address: Prefab/Towers/IceTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 33f68cfdb4652034b94dbf41c992e95e
-    m_Address: Prefab/Characters/Red
+  - m_GUID: 2a9b3f4b0ab55f04da4fbdb8990c8a31
+    m_Address: Prefab/Towers/MissileTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e51f709590a7a54088250e866ebf69f
     m_Address: Thumbnail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66944447b49412f4b87ce113400c1b47
+    m_Address: Prefab/Towers/ThunderTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -50,8 +60,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d221f45cd64a5cd4eba0cd1c06a8f036
-    m_Address: Thumbnail/Dino.png
+  - m_GUID: c9912098282343644bf6ad72bdf4212f
+    m_Address: Prefab/Towers/StrongTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
