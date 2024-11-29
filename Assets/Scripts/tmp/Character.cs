@@ -43,7 +43,7 @@ public class Character : MonoBehaviour
             TrySendPositionToServer(); // ���� �÷��̾� ��ġ ����ȭ
         }
 
-        UpdateSpriteDirection(); // ��� ĳ������ ���� ������Ʈ
+        // UpdateSpriteDirection(); // ��� ĳ������ ���� ������Ʈ
     }
 
     private void FixedUpdate()
@@ -74,13 +74,17 @@ public class Character : MonoBehaviour
             animator.SetBool("isWalk", false);
         }
 
+        Vector3 curScale = transform.localScale;
+        Vector3 curTextScale = nicknameText.transform.localScale;
         if (inputVec.x > 0)
         {
-            spriteRenderer.flipX = true;
+            transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
+            nicknameText.transform.localScale = new Vector3(-Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
         }
-        else if (inputVec.x < 0)
+        else
         {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
+            nicknameText.transform.localScale = new Vector3(Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
         }
     }
 
@@ -92,18 +96,21 @@ public class Character : MonoBehaviour
     }
 
     /// ĳ���� ���� ������Ʈ
-    private void UpdateSpriteDirection()
-    {
-        Vector3 curScale = transform.localScale;
-        if (inputVec.x > 0)
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
-        }
-        else if (inputVec.x < 0)
-        {
-            transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
-        }
-    }
+    // private void UpdateSpriteDirection()
+    // {
+    //     Vector3 curScale = transform.localScale;
+    //     Vector3 curTextScale = nicknameText.transform.localScale;
+    //     if (inputVec.x > 0)
+    //     {
+    //         transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
+    //         nicknameText.transform.localScale = new Vector3(-Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
+    //     }
+    //     else if (inputVec.x < 0)
+    //     {
+    //         transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
+    //         nicknameText.transform.localScale = new Vector3(Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
+    //     }
+    // }
 
     /// ������ ��ġ ����ȭ (���� �÷��̾� ����)
     private void TrySendPositionToServer()
