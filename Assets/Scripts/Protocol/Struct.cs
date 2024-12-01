@@ -27,10 +27,11 @@ namespace Protocol {
             "CgxzdHJ1Y3QucHJvdG8SCFByb3RvY29sGgplbnVtLnByb3RvIiUKCEJhc2VE",
             "YXRhEgoKAmhwGAEgASgFEg0KBW1heEhwGAIgASgFIlMKCVRvd2VyRGF0YRIP",
             "Cgd0b3dlcklkGAEgASgFEhAKCHByZWZhYklkGAIgASgJEiMKCHRvd2VyUG9z",
-            "GAMgASgLMhEuUHJvdG9jb2wuUG9zSW5mbyJtCgtNb25zdGVyRGF0YRIRCglt",
-            "b25zdGVySWQYASABKAUSFQoNbW9uc3Rlck51bWJlchgCIAEoBRINCgVsZXZl",
-            "bBgDIAEoBRIlCgptb25zdGVyUG9zGAQgASgLMhEuUHJvdG9jb2wuUG9zSW5m",
-            "byI2CghVc2VyRGF0YRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhAKCHBy",
+            "GAMgASgLMhEuUHJvdG9jb2wuUG9zSW5mbyKZAQoLTW9uc3RlckRhdGESEQoJ",
+            "bW9uc3RlcklkGAEgASgFEhUKDW1vbnN0ZXJOdW1iZXIYAiABKAUSDQoFbGV2",
+            "ZWwYAyABKAUSJQoKbW9uc3RlclBvcxgEIAEoCzIRLlByb3RvY29sLlBvc0lu",
+            "Zm8SKgoFc3RhdGUYBSABKA4yGy5Qcm90b2NvbC5PQkpFQ1RfU1RBVEVfVFlQ",
+            "RSI2CghVc2VyRGF0YRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhAKCHBy",
             "ZWZhYklkGAMgASgJIpQBCghSb29tRGF0YRIKCgJpZBgBIAEoBRIPCgdvd25l",
             "cklkGAIgASgJEgwKBG5hbWUYAyABKAkSEgoKbWF4VXNlck51bRgEIAEoBRIm",
             "CgVzdGF0ZRgFIAEoDjIXLlByb3RvY29sLlJvb21TdGF0ZVR5cGUSIQoFdXNl",
@@ -45,7 +46,7 @@ namespace Protocol {
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.BaseData), global::Protocol.BaseData.Parser, new[]{ "Hp", "MaxHp" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.TowerData), global::Protocol.TowerData.Parser, new[]{ "TowerId", "PrefabId", "TowerPos" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.MonsterData), global::Protocol.MonsterData.Parser, new[]{ "MonsterId", "MonsterNumber", "Level", "MonsterPos" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.MonsterData), global::Protocol.MonsterData.Parser, new[]{ "MonsterId", "MonsterNumber", "Level", "MonsterPos", "State" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.UserData), global::Protocol.UserData.Parser, new[]{ "Id", "Name", "PrefabId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.RoomData), global::Protocol.RoomData.Parser, new[]{ "Id", "OwnerId", "Name", "MaxUserNum", "State", "Users" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PosInfo), global::Protocol.PosInfo.Parser, new[]{ "Uuid", "X", "Y" }, null, null, null, null),
@@ -605,6 +606,7 @@ namespace Protocol {
       monsterNumber_ = other.monsterNumber_;
       level_ = other.level_;
       monsterPos_ = other.monsterPos_ != null ? other.monsterPos_.Clone() : null;
+      state_ = other.state_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -671,6 +673,18 @@ namespace Protocol {
       }
     }
 
+    /// <summary>Field number for the "state" field.</summary>
+    public const int StateFieldNumber = 5;
+    private global::Protocol.OBJECT_STATE_TYPE state_ = global::Protocol.OBJECT_STATE_TYPE.Idle;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Protocol.OBJECT_STATE_TYPE State {
+      get { return state_; }
+      set {
+        state_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -690,6 +704,7 @@ namespace Protocol {
       if (MonsterNumber != other.MonsterNumber) return false;
       if (Level != other.Level) return false;
       if (!object.Equals(MonsterPos, other.MonsterPos)) return false;
+      if (State != other.State) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -701,6 +716,7 @@ namespace Protocol {
       if (MonsterNumber != 0) hash ^= MonsterNumber.GetHashCode();
       if (Level != 0) hash ^= Level.GetHashCode();
       if (monsterPos_ != null) hash ^= MonsterPos.GetHashCode();
+      if (State != global::Protocol.OBJECT_STATE_TYPE.Idle) hash ^= State.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -735,6 +751,10 @@ namespace Protocol {
         output.WriteRawTag(34);
         output.WriteMessage(MonsterPos);
       }
+      if (State != global::Protocol.OBJECT_STATE_TYPE.Idle) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) State);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -761,6 +781,10 @@ namespace Protocol {
         output.WriteRawTag(34);
         output.WriteMessage(MonsterPos);
       }
+      if (State != global::Protocol.OBJECT_STATE_TYPE.Idle) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) State);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -782,6 +806,9 @@ namespace Protocol {
       }
       if (monsterPos_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(MonsterPos);
+      }
+      if (State != global::Protocol.OBJECT_STATE_TYPE.Idle) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -809,6 +836,9 @@ namespace Protocol {
           MonsterPos = new global::Protocol.PosInfo();
         }
         MonsterPos.MergeFrom(other.MonsterPos);
+      }
+      if (other.State != global::Protocol.OBJECT_STATE_TYPE.Idle) {
+        State = other.State;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -844,6 +874,10 @@ namespace Protocol {
             input.ReadMessage(MonsterPos);
             break;
           }
+          case 40: {
+            State = (global::Protocol.OBJECT_STATE_TYPE) input.ReadEnum();
+            break;
+          }
         }
       }
     #endif
@@ -876,6 +910,10 @@ namespace Protocol {
               MonsterPos = new global::Protocol.PosInfo();
             }
             input.ReadMessage(MonsterPos);
+            break;
+          }
+          case 40: {
+            State = (global::Protocol.OBJECT_STATE_TYPE) input.ReadEnum();
             break;
           }
         }

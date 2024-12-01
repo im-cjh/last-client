@@ -9,20 +9,20 @@ using System.Resources;
 
 public class ItemRoomSlot : MonoBehaviour
 {
-    [SerializeField] private TMP_Text no;         // ½½·Ô ¹øÈ£
-    [SerializeField] private TMP_Text nickname;   // »ç¿ëÀÚ ´Ğ³×ÀÓ
-    [SerializeField] private Image character;     // Ä³¸¯ÅÍ ÀÌ¹ÌÁö
+    [SerializeField] private TMP_Text no;         // ìŠ¬ë¡¯ ë²ˆí˜¸
+    [SerializeField] private TMP_Text nickname;   // ì‚¬ìš©ì ë‹‰ë„¤ì„
+    [SerializeField] private Image character;     // ìºë¦­í„° ì´ë¯¸ì§€
     private UserData userData;
 
-    // ½½·Ô µ¥ÀÌÅÍ¸¦ ¼³Á¤
+    // ìŠ¬ë¡¯ ë°ì´í„°ë¥¼ ì„¤ì •
     public void SetItem(UserData pUserData)
     {
-        Debug.Log(pUserData);
+        
         userData = pUserData;
         if (userData != null)
         {
-            nickname.text = userData.Name; // »ç¿ëÀÚ ÀÌ¸§ ¼³Á¤
-            OnChangeCharacter(userData.PrefabId); // Ä³¸¯ÅÍ ÀÌ¹ÌÁö º¯°æ
+            nickname.text = userData.Name; // ì‚¬ìš©ì ì´ë¦„ ì„¤ì •
+            OnChangeCharacter(userData.PrefabId); // ìºë¦­í„° ì´ë¯¸ì§€ ë³€ê²½
             gameObject.SetActive(true);
         }
         else
@@ -31,12 +31,12 @@ public class ItemRoomSlot : MonoBehaviour
         }
     }
 
-    // Ä³¸¯ÅÍ ÀÌ¹ÌÁö º¯°æ
+    // ìºë¦­í„° ì´ë¯¸ì§€ ë³€ê²½
     public async void OnChangeCharacter(string characterType)
     {
         if (!string.IsNullOrEmpty(characterType))
         {
-            // ¸®¼Ò½º ·Îµå ÈÄ Ä³¸¯ÅÍ ÀÌ¹ÌÁö ¼³Á¤
+            // ë¦¬ì†ŒìŠ¤ ë¡œë“œ í›„ ìºë¦­í„° ì´ë¯¸ì§€ ì„¤ì •
             character.sprite = await AssetManager.LoadAsset<Sprite>("Thumbnail/"+characterType+".png", eAddressableType.Thumbnail);
         }
     }

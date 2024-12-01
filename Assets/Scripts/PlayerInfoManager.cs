@@ -1,3 +1,4 @@
+using Google.Protobuf.Collections;
 using System;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class PlayerInfoManager : MonoBehaviour
     public int roomId = 0;
     public string prefabId = "Red";
 
-    public Protocol.B2C_GameStartNotification tmp_gameStartPacket;
+    public RepeatedField<Protocol.PosInfo> tmp_obstaclePosInfos;
 
     void Awake()
     {
@@ -28,7 +29,7 @@ public class PlayerInfoManager : MonoBehaviour
 
     private void Start()
     {
-        //TODO ÀÓ½Ã·Î ÀÛ¼º, ÃßÈÄ¿¡ ·Î±×ÀÎ ¼­¹ö·ÎºÎÅÍ ¹Ş¾Æ¾ß ÇÔ 
+        //TODO ì„ì‹œë¡œ ì‘ì„±, ì¶”í›„ì— ë¡œê·¸ì¸ ì„œë²„ë¡œë¶€í„° ë°›ì•„ì•¼ í•¨ 
         userId = Guid.NewGuid().ToString();
     }
 

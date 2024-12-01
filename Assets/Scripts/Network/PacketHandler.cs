@@ -138,6 +138,9 @@ public class PacketHandler
         Protocol.B2C_GameStartNotification pkt = Protocol.B2C_GameStartNotification.Parser.ParseFrom(pBuffer);
         Debug.Log("게임 시작 패킷 수신");
 
+        //temp
+        PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
+
         // 2. PlayerManager에 데이터 저장
         foreach (var playerData in pkt.PlayerDatas)
         {
@@ -158,6 +161,9 @@ public class PacketHandler
     {
         Debug.Log("게임 씬 로드 완료. 캐릭터 초기화 시작");
         CharacterManager.Instance.InitializeCharacters();
+
+        //장애물도 일단 여기서 처리해주기...
+        RandomObstacleSpawner.instance.HandleSpawnObstacle(PlayerInfoManager.instance.tmp_obstaclePosInfos);
     }
 
 
