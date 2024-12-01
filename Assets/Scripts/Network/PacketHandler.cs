@@ -47,9 +47,20 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
         handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
+        handlerMapping[ePacketID.B2C_MonsterPositionUpdateNotification] = HandleMonsterMove;
 
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
+    }
+
+    /*---------------------------------------------
+   [몬스터 이동 동기화]
+---------------------------------------------*/
+    static void HandleMonsterMove(byte[] pBuffer)
+    {
+        B2C_MonsterPositionUpdateNotification pkt = Protocol.B2C_MonsterPositionUpdateNotification.Parser.ParseFrom(pBuffer);
+
+        EnemySpawner.instance.HandleMonsterMove(pkt.PosInfo);
     }
 
     static void HandleInitPacket(byte[] pBuffer)
@@ -92,7 +103,6 @@ public class PacketHandler
     }
 
     /*---------------------------------------------
-    
     [방 생성]
 ---------------------------------------------*/
     static void HandleCreateRoomResponsePacket(byte[] pBuffer)

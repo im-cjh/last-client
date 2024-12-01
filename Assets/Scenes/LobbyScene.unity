@@ -155,6 +155,7 @@ MonoBehaviour:
   userId: ddd
   nickname: test
   roomId: 0
+  prefabId: Red
 --- !u!4 &35185129
 Transform:
   m_ObjectHideFlags: 0

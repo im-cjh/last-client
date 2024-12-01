@@ -99,6 +99,8 @@ public class TowerPlacer : MonoBehaviour
         // 월드 좌표를 타일맵의 Cell 좌표로 변환
         Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
 
+        cellPosition.x -= 15;
+        cellPosition.y -= 15;
         // 클릭한 셀에 타일이 있는지 확인
         if (tilemap.HasTile(cellPosition))
         {
