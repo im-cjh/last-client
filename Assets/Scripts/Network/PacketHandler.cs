@@ -151,7 +151,7 @@ public class PacketHandler
         // 3. 게임 씬으로 전환
         SceneChanger.ChangeScene(SceneChanger.SceneType.TestGame);
 
-        // 4. 씬 전환 후 캐릭터 초기화 (중복 등록 방지)
+        // 4. 씬 전환 후 캐릭터, 장애물 초기화 (중복 등록 방지)
         SceneChanger.OnSceneLoaded -= InitializeCharacters; // 기존 이벤트 제거
         SceneChanger.OnSceneLoaded += InitializeCharacters; // 새로운 이벤트 등록
     }
@@ -206,10 +206,7 @@ public class PacketHandler
     static void HandleSpawnMonster(byte[] pBuffer)
     {
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
-        Debug.Log("HandleSpawnMonster: ");
-        Debug.Log(packet.PrefabId);
-        Debug.Log(packet.PosInfo);
-
+        
         EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
     }
 

@@ -97,17 +97,24 @@ public class TowerPlacer : MonoBehaviour
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         // 월드 좌표를 타일맵의 Cell 좌표로 변환
-        Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
-
-        cellPosition.x -= 15;
-        cellPosition.y -= 15;
+        Vector3Int cellPosition = new Vector3Int((int)mouseWorldPos.x, (int)mouseWorldPos.y);
+        Vector3Int worldCellPosition = tilemap.WorldToCell(cellPosition);
+        Debug.Log(mouseWorldPos);
+        Debug.Log(cellPosition);
+        
         // 클릭한 셀에 타일이 있는지 확인
-        if (tilemap.HasTile(cellPosition))
+        if (tilemap.HasTile(worldCellPosition))
         {
             // 셀의 중심 월드 좌표 계산
-            Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
+            //Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
 
-            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellCenterWorld, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
+            Debug.Log("ㅁㄴㅇ");
+            Debug.Log(mouseWorldPos);
+            //Debug.Log(cellPosition);
+            //Debug.Log(cellCenterWorld);
+
+            //Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellCenterWorld, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
+            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(mouseWorldPos, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
             if (hitcolliders.Length > 0)
             {
                 Debug.Log("설치할 수 없는 위치입니다.");
@@ -115,15 +122,26 @@ public class TowerPlacer : MonoBehaviour
             }
 
             // 캐릭터와의 거리 계산
-            float distance = Vector3.Distance(transform.position, cellCenterWorld);
+            float distance = Vector2.Distance(transform.position, mouseWorldPos);
+            //float distance = Vector3.Distance(transform.position, cellCenterWorld);
             if (distance > maxPlacementDistance)
             {
                 Debug.Log("거리가 너무 멉니다.");
+                Debug.Log(transform.position);
+                Debug.Log(mouseWorldPos);
+                Debug.Log(cellPosition);
+                Debug.Log(worldCellPosition);
                 return;
             }
 
             // 최대 거리 안이면 타워 생성 요청 보냄
             SendBuildRequestToServer(prefabId, cellPosition.x, cellPosition.y);
+            //SendBuildRequestToServer(prefabId, mouseWorldPos.x, mouseWorldPos.y);
+        }
+        else
+        {
+            Debug.Log("타일이 없음" + cellPosition);
+            
         }
     }
 
@@ -152,11 +170,11 @@ public class TowerPlacer : MonoBehaviour
 
     public void BuildTower(TowerData towerData)
     {
-        Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X, towerData.TowerPos.Y);
+        Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X+0.5f, towerData.TowerPos.Y+0.5f);
 
         Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
         Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
-        TowerPlacementManager.instance.SetPlacementState(false, "");
+        TowerPlacementManager.instance.SetPlacementState(true, "");
     }
 
     private void HighlightTile()

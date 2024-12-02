@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnMonster(string prefabId, PosInfo pos)
     {
-        Debug.Log(prefabId);
+        //Debug.Log(prefabId);
         if (prefabMap.TryGetValue(prefabId, out GameObject prefab))
         {
             // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
@@ -70,13 +70,9 @@ public class EnemySpawner : MonoBehaviour
                 // 목표 위치를 Vector2로 변환
                 Vector2 targetPosition = new Vector2(pos.X, pos.Y);
 
-                // 현재 위치에서 목표 위치로 부드럽게 이동
-                float moveSpeed = 5f; // 이동 속도 조정 가능
+                
                 enemy.SetNextPos(targetPosition);
-                //enemy.transform.position = new Vector2(pos.X, pos.Y);
-                //rigid.MovePosition(Vector2.Lerp(rigid.position, targetPosition, moveSpeed * Time.deltaTime));
-
-                Debug.Log($"Monster {pos.Uuid} moved to ({pos.X}, {pos.Y})");
+                //Debug.Log($"Monster {pos.Uuid} moved to ({pos.X}, {pos.Y})");
             }
             else
             {
