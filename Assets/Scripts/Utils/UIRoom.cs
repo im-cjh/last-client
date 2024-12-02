@@ -19,26 +19,24 @@ public class UIRoom : UIBase
 
     public override void Opened(object[] param)
     {
-        // UI ¼û±â±â
+        // UI ìˆ¨ê¸°ê¸°
         //UIGnb.Instance?.Hide();
 
-        // ¹æ Á¤º¸ ¼³Á¤
+        // ë°© ì •ë³´ ì„¤ì •
         roomData = (RoomData)param[0];
         SetRoomInfo(roomData);
     }
 
     public void SetRoomInfo(RoomData pRoomData)
     {
-        Debug.Log("SetRoomInfo: " + pRoomData);
-        Debug.Log("SetRoomInfo: " + pRoomData.Users);
         roomData = pRoomData;
-        // ¹æ Á¤º¸ UI ¾÷µ¥ÀÌÆ®
+        // ë°© ì •ë³´ UI ì—…ë°ì´íŠ¸
         roomNo.text = roomData.Id.ToString();
         roomName.text = roomData.Name;
         maxUserCount = roomData.MaxUserNum;
         roomCount.text = $"{roomData.Users.Count}/{roomData.MaxUserNum}";
 
-        // »ç¿ëÀÚ ¸®½ºÆ® ¾÷µ¥ÀÌÆ®
+        // ì‚¬ìš©ì ë¦¬ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸
         users.Clear();
         users.AddRange(roomData.Users);
 
@@ -49,11 +47,11 @@ public class UIRoom : UIBase
         }
 
 
-        // ¹öÆ° È°¼ºÈ­ ¼³Á¤
+        // ë²„íŠ¼ í™œì„±í™” ì„¤ì •
         buttonStart.interactable = roomData.State == 0;
         buttonExit.interactable = roomData.State == 0;
 
-        //¹æÀåÀÌ¸é È°¼ºÈ­, ±Ùµ¥ Àá±ñ ÁÖ¼®Ã³¸®ÇÔ ¤·¤· [TODO]
+        //ë°©ì¥ì´ë©´ í™œì„±í™”, ê·¼ë° ì ê¹ ì£¼ì„ì²˜ë¦¬í•¨ ã…‡ã…‡ [TODO]
         buttonStart.gameObject.SetActive(true);
         //buttonStart.gameObject.SetActive(roomData.OwnerId == PlayerInfoManager.instance.userId);
     }
@@ -70,12 +68,10 @@ public class UIRoom : UIBase
 
     private void RequestStartGame()
     {
-        Debug.Log("RequestStartGame");
-        Debug.Log(roomData);
-        // °ÔÀÓ ½ÃÀÛ ·ÎÁ÷
+        // ê²Œì„ ì‹œì‘ ë¡œì§
         Protocol.C2L_GameStart pkt = new Protocol.C2L_GameStart();
         pkt.RoomId = roomData.Id;
-        //·Îºñ¼­¹ö¿¡¼­ ¹æÀåÀÎÁö °ËÁõÇÏ±â À§ÇØ¼­
+        //ë¡œë¹„ì„œë²„ì—ì„œ ë°©ì¥ì¸ì§€ ê²€ì¦í•˜ê¸° ìœ„í•´ì„œ
         pkt.UserId = PlayerInfoManager.instance.userId;
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_GameStart, 0);
@@ -84,44 +80,44 @@ public class UIRoom : UIBase
 
     public void HideDirect()
     {
-        gameObject.SetActive(false); // UI ¼û±â±â
+        gameObject.SetActive(false); // UI ìˆ¨ê¸°ê¸°
     }
 
     public void AddUserToSlot(UserData user)
     {
 
-        // ºó ½½·Ô Ã£±â
+        // ë¹ˆ ìŠ¬ë¡¯ ì°¾ê¸°
         for (int i = 0; i < slots.Count; i++)
         {
             if (slots[i].IsEmpty())
             {
-                slots[i].SetItem(user); // ºó ½½·Ô¿¡ À¯Àú µ¥ÀÌÅÍ ¼³Á¤
-                users.Add(user);       // ³»ºÎ ¸®½ºÆ®¿¡ À¯Àú Ãß°¡
-                UpdateRoomCount();     // ¹æ ÀÎ¿ø ¼ö °»½Å
+                slots[i].SetItem(user); // ë¹ˆ ìŠ¬ë¡¯ì— ìœ ì € ë°ì´í„° ì„¤ì •
+                users.Add(user);       // ë‚´ë¶€ ë¦¬ìŠ¤íŠ¸ì— ìœ ì € ì¶”ê°€
+                UpdateRoomCount();     // ë°© ì¸ì› ìˆ˜ ê°±ì‹ 
                 return;
             }
         }
 
-        Debug.LogWarning("½½·ÔÀÌ °¡µæ Ã¡½À´Ï´Ù. À¯Àú¸¦ Ãß°¡ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning("ìŠ¬ë¡¯ì´ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤. ìœ ì €ë¥¼ ì¶”ê°€í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
     }
 
     public void RemoveUserFromSlot(string userId)
     {
-        // ÇØ´ç À¯Àú¸¦ ½½·Ô¿¡¼­ Á¦°Å
+        // í•´ë‹¹ ìœ ì €ë¥¼ ìŠ¬ë¡¯ì—ì„œ ì œê±°
         for (int i = 0; i < slots.Count; i++)
         {
             Debug.Log("cnt");
             if (slots[i].HasUser(userId))
             {
                 Debug.Log("true");
-                slots[i].ClearItem();   // ½½·Ô µ¥ÀÌÅÍ ÃÊ±âÈ­
-                users.RemoveAll(u => u.Id == userId); // ³»ºÎ ¸®½ºÆ®¿¡¼­ À¯Àú Á¦°Å
-                UpdateRoomCount();     // ¹æ ÀÎ¿ø ¼ö °»½Å
+                slots[i].ClearItem();   // ìŠ¬ë¡¯ ë°ì´í„° ì´ˆê¸°í™”
+                users.RemoveAll(u => u.Id == userId); // ë‚´ë¶€ ë¦¬ìŠ¤íŠ¸ì—ì„œ ìœ ì € ì œê±°
+                UpdateRoomCount();     // ë°© ì¸ì› ìˆ˜ ê°±ì‹ 
                 return;
             }
         }
 
-        Debug.LogWarning($"À¯Àú {userId}¸¦ ½½·Ô¿¡¼­ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogWarning($"ìœ ì € {userId}ë¥¼ ìŠ¬ë¡¯ì—ì„œ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
     }
     private void UpdateRoomCount()
     {

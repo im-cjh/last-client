@@ -47,9 +47,20 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
         handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
+        handlerMapping[ePacketID.B2C_MonsterPositionUpdateNotification] = HandleMonsterMove;
 
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
+    }
+
+    /*---------------------------------------------
+   [몬스터 이동 동기화]
+---------------------------------------------*/
+    static void HandleMonsterMove(byte[] pBuffer)
+    {
+        B2C_MonsterPositionUpdateNotification pkt = Protocol.B2C_MonsterPositionUpdateNotification.Parser.ParseFrom(pBuffer);
+
+        EnemySpawner.instance.HandleMonsterMove(pkt.PosInfo);
     }
 
     static void HandleInitPacket(byte[] pBuffer)
@@ -92,7 +103,6 @@ public class PacketHandler
     }
 
     /*---------------------------------------------
-    
     [방 생성]
 ---------------------------------------------*/
     static void HandleCreateRoomResponsePacket(byte[] pBuffer)
@@ -128,6 +138,9 @@ public class PacketHandler
         Protocol.B2C_GameStartNotification pkt = Protocol.B2C_GameStartNotification.Parser.ParseFrom(pBuffer);
         Debug.Log("게임 시작 패킷 수신");
 
+        //temp
+        PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
+
         // 2. PlayerManager에 데이터 저장
         foreach (var playerData in pkt.PlayerDatas)
         {
@@ -148,6 +161,9 @@ public class PacketHandler
     {
         Debug.Log("게임 씬 로드 완료. 캐릭터 초기화 시작");
         CharacterManager.Instance.InitializeCharacters();
+
+        //장애물도 일단 여기서 처리해주기...
+        RandomObstacleSpawner.instance.HandleSpawnObstacle(PlayerInfoManager.instance.tmp_obstaclePosInfos);
     }
 
 

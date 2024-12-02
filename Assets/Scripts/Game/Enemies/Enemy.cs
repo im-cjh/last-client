@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using System.Runtime.CompilerServices;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -30,8 +31,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Color hitColor;
     [SerializeField] private Color slowColor;
     private Color originalColor;
-
+    private Rigidbody2D rigid;       // Rigidbody2D컴포넌트
+    private Vector2? nextPos = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+    }
+
     void Start()
     {
         targetTransform = GameObject.FindGameObjectWithTag("Base").transform;
@@ -47,71 +54,82 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isSlowed)
+        if(nextPos != null)
         {
-            slowTimer -= Time.deltaTime;
-            if (slowTimer <= 0f)
-            {
-                RemoveSlow();
-            }
+            rigid.MovePosition(Vector2.Lerp(rigid.position, nextPos.Value, moveSpeed * Time.deltaTime));
         }
+        // if (isSlowed)
+        // {
+        //     slowTimer -= Time.deltaTime;
+        //     if (slowTimer <= 0f)
+        //     {
+        //         RemoveSlow();
+        //     }
+        // }
 
-        float attackDistanceX = defaultAttackDistanceX;
-        float attackDistanceY = defaultAttackDistanceY;
+        // float attackDistanceX = defaultAttackDistanceX;
+        // float attackDistanceY = defaultAttackDistanceY;
 
-       targetTransform = GameObject.FindGameObjectWithTag("Base").transform;
+        //targetTransform = GameObject.FindGameObjectWithTag("Base").transform;
 
-       float distanceToBase = Vector3.Distance(transform.position, targetTransform.position);
+        //float distanceToBase = Vector3.Distance(transform.position, targetTransform.position);
 
-       GameObject nearestTower = FindNearestTower();
+        //GameObject nearestTower = FindNearestTower();
 
-       if (nearestTower != null && distanceToBase > detectRange)
-       {
-           targetTransform = nearestTower.transform;
-       }
+        //if (nearestTower != null && distanceToBase > detectRange)
+        //{
+        //    targetTransform = nearestTower.transform;
+        //}
 
-       if (targetTransform.tag == "Base")
-       {
-           attackDistanceX += 1f;
-           attackDistanceY += 1f;
-       }
+        //if (targetTransform.tag == "Base")
+        //{
+        //    attackDistanceX += 1f;
+        //    attackDistanceY += 1f;
+        //}
 
-        // 사거리 안에 목표가 있으면 공격
-        if (Mathf.Abs(targetTransform.position.x - transform.position.x) < attackDistanceX
-        && Mathf.Abs(targetTransform.position.y - transform.position.y) < attackDistanceY)
-        {
-            animator.SetBool("isWalk", false);
-            if (Time.time >= lastAttackTime + attackCoolDown)
-            {
-                animator.SetBool("isAttack", true); // 여기서 애니메이션 재생되면서 Attack() 호출
-                lastAttackTime = Time.time;
-            }
-            else
-            {
-                animator.SetBool("isAttack", false);
-            }
-        }
-        else
-        {
-            animator.SetBool("isAttack", false);
-            animator.SetBool("isWalk", true);
-            Vector3 moveTo = (targetTransform.position - transform.position).normalized;
-            transform.position += moveTo * currentSpeed * Time.deltaTime;
+        // // 사거리 안에 목표가 있으면 공격
+        // if (Mathf.Abs(targetTransform.position.x - transform.position.x) < attackDistanceX
+        // && Mathf.Abs(targetTransform.position.y - transform.position.y) < attackDistanceY)
+        // {
+        //     animator.SetBool("isWalk", false);
+        //     if (Time.time >= lastAttackTime + attackCoolDown)
+        //     {
+        //         animator.SetBool("isAttack", true); // 여기서 애니메이션 재생되면서 Attack() 호출
+        //         lastAttackTime = Time.time;
+        //     }
+        //     else
+        //     {
+        //         animator.SetBool("isAttack", false);
+        //     }
+        // }
+        // else
+        // {
+        //     animator.SetBool("isAttack", false);
+        //     animator.SetBool("isWalk", true);
+        //     Vector3 moveTo = (targetTransform.position - transform.position).normalized;
+        //     transform.position += moveTo * currentSpeed * Time.deltaTime;
 
-           // 바라보는 방향에 따라서 이미지 바뀌게
-           Vector3 curScale = transform.localScale;
-           Vector3 curHpBarScale = hpBar.transform.localScale;
-           if (moveTo.x > 0)
-           {
-               transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
-               hpBar.transform.localScale = new Vector3(-Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
-           }
-           else
-           {
-               transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
-               hpBar.transform.localScale = new Vector3(Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
-           }
-       }
+        //    // 바라보는 방향에 따라서 이미지 바뀌게
+        //    Vector3 curScale = transform.localScale;
+        //    Vector3 curHpBarScale = hpBar.transform.localScale;
+        //    if (moveTo.x > 0)
+        //    {
+        //        transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
+        //        hpBar.transform.localScale = new Vector3(-Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
+        //    }
+        //    else
+        //    {
+        //        transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
+        //        hpBar.transform.localScale = new Vector3(Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
+        //    }
+        //}
+    }
+
+    public void SetNextPos(Vector2 pos)
+    {
+        nextPos = pos;
+        //transform.position = new Vector2(pos.x, pos.y);
+        //MovePosition(Vector2.Lerp(rigid.position, targetPosition, moveSpeed * Time.deltaTime));
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -249,5 +267,10 @@ public class Enemy : MonoBehaviour
             Tower target = targetTransform.GetComponent<Tower>();
             target.GetDamage(attackDamage);
         }
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
     }
 }

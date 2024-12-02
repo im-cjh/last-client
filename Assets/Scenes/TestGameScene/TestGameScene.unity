@@ -894,11 +894,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 408921573428454357, guid: e3a6fee1721cda741b483901a260624d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.472363
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408921573428454357, guid: e3a6fee1721cda741b483901a260624d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.6370625
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408921573428454357, guid: e3a6fee1721cda741b483901a260624d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -22310,11 +22310,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 408921573428454357, guid: e3a6fee1721cda741b483901a260624d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.372337
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408921573428454357, guid: e3a6fee1721cda741b483901a260624d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4620676
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 408921573428454357, guid: e3a6fee1721cda741b483901a260624d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23494,15 +23494,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2270518419966625975, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.97
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2270518419966625975, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2270518419966625975, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.30395803
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2270518419966625975, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23847,7 +23847,7 @@ Transform:
   m_GameObject: {fileID: 1790696872}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: 15, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

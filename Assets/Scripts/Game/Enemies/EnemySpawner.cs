@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
 ---------------------------------------------*/
     public static EnemySpawner instance;
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
+    private Dictionary<string, Enemy> enemies = new Dictionary<string, Enemy>();
 
 
     void Awake()
@@ -32,45 +33,6 @@ public class EnemySpawner : MonoBehaviour
         await Utilities.RegisterPrefab("Prefab/Enemy/Robot5", prefabMap);
     }
 
-   // /*---------------------------------------------
-   //     [������ ���]
-   //     -�������� Addressables���� �ε��ϰ� Dictionary�� ����մϴ�.
-   // ---------------------------------------------*/
-   // private async Task RegisterPrefab(string key)
-   // {
-   //     // Ű�� ����ȭ (��: Prefab/Enemy/Robot1 -> Robot1)
-   //     string shortKey = ExtractShortKey(key);
-
-   //     // �̹� ��ϵ� �������� ����
-   //     if (prefabMap.ContainsKey(shortKey))
-   //     {
-   //         Debug.LogWarning($"Prefab '{shortKey}' is already registered.");
-   //         return;
-   //     }
-
-   //     // ������ �ε�
-   //     GameObject prefab = await AssetManager.LoadAsset<GameObject>(key);
-
-   //     if (prefab != null)
-   //     {
-   //         prefabMap[shortKey] = prefab;
-   //         //Debug.Log($"Prefab '{shortKey}' loaded and registered.");
-   //     }
-   //     else
-   //     {
-   //         Debug.LogError($"Failed to load prefab: {key}");
-   //     }
-   // }
-   // /*---------------------------------------------
-   //   [������ Ű ����]
-   //---------------------------------------------*/
-   // private string ExtractShortKey(string key)
-   // {
-   //     // �����÷� �и��Ͽ� ������ �κи� ��ȯ
-   //     return key.Substring(key.LastIndexOf('/') + 1);
-   // }
-
-
     /*---------------------------------------------
         [���� ����]
         -��ϵ� �������� ����Ͽ� ���͸� �����մϴ�.
@@ -82,7 +44,9 @@ public class EnemySpawner : MonoBehaviour
         if (prefabMap.TryGetValue(prefabId, out GameObject prefab))
         {
             // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
-            Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
+            GameObject monster = Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
+            Enemy chara = monster.GetComponent<Enemy>();
+            enemies[pos.Uuid] = chara;
             // Debug.Log($"Monster spawned: {prefabId} at {pos}");
         }
         else
@@ -90,4 +54,39 @@ public class EnemySpawner : MonoBehaviour
             Debug.LogError($"Prefab not found: {prefabId}");
         }
     }
+
+    /*---------------------------------------------
+        [몬스터 이동 처리]
+    ---------------------------------------------*/
+    public void HandleMonsterMove(PosInfo pos)
+    {
+        if (enemies.TryGetValue(pos.Uuid, out Enemy enemy))
+        {
+            // Rigidbody2D를 가져옴
+            Rigidbody2D rigid = enemy.GetComponent<Rigidbody2D>();
+
+            if (rigid != null)
+            {
+                // 목표 위치를 Vector2로 변환
+                Vector2 targetPosition = new Vector2(pos.X, pos.Y);
+
+                // 현재 위치에서 목표 위치로 부드럽게 이동
+                float moveSpeed = 5f; // 이동 속도 조정 가능
+                enemy.SetNextPos(targetPosition);
+                //enemy.transform.position = new Vector2(pos.X, pos.Y);
+                //rigid.MovePosition(Vector2.Lerp(rigid.position, targetPosition, moveSpeed * Time.deltaTime));
+
+                Debug.Log($"Monster {pos.Uuid} moved to ({pos.X}, {pos.Y})");
+            }
+            else
+            {
+                Debug.LogError($"Rigidbody2D not found on Monster with UUID {pos.Uuid}");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Monster with UUID {pos.Uuid} not found");
+        }
+    }
+
 }

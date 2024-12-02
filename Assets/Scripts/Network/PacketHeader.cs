@@ -39,7 +39,6 @@ public enum ePacketID : UInt16
     B2C_TowerAttackNotification = 304,
     B2C_TowerDestroyNotification = 305,
     B2C_BaseDestroyNotification = 306,
-    B2C_ObstacleSpawnNotification = 307,
     C2B_SkillRequest = 401,
     C2B_SkillResponse = 402,
     C2B_SkillNotify = 403,
