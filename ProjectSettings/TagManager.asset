@@ -71,6 +71,9 @@ TagManager:
   - name: Bullet
     uniqueID: 3753261839
     locked: 0
+  - name: Skill
+    uniqueID: 3705232353
+    locked: 0
   - name: HP bar
     uniqueID: 4111580671
     locked: 0

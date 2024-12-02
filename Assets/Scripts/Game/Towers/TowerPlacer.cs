@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 
 public class TowerPlacer : MonoBehaviour
 {
-    private Tilemap tilemap;
-    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
+    protected Tilemap tilemap;
+    protected Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
     private string currentTowerPrefabId;
-    [SerializeField] private float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
+    [SerializeField] protected float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
-    [SerializeField] private GameObject isValidTile; // 설치 가능한 타일 색상
-    [SerializeField] private GameObject isUnvalidTile; // 설치 불가능한 타일 색상
-    private GameObject currentHighlight;
-    private Vector3Int previousCellPosition = Vector3Int.zero;
-    [SerializeField] private TowerPlacementManager towerPlacementManager;
+    [SerializeField] protected GameObject isValidTile; // 설치 가능한 타일 색상
+    [SerializeField] protected GameObject isUnvalidTile; // 설치 불가능한 타일 색상
+    protected GameObject currentHighlight;
+    protected Vector3Int previousCellPosition = Vector3Int.zero;
 
     public static TowerPlacer instance = null;
 
@@ -25,6 +24,7 @@ public class TowerPlacer : MonoBehaviour
     {
         if (instance == null)
         {
+            Debug.Log("TowerPlacer instance");
             instance = this;
         }
     }
@@ -40,7 +40,7 @@ public class TowerPlacer : MonoBehaviour
         await RegisterPrefab("Prefab/Towers/TankTower");
     }
 
-    private async Task RegisterPrefab(string key)
+    protected async Task RegisterPrefab(string key)
     {
         // Ű�� ����ȭ (��: Prefab/Enemy/Robot1 -> Robot1)
         string shortKey = ExtractShortKey(key);
@@ -66,7 +66,7 @@ public class TowerPlacer : MonoBehaviour
         }
     }
 
-    private string ExtractShortKey(string key)
+    protected string ExtractShortKey(string key)
     {
         // �����÷� �и��Ͽ� ������ �κи� ��ȯ
         return key.Substring(key.LastIndexOf('/') + 1);
@@ -99,8 +99,8 @@ public class TowerPlacer : MonoBehaviour
         // 월드 좌표를 타일맵의 Cell 좌표로 변환
         Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
 
-        cellPosition.x -= 15;
-        cellPosition.y -= 15;
+        // cellPosition.x -= 15;
+        // cellPosition.y -= 15;
         // 클릭한 셀에 타일이 있는지 확인
         if (tilemap.HasTile(cellPosition))
         {
@@ -181,16 +181,12 @@ public class TowerPlacer : MonoBehaviour
             {
                 Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
 
-                Collider2D towerHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Tower"));
-                Collider2D characterHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Character"));
-                Collider2D enemyHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Enemy"));
-                Collider2D obstacleHitCollider = Physics2D.OverlapPoint(cellCenterWorld, LayerMask.GetMask("Obstacle"));
+                Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellCenterWorld, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
 
                 float distance = Vector3.Distance(transform.position, cellCenterWorld);
 
                 // 설치 가능 여부에 따라 적절한 하이라이트 생성
-                if (towerHitCollider == null && characterHitCollider == null && enemyHitCollider == null &&
-                    obstacleHitCollider == null && distance <= maxPlacementDistance)
+                if (hitcolliders.Length == 0 && distance <= maxPlacementDistance)
                 {
                     currentHighlight = Instantiate(isValidTile, cellCenterWorld, Quaternion.identity);
                 }
