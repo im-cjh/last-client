@@ -51,6 +51,8 @@ public class PacketHandler
 
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
+
+        handlerMapping[ePacketID.B2C_UseCardNotification] = HandleUseSkillNotification;
     }
 
     /*---------------------------------------------
@@ -139,7 +141,7 @@ public class PacketHandler
         Debug.Log("게임 시작 패킷 수신");
 
         //temp
-        PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
+        // PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
 
         // 2. PlayerManager에 데이터 저장
         foreach (var playerData in pkt.PlayerDatas)
@@ -236,6 +238,15 @@ public class PacketHandler
         B2C_TowerBuildNotification packet = Protocol.B2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
 
         TowerPlacer.instance.BuildTower(packet.Tower);
+    }
+
+    static void HandleUseSkillNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleUseSkillNotification Called");
+
+        B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
+
+        SkillUser.instance.UseSkill(packet.Skill);
     }
 }
 

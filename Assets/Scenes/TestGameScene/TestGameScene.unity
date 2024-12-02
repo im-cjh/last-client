@@ -424,7 +424,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropZoneCanvasAlpha: {fileID: 198530001}
   handManager: {fileID: 589498324}
-  towerPlacer: {fileID: 0}
 --- !u!225 &198530001
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -733,6 +732,7 @@ GameObject:
   - component: {fileID: 487398431}
   - component: {fileID: 487398430}
   - component: {fileID: 487398434}
+  - component: {fileID: 487398435}
   m_Layer: 5
   m_Name: CardUI
   m_TagString: Untagged
@@ -837,6 +837,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerPrefabId: 
+--- !u!114 &487398435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487398429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcd00a894d11c8a4bbad4745006b377e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillPrefabId: 
 --- !u!1 &489081879
 GameObject:
   m_ObjectHideFlags: 0
@@ -11082,6 +11095,8 @@ MonoBehaviour:
   - {fileID: 4253146116303971885, guid: f20c57de09e10d945a143f6b18abfc1f, type: 3}
   - {fileID: 4253146116303971885, guid: 9e5553f82bd4e464680b6fd7baf28ca1, type: 3}
   - {fileID: 4253146116303971885, guid: 241786b619e78554b804dfa495dd1941, type: 3}
+  - {fileID: 4253146116303971885, guid: af84689c7923fe142b51c645e3c4a56c, type: 3}
+  - {fileID: 4253146116303971885, guid: 4299633116b461d44b3504def32ed79a, type: 3}
   handZone: {fileID: 603665844}
   maxHand: 7
 --- !u!4 &589498325
@@ -23241,7 +23256,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -23328,7 +23343,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -23494,11 +23509,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2270518419966625975, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25
+      value: 12.7
       objectReference: {fileID: 0}
     - target: {fileID: 2270518419966625975, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 13.44
       objectReference: {fileID: 0}
     - target: {fileID: 2270518419966625975, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23594,7 +23609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5800219005008998565, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8440940912188319163, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -23604,6 +23619,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5800219005008998565, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1884420734}
     - targetCorrespondingSourceObject: {fileID: 8680587044116734378, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -24045,6 +24063,26 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3a6fee1721cda741b483901a260624d, type: 3}
+--- !u!1 &1884420726 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5800219005008998565, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
+  m_PrefabInstance: {fileID: 1538201059}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1884420734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884420726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a91f59407b986a84a88e7414663e505c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPlacementDistance: 5
+  isValidTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
+  isUnvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!1 &1930171558
 GameObject:
   m_ObjectHideFlags: 0
@@ -24279,7 +24317,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: -5278734259511242463, guid: 5aabb4be75173e34e846c6f43a6868cf, type: 3}
   m_Color: {r: 0.19753313, g: 1, b: 0, a: 1}
