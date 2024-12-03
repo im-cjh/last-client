@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
         //AudioManager.instance.PlayBgm(true);
         //AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
 
-        HandManager.instance.AddCard("BasicTower", "1234");
-        HandManager.instance.AddCard("OrbitalBeam", "123");
+        // HandManager.instance.AddCard("BasicTower", "1234");
+        // HandManager.instance.AddCard("OrbitalBeam", "123");
     }
 
     public void GameOver()
