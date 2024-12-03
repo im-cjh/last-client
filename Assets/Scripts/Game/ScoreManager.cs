@@ -44,6 +44,6 @@ public class ScoreManager : MonoBehaviour
 
     private void GiveCard()
     {
-        handManager.AddCard();
+        // handManager.AddCard();
     }
 }

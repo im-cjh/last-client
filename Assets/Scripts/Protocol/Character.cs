@@ -28,15 +28,15 @@ namespace Protocol {
             "dW0ucHJvdG8iVQofQzJCX1BsYXllclBvc2l0aW9uVXBkYXRlUmVxdWVzdBIi",
             "Cgdwb3NJbmZvGAEgASgLMhEuUHJvdG9jb2wuUG9zSW5mbxIOCgZyb29tSWQY",
             "AiABKAUiSgokQjJDX1BsYXllclBvc2l0aW9uVXBkYXRlTm90aWZpY2F0aW9u",
-            "EiIKB3Bvc0luZm8YASABKAsyES5Qcm90b2NvbC5Qb3NJbmZvIkoKEkMyQl9V",
-            "c2VDYXJkUmVxdWVzdBIOCgZyb29tSWQYASABKAUSJAoIY2FyZFR5cGUYAiAB",
-            "KA4yEi5Qcm90b2NvbC5DYXJkVHlwZWIGcHJvdG8z"));
+            "EiIKB3Bvc0luZm8YASABKAsyES5Qcm90b2NvbC5Qb3NJbmZvIjQKEkMyQl9V",
+            "c2VDYXJkUmVxdWVzdBIOCgZyb29tSWQYASABKAUSDgoGY2FyZElkGAIgASgJ",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.StructReflection.Descriptor, global::Protocol.EnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_PlayerPositionUpdateRequest), global::Protocol.C2B_PlayerPositionUpdateRequest.Parser, new[]{ "PosInfo", "RoomId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_PlayerPositionUpdateNotification), global::Protocol.B2C_PlayerPositionUpdateNotification.Parser, new[]{ "PosInfo" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_UseCardRequest), global::Protocol.C2B_UseCardRequest.Parser, new[]{ "RoomId", "CardType" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_UseCardRequest), global::Protocol.C2B_UseCardRequest.Parser, new[]{ "RoomId", "CardId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -520,7 +520,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public C2B_UseCardRequest(C2B_UseCardRequest other) : this() {
       roomId_ = other.roomId_;
-      cardType_ = other.cardType_;
+      cardId_ = other.cardId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -542,15 +542,15 @@ namespace Protocol {
       }
     }
 
-    /// <summary>Field number for the "cardType" field.</summary>
-    public const int CardTypeFieldNumber = 2;
-    private global::Protocol.CardType cardType_ = global::Protocol.CardType.AttackTower;
+    /// <summary>Field number for the "cardId" field.</summary>
+    public const int CardIdFieldNumber = 2;
+    private string cardId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Protocol.CardType CardType {
-      get { return cardType_; }
+    public string CardId {
+      get { return cardId_; }
       set {
-        cardType_ = value;
+        cardId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -570,7 +570,7 @@ namespace Protocol {
         return true;
       }
       if (RoomId != other.RoomId) return false;
-      if (CardType != other.CardType) return false;
+      if (CardId != other.CardId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -579,7 +579,7 @@ namespace Protocol {
     public override int GetHashCode() {
       int hash = 1;
       if (RoomId != 0) hash ^= RoomId.GetHashCode();
-      if (CardType != global::Protocol.CardType.AttackTower) hash ^= CardType.GetHashCode();
+      if (CardId.Length != 0) hash ^= CardId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -602,9 +602,9 @@ namespace Protocol {
         output.WriteRawTag(8);
         output.WriteInt32(RoomId);
       }
-      if (CardType != global::Protocol.CardType.AttackTower) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) CardType);
+      if (CardId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(CardId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -620,9 +620,9 @@ namespace Protocol {
         output.WriteRawTag(8);
         output.WriteInt32(RoomId);
       }
-      if (CardType != global::Protocol.CardType.AttackTower) {
-        output.WriteRawTag(16);
-        output.WriteEnum((int) CardType);
+      if (CardId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(CardId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -637,8 +637,8 @@ namespace Protocol {
       if (RoomId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomId);
       }
-      if (CardType != global::Protocol.CardType.AttackTower) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) CardType);
+      if (CardId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CardId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -655,8 +655,8 @@ namespace Protocol {
       if (other.RoomId != 0) {
         RoomId = other.RoomId;
       }
-      if (other.CardType != global::Protocol.CardType.AttackTower) {
-        CardType = other.CardType;
+      if (other.CardId.Length != 0) {
+        CardId = other.CardId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -677,8 +677,8 @@ namespace Protocol {
             RoomId = input.ReadInt32();
             break;
           }
-          case 16: {
-            CardType = (global::Protocol.CardType) input.ReadEnum();
+          case 18: {
+            CardId = input.ReadString();
             break;
           }
         }
@@ -700,8 +700,8 @@ namespace Protocol {
             RoomId = input.ReadInt32();
             break;
           }
-          case 16: {
-            CardType = (global::Protocol.CardType) input.ReadEnum();
+          case 18: {
+            CardId = input.ReadString();
             break;
           }
         }

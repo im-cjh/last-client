@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     public GameObject GameStartUI;
 
     [Header("# Managers")]
-    [SerializeField] private HandManager handManager;
     private int initialHands = 7;
 
     void Awake()
@@ -31,10 +30,8 @@ public class GameManager : MonoBehaviour
         //AudioManager.instance.PlayBgm(true);
         //AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
 
-        for (int i = 0; i < initialHands; i++)
-        {
-            handManager.AddCard();
-        }
+        HandManager.instance.AddCard("BasicTower", "1234");
+        HandManager.instance.AddCard("OrbitalBeam", "123");
     }
 
     public void GameOver()

@@ -16,6 +16,7 @@ public class DropZone : MonoBehaviour, IDropHandler
         {
             // 카드 정보
             Card card = droppedCard.GetComponent<Card>();
+            string cardId = card.GetCardId(); // 카드의 uuid
 
             // 타워 카드인지 스킬 카드인지
             if (card.isTowerCard)
@@ -24,7 +25,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                 if (towerPrefabId != null)
                 {
                     Debug.Log("towerPrefabId: " + towerPrefabId);
-                    TowerPlacementManager.instance.SetPlacementState(true, towerPrefabId); // 타워 설치 모드 활성화
+                    TowerPlacementManager.instance.SetPlacementState(true, towerPrefabId, cardId); // 타워 설치 모드 활성화
                     handManager.RemoveCard(droppedCard);
                     HideDropZone();
                 }
@@ -35,7 +36,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                 if (skillPrefabId != null)
                 {
                     Debug.Log("skillPrefabId: " + skillPrefabId);
-                    SkillManager.instance.SetSkillActive(true, skillPrefabId); // 스킬 사용 모드 활성화
+                    SkillManager.instance.SetSkillActive(true, skillPrefabId, cardId); // 스킬 사용 모드 활성화
                     handManager.RemoveCard(droppedCard);
                     HideDropZone();
                 }

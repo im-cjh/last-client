@@ -11,12 +11,13 @@ public class TowerPlacer : MonoBehaviour
     protected Tilemap tilemap;
     protected Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
     private string currentTowerPrefabId;
+    private string currentCardId;
     [SerializeField] protected float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
     [SerializeField] protected GameObject isValidTile; // 설치 가능한 타일 색상
     [SerializeField] protected GameObject isUnvalidTile; // 설치 불가능한 타일 색상
     protected GameObject currentHighlight;
-    protected Vector3Int previousCellPosition = Vector3Int.zero;
+    protected Vector3 previousCellPosition = Vector3.zero;
 
     public static TowerPlacer instance = null;
 
@@ -24,7 +25,6 @@ public class TowerPlacer : MonoBehaviour
     {
         if (instance == null)
         {
-            Debug.Log("TowerPlacer instance");
             instance = this;
         }
     }
@@ -38,6 +38,7 @@ public class TowerPlacer : MonoBehaviour
         await RegisterPrefab("Prefab/Towers/MissileTower");
         await RegisterPrefab("Prefab/Towers/StrongTower");
         await RegisterPrefab("Prefab/Towers/TankTower");
+        await RegisterPrefab("Prefab/Towers/ThunderTower");
     }
 
     protected async Task RegisterPrefab(string key)
@@ -72,26 +73,23 @@ public class TowerPlacer : MonoBehaviour
         return key.Substring(key.LastIndexOf('/') + 1);
     }
 
-    public void SetTowerPrefabId(string towerPrefabId)
-    {
-        currentTowerPrefabId = towerPrefabId;
-    }
-
     void Update()
     {
         if (TowerPlacementManager.instance.IsPlacementActive())
         {
             currentTowerPrefabId = TowerPlacementManager.instance.GetTowerPrefabId();
+            currentCardId = TowerPlacementManager.instance.GetCardId();
+
             HighlightTile();
             if (Input.GetMouseButtonDown(0)) // 마우스 클릭
             {
-                PlaceTower(currentTowerPrefabId);
+                PlaceTower(currentTowerPrefabId, currentCardId);
                 Destroy(currentHighlight);
             }
         }
     }
 
-    private void PlaceTower(string prefabId)
+    private void PlaceTower(string prefabId, string cardId)
     {
         // 마우스 위치를 월드 좌표로 변환
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -99,19 +97,12 @@ public class TowerPlacer : MonoBehaviour
         // 월드 좌표를 타일맵의 Cell 좌표로 변환
         Vector3Int cellPosition = new Vector3Int((int)mouseWorldPos.x, (int)mouseWorldPos.y);
         Vector3Int worldCellPosition = tilemap.WorldToCell(cellPosition);
-        Debug.Log(mouseWorldPos);
-        Debug.Log(cellPosition);
 
         // 클릭한 셀에 타일이 있는지 확인
         if (tilemap.HasTile(worldCellPosition))
         {
             // 셀의 중심 월드 좌표 계산
             //Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
-
-            Debug.Log("ㅁㄴㅇ");
-            Debug.Log(mouseWorldPos);
-            //Debug.Log(cellPosition);
-            //Debug.Log(cellCenterWorld);
 
             //Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellCenterWorld, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
             Collider2D[] hitcolliders = Physics2D.OverlapPointAll(mouseWorldPos, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
@@ -135,17 +126,17 @@ public class TowerPlacer : MonoBehaviour
             }
 
             // 최대 거리 안이면 타워 생성 요청 보냄
-            SendBuildRequestToServer(prefabId, cellPosition.x, cellPosition.y);
+            SendBuildRequestToServer(prefabId, cardId, cellPosition.x, cellPosition.y);
             //SendBuildRequestToServer(prefabId, mouseWorldPos.x, mouseWorldPos.y);
         }
         else
         {
             Debug.Log("타일이 없음" + cellPosition);
-            
+
         }
     }
 
-    private void SendBuildRequestToServer(string prefabId, float x, float y)
+    private void SendBuildRequestToServer(string prefabId, string uuid, float x, float y)
     {
         // tower의 uuid는 서버에서 만들어서 보내줌
         Debug.Log($"서버에게 타워 설치 요청: prefabId:{prefabId}, x:{x}, y:{y}");
@@ -162,6 +153,7 @@ public class TowerPlacer : MonoBehaviour
             },
             RoomId = PlayerInfoManager.instance.roomId,
             OwnerId = PlayerInfoManager.instance.userId,
+            CardId = uuid,
         };
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
@@ -170,11 +162,11 @@ public class TowerPlacer : MonoBehaviour
 
     public void BuildTower(TowerData towerData)
     {
-        Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X+0.5f, towerData.TowerPos.Y+0.5f);
+        Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X + 0.5f, towerData.TowerPos.Y + 0.5f);
 
         Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
         Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
-        TowerPlacementManager.instance.SetPlacementState(true, "");
+        TowerPlacementManager.instance.SetPlacementState(false, null, null);
     }
 
     private void HighlightTile()
@@ -182,40 +174,42 @@ public class TowerPlacer : MonoBehaviour
         // 마우스 위치를 월드 좌표로 변환
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // 월드 좌표를 타일맵의 Cell 좌표로 변환
-        Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
+        RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero, Mathf.Infinity, LayerMask.GetMask("Tile"));
 
-        // 마우스가 새로운 타일에 위치했을 때만 처리
-        if (cellPosition != previousCellPosition)
+        if (hit.collider != null)
         {
-            // 기존 하이라이트 제거
-            if (currentHighlight != null)
+            // collider와 충돌한 위치
+            Vector3 hitPoint = hit.point;
+
+            Vector3 snappedPosition = new Vector3(
+                Mathf.Floor(hitPoint.x),
+                Mathf.Floor(hitPoint.y),
+                0
+            );
+
+            // 마우스가 새로운 타일에 위치했을 때만 처리
+            if (snappedPosition != previousCellPosition)
             {
-                Destroy(currentHighlight);
-            }
-
-            // 현재 타일을 하이라이트
-            if (tilemap.HasTile(cellPosition))
-            {
-                Vector3 cellCenterWorld = tilemap.GetCellCenterWorld(cellPosition);
-
-                Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellCenterWorld, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
-
-                float distance = Vector3.Distance(transform.position, cellCenterWorld);
-
-                // 설치 가능 여부에 따라 적절한 하이라이트 생성
-                if (hitcolliders.Length == 0 && distance <= maxPlacementDistance)
+                // 기존 하이라이트 제거
+                if (currentHighlight != null)
                 {
-                    currentHighlight = Instantiate(isValidTile, cellCenterWorld, Quaternion.identity);
+                    Destroy(currentHighlight);
+                }
+
+                float distance = Vector3.Distance(transform.position, snappedPosition);
+                // 설치 가능 여부에 따라 적절한 하이라이트 생성
+                if (distance <= maxPlacementDistance)
+                {
+                    currentHighlight = Instantiate(isValidTile, snappedPosition, Quaternion.identity);
                 }
                 else
                 {
-                    currentHighlight = Instantiate(isUnvalidTile, cellCenterWorld, Quaternion.identity);
+                    currentHighlight = Instantiate(isUnvalidTile, snappedPosition, Quaternion.identity);
                 }
-            }
 
-            // 새로운 타일 위치 업데이트
-            previousCellPosition = cellPosition;
+                // 새로운 타일 위치 업데이트
+                previousCellPosition = snappedPosition;
+            }
         }
     }
 }

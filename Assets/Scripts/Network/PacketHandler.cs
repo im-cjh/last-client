@@ -52,7 +52,8 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
 
-        handlerMapping[ePacketID.B2C_UseCardNotification] = HandleUseSkillNotification;
+        handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
+        handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
     }
 
     /*---------------------------------------------
@@ -208,7 +209,7 @@ public class PacketHandler
     static void HandleSpawnMonster(byte[] pBuffer)
     {
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
-        
+
         EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
     }
 
@@ -247,6 +248,15 @@ public class PacketHandler
         B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
 
         SkillUser.instance.UseSkill(packet.Skill);
+    }
+
+    static void HandleInitCardData(byte[] pBuffer)
+    {
+        Debug.Log("HandleInitCardData Called");
+
+        B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
+
+        HandManager.instance.AddInitCard(packet.CardData);
     }
 }
 

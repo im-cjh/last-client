@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.0000047684, y: 0}
-  m_SizeDelta: {x: 300.866, y: 253}
+  m_SizeDelta: {x: 169.9866, y: 253}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6120958278036390513
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5669767003430436080, guid: e1650dbb3ad87e6479c641ff79aa2921, type: 3}
+  m_Sprite: {fileID: 8389235676059772413, guid: d1b4de552383bf843afc8a595552ec37, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD0F1\uD06C \uD3EC\uD0D1"
+  m_text: "\uBC88\uAC1C \uD3EC\uD0D1"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
   m_sharedMaterial: {fileID: 6586925509857614065, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
@@ -223,11 +223,11 @@ GameObject:
   - component: {fileID: 2242781422015114810}
   - component: {fileID: 8654078154818758365}
   - component: {fileID: 4460286662314874136}
-  - component: {fileID: 2964088561094310902}
-  - component: {fileID: 7444562754250125449}
-  - component: {fileID: -585431954072681980}
+  - component: {fileID: 3909280529877933932}
+  - component: {fileID: 1966043956489979939}
+  - component: {fileID: -5042463021592757478}
   m_Layer: 5
-  m_Name: Card_TankTower
+  m_Name: ThunderTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!225 &2964088561094310902
+--- !u!225 &3909280529877933932
 CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -362,7 +362,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &7444562754250125449
+--- !u!114 &1966043956489979939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -374,11 +374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991170f687477be4c8629cc971c758c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardData: {fileID: 0}
   hoverOffset: 100
   hoverScale: {x: 0.8, y: 0.8, z: 0.8}
   animationDuration: 0.2
---- !u!114 &-585431954072681980
+--- !u!114 &-5042463021592757478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,7 +389,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05a9ccdf1f72f54db1a219894f1cc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: TankTower
+  cardId: 
+  prefabId: ThunderTower
+  isTowerCard: 1
 --- !u!1 &4618294576905987545
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,8 +532,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD0F1\uD06C\uCC98\uB7FC \uB2E8\uB2E8\uD574 \uC801\uB4E4\uC758 \uACF5\uACA9\uC744
-    \uBC1B\uC544\uB0B4\uAE30 \uC88B\uC740 \uD3EC\uD0D1\uC785\uB2C8\uB2E4."
+  m_text: "\uBC88\uAC1C\uB97C \uBC1C\uC0AC\uD574 \uC77C\uC9C1\uC120\uC0C1\uC758 \uBAA8\uB4E0
+    \uC801\uB4E4\uC744 \uACF5\uACA9\uD569\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
   m_sharedMaterial: {fileID: 6586925509857614065, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
@@ -669,7 +670,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 607a37ed5cc9383439de0fd89ee3a28b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c7539e1737e14f84cb710ed954d90fd8, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

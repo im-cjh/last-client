@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6808702352108134212}
   - component: {fileID: -5273721609724902216}
   m_Layer: 0
-  m_Name: OrbitBeam
+  m_Name: OrbitalBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
