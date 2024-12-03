@@ -46,6 +46,7 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
         handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
+        handlerMapping[ePacketID.B2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
         handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
         handlerMapping[ePacketID.B2C_MonsterPositionUpdateNotification] = HandleMonsterMove;
 
@@ -209,9 +210,23 @@ public class PacketHandler
 
     static void HandleSpawnMonster(byte[] pBuffer)
     {
+        Debug.Log("HandleSpawnMonster Called");
+
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
 
         EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
+    }
+
+    static void HandleMonsterHealthUpdateNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleMonsterHealthUpdateNotification Called");
+
+        B2C_MonsterHealthUpdateNotification packet = Protocol.B2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
+
+        Debug.Log("MonsterId: " + packet.MonsterId);
+        Debug.Log("CurHp / MaxHp : " + packet.Hp + " / " + packet.MaxHp);
+        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        monster.SetHp(packet.Hp, packet.MaxHp);
     }
 
     static void HandleMonsterDeath(byte[] pBuffer)
@@ -219,7 +234,13 @@ public class PacketHandler
         Debug.Log("HandleMonsterDeath Called");
 
         B2C_MonsterDeathNotification packet = Protocol.B2C_MonsterDeathNotification.Parser.ParseFrom(pBuffer);
-        ScoreManager.instance.AddScore();
+
+        Debug.Log("Monster Death: MonsterId: " + packet.MonsterId);
+        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        monster.Die();
+        EnemySpawner.instance.RemoveMonster(packet.MonsterId);
+        ScoreManager.instance.AddScore(packet.Score);
+
     }
 
     static void HandleBuildTowerResponse(byte[] pBuffer)
@@ -251,7 +272,7 @@ public class PacketHandler
         Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
         if (tower != null)
         {
-            tower.AttackTarget(packet.MonsterPos);
+            tower.AttackTarget(packet.MonsterPos, packet.TravelTime);
         }
     }
 

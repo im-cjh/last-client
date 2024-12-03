@@ -24347,11 +24347,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 535554417220150672, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 535554417220150672, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 535554417220150672, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24939,8 +24939,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1358692018}
-  scorePerCard: 5
-  handManager: {fileID: 589498324}
 --- !u!4 &1930171560
 Transform:
   m_ObjectHideFlags: 0
@@ -25201,10 +25199,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8680587044116734378, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33f68cfdb4652034b94dbf41c992e95e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

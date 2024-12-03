@@ -46,13 +46,33 @@ public class EnemySpawner : MonoBehaviour
             // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
             GameObject monster = Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
             Enemy chara = monster.GetComponent<Enemy>();
+            chara.SetMonsterId(pos.Uuid);
             enemies[pos.Uuid] = chara;
-            // Debug.Log($"Monster spawned: {prefabId} at {pos}");
+            Debug.Log($"몬스터 스폰: {prefabId}, Uuid: {pos.Uuid}");
         }
         else
         {
             Debug.LogError($"Prefab not found: {prefabId}");
         }
+    }
+
+    public void RemoveMonster(string uuid)
+    {
+        if (enemies.ContainsKey(uuid))
+        {
+            enemies.Remove(uuid);
+            Debug.Log("몬스터 제거: uuid: " + uuid);
+        }
+    }
+
+    public Enemy GetMonsterByUuid(string uuid)
+    {
+        if (enemies.ContainsKey(uuid))
+        {
+            return enemies[uuid];
+        }
+
+        return null;
     }
 
     /*---------------------------------------------
@@ -70,7 +90,7 @@ public class EnemySpawner : MonoBehaviour
                 // 목표 위치를 Vector2로 변환
                 Vector2 targetPosition = new Vector2(pos.X, pos.Y);
 
-                
+
                 enemy.SetNextPos(targetPosition);
                 //Debug.Log($"Monster {pos.Uuid} moved to ({pos.X}, {pos.Y})");
             }

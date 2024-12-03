@@ -49,7 +49,7 @@ public class Tower : MonoBehaviour
         towerId = uuid;
     }
 
-    public void AttackTarget(Protocol.PosInfo monsterPos)
+    public void AttackTarget(Protocol.PosInfo monsterPos, float travelTime)
     {
         Vector3 targetPos = new Vector3(
             monsterPos.X,
@@ -65,7 +65,11 @@ public class Tower : MonoBehaviour
         cannon.rotation = Quaternion.Euler(0, 0, angle - 90);
 
         // 총알 발사
-        Instantiate(bullet, firePoint.position, cannon.rotation);
+        GameObject spawnedBullet = Instantiate(bullet, firePoint.position, cannon.rotation);
+
+        // travelTime 동안 날아가고 사라짐
+        Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
+        bulletScript.destroyAfter = travelTime / 1000;
     }
 
     // Update is called once per frame
