@@ -72,7 +72,7 @@ public class SkillUser : TowerPlacer
                 return;
             }
 
-            Instantiate(prefabMap[prefabId], snappedPosition, Quaternion.identity);
+            // Instantiate(prefabMap[prefabId], snappedPosition, Quaternion.identity);
 
             // 서버에 보내줄 타일의 위치
             Vector3 tilePosition = new Vector3(
@@ -81,8 +81,8 @@ public class SkillUser : TowerPlacer
                 0
             );
 
-            Debug.Log($"{tilePosition}에 스킬 시전");
-            // SendSkillRequestToServer(prefabId, cardId, tilePosition.x, tilePosition.y);
+            // Debug.Log($"{tilePosition}에 스킬 시전");
+            SendSkillRequestToServer(prefabId, cardId, tilePosition.x, tilePosition.y);
         }
     }
 
