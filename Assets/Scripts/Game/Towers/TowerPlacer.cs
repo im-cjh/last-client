@@ -164,8 +164,16 @@ public class TowerPlacer : MonoBehaviour
     {
         Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X + 0.5f, towerData.TowerPos.Y + 0.5f);
 
-        Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
+        GameObject newTower = Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
         Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
+
+        Tower towerScript = newTower.GetComponent<Tower>();
+        if (towerScript != null)
+        {
+            towerScript.SetTowerId(towerData.TowerPos.Uuid);
+            TowerManager.instance.AddTower(towerData.TowerPos.Uuid, towerScript);
+        }
+
         TowerPlacementManager.instance.SetPlacementState(false, null, null);
     }
 

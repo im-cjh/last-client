@@ -49,7 +49,6 @@ public class SkillUser : TowerPlacer
         // 마우스 위치를 월드 좌표로 변환
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0; // z축 고정
-        Debug.Log("mouseWorldPos: " + mouseWorldPos);
 
         RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero, Mathf.Infinity, LayerMask.GetMask("Tile"));
 
@@ -110,6 +109,7 @@ public class SkillUser : TowerPlacer
 
     public void UseSkill(SkillData skillData)
     {
+        Debug.Log("UseSkill Called. skillData: " + skillData);
         Vector2 cellCenterWorld = new Vector2(skillData.SkillPos.X, skillData.SkillPos.Y);
 
         Instantiate(prefabMap[skillData.PrefabId], cellCenterWorld, Quaternion.identity);

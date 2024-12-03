@@ -33,7 +33,7 @@ public class BuffTower : Tower
         {
             if (tower == null || Vector3.Distance(transform.position, tower.transform.position) > buffRange)
             {
-                tower?.RemoveBuff(damageBuffAmount, speedBuffAmount);
+                // tower?.RemoveBuff(damageBuffAmount, speedBuffAmount);
                 return true;
             }
             return false;
@@ -46,7 +46,7 @@ public class BuffTower : Tower
         {
             if (target != null)
             {
-                target.RemoveBuff(damageBuffAmount, speedBuffAmount);
+                // target.RemoveBuff(damageBuffAmount, speedBuffAmount);
             }
         }
     }

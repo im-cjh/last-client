@@ -61,7 +61,7 @@ public class HandManager : MonoBehaviour
         }
 
         // 새로운 카드 생성
-        Debug.Log("Card prefabId: " + prefabId);
+        Debug.Log("AddCard: prefabId: " + prefabId);
         GameObject newCard = Instantiate(cardPrefabs[prefabId], handZone);
 
         // 카드의 Card Script 불러오기

@@ -51,6 +51,7 @@ public class PacketHandler
 
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
+        handlerMapping[ePacketID.B2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
 
         handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
@@ -241,11 +242,26 @@ public class PacketHandler
         TowerPlacer.instance.BuildTower(packet.Tower);
     }
 
+    static void HandleTowerAttackMonsterNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleTowerAttackMonsterNotification");
+
+        B2C_TowerAttackMonsterNotification packet = Protocol.B2C_TowerAttackMonsterNotification.Parser.ParseFrom(pBuffer);
+
+        Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
+        if (tower != null)
+        {
+            tower.AttackTarget(packet.MonsterPos);
+        }
+    }
+
     static void HandleUseSkillNotification(byte[] pBuffer)
     {
         Debug.Log("HandleUseSkillNotification Called");
 
         B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
+
+        Debug.Log("HandleUseSkillNotification packet: " + packet);
 
         SkillUser.instance.UseSkill(packet.Skill);
     }
