@@ -56,6 +56,7 @@ public class PacketHandler
 
         handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
+        handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
     }
 
     /*---------------------------------------------
@@ -294,6 +295,15 @@ public class PacketHandler
         B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
 
         HandManager.instance.AddInitCard(packet.CardData);
+    }
+
+    static void HandleSkillResponse(byte[] pBuffer)
+    {
+        Debug.Log("HandleSkillResponse Called");
+
+        B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
+
+        //HandManager.instance.AddInitCard(packet.CardData);
     }
 }
 
