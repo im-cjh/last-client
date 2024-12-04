@@ -10,35 +10,35 @@ public class BuffTower : Tower
 
     void Update()
     {
-        ApplyBufftoNearbyTowers();
+        // ApplyBufftoNearbyTowers();
     }
 
-    private void ApplyBufftoNearbyTowers()
-    {
-        // 범위 내 타워 탐지
-        Collider2D[] towers = Physics2D.OverlapCircleAll(transform.position, buffRange, LayerMask.GetMask("Tower"));
+    // private void ApplyBufftoNearbyTowers()
+    // {
+    //     // 범위 내 타워 탐지
+    //     Collider2D[] towers = Physics2D.OverlapCircleAll(transform.position, buffRange, LayerMask.GetMask("Tower"));
 
-        // 버프 못받은 타워한테 버프
-        foreach (Collider2D target in towers)
-        {
-            Tower tower = target.GetComponent<Tower>();
-            if (tower != null && tower != this && !buffedTowers.Contains(tower))
-            {
-                tower.ApplyBuff(damageBuffAmount, speedBuffAmount);
-                buffedTowers.Add(tower);
-            }
-        }
+    //     // 버프 못받은 타워한테 버프
+    //     foreach (Collider2D target in towers)
+    //     {
+    //         Tower tower = target.GetComponent<Tower>();
+    //         if (tower != null && tower != this && !buffedTowers.Contains(tower))
+    //         {
+    //             tower.ApplyBuff(damageBuffAmount, speedBuffAmount);
+    //             buffedTowers.Add(tower);
+    //         }
+    //     }
 
-        buffedTowers.RemoveWhere(tower =>
-        {
-            if (tower == null || Vector3.Distance(transform.position, tower.transform.position) > buffRange)
-            {
-                // tower?.RemoveBuff(damageBuffAmount, speedBuffAmount);
-                return true;
-            }
-            return false;
-        });
-    }
+    //     buffedTowers.RemoveWhere(tower =>
+    //     {
+    //         if (tower == null || Vector3.Distance(transform.position, tower.transform.position) > buffRange)
+    //         {
+    //             // tower?.RemoveBuff(damageBuffAmount, speedBuffAmount);
+    //             return true;
+    //         }
+    //         return false;
+    //     });
+    // }
 
     private void OnDestroy()
     {

@@ -18,7 +18,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private Color hitColor;
     private Color originalColor;
     private GameObject buffEffect;
-    
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,65 +60,6 @@ public class Tower : MonoBehaviour
         bulletScript.destroyAfter = travelTime / 1000;
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-    //     // 가장 가까운 적 탐지
-    //     GameObject nearestEnemy = FindNearestEnemy();
-
-    //     if (nearestEnemy != null)
-    //     {
-    //         Attack(nearestEnemy);
-    //     }
-    // }
-
-    // private void Attack(GameObject target)
-    // {
-    //     Vector3 targetPos = target.transform.position;
-    //     targetPos.z = 0;
-
-    //     Vector3 direction = targetPos - cannon.position;
-    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-    //     // 적 방향으로 대포 방향 돌림
-    //     cannon.rotation = Quaternion.Euler(0, 0, angle - 90);
-
-    //     // 공격속도에 맞춰서 공격
-    //     if (Time.time >= lastAttackTime + curAttackCoolDown)
-    //     {
-    //         GameObject spawnedBullet = Instantiate(bullet, firePoint.position, cannon.rotation);
-
-    //         Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
-    //         if (bulletScript != null)
-    //         {
-    //             bulletScript.SetDamage(curAttackDamage);
-    //         }
-
-    //         lastAttackTime = Time.time;
-    //     }
-    // }
-
-    // GameObject FindNearestEnemy()
-    // {
-    //     // 게임에 있는 모든 적 저장하는 배열
-    //     Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRange, LayerMask.GetMask("Enemy"));
-
-    //     GameObject nearestEnemy = null; // 가장 가까운 적
-    //     float shortestDistance = Mathf.Infinity; // 가장 가까운 거리
-
-    //     foreach (Collider2D enemy in enemies)
-    //     {
-    //         float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-    //         if (distanceToEnemy < shortestDistance)
-    //         {
-    //             shortestDistance = distanceToEnemy;
-    //             nearestEnemy = enemy.gameObject;
-    //         }
-    //     }
-
-    //     return nearestEnemy;
-    // }
-
     public void SetHp(float curHp, float maxHp)
     {
         hpBar.SetHp(curHp, maxHp);
@@ -126,29 +67,16 @@ public class Tower : MonoBehaviour
         Invoke("ResetColor", 0.1f);
     }
 
+    public void Destroy()
+    {
+        Instantiate(towerExplosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
+
     private void ResetColor()
     {
         spriteRenderer.color = originalColor;
     }
-
-
-    // public void RemoveBuff(float damageBuff, float speedBuff)
-    // {
-    //     curAttackDamage -= damageBuff;
-    //     curAttackCoolDown += speedBuff;
-
-    //     buffEffect.SetActive(false);
-
-    //     // 값 복구
-    //     if (curAttackDamage < attackDamage)
-    //     {
-    //         curAttackDamage = attackDamage;
-    //     }
-    //     if (curAttackCoolDown > attackCoolDown)
-    //     {
-    //         curAttackCoolDown = attackCoolDown;
-    //     }
-    // }
 }
 
 

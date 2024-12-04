@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using System.Runtime.CompilerServices;
 using TMPro;
+using DG.Tweening;
+using System.Numerics;
 
 public class Enemy : MonoBehaviour
 {
@@ -19,7 +21,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Color hitColor;
     private Color originalColor;
     private Rigidbody2D rigid;       // Rigidbody2D컴포넌트
-    private Vector2? nextPos = null;
+    private UnityEngine.Vector2? nextPos = null;
 
     private void Awake()
     {
@@ -39,12 +41,24 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UnityEngine.Vector3 curScale = transform.localScale;
+        UnityEngine.Vector3 curHpBarScale = transform.localScale;
         if (nextPos != null)
         {
+            if (nextPos.Value.x > transform.position.x)
+            {
+                transform.localScale = new UnityEngine.Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
+                hpBar.transform.localScale = new UnityEngine.Vector3(-Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
+            }
+            else
+            {
+                transform.localScale = new UnityEngine.Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
+                hpBar.transform.localScale = new UnityEngine.Vector3(Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
+            }
             //this.transform.SetPositionAndRotation(new Vector3(nextPos.Value.x, nextPos.Value.y, 0), Quaternion.identity);
             //rigid.MovePosition(Vector2.Lerp(rigid.position, nextPos.Value, moveSpeed * Time.deltaTime));
-            
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(nextPos.Value.x, nextPos.Value.y, 0), Time.deltaTime * this.moveSpeed);
+
+            transform.position = UnityEngine.Vector3.MoveTowards(transform.position, new UnityEngine.Vector3(nextPos.Value.x, nextPos.Value.y, 0), Time.deltaTime * this.moveSpeed);
         }
         //     animator.SetBool("isAttack", false);
         //     animator.SetBool("isWalk", true);
@@ -69,8 +83,8 @@ public class Enemy : MonoBehaviour
 
     public void SetAttackMode()
     {
-        animator.SetBool("isAttack", true);
         animator.SetBool("isWalk", false);
+        animator.SetBool("isAttack", true);
     }
 
     public void SetMoveMode()
@@ -79,7 +93,7 @@ public class Enemy : MonoBehaviour
         animator.SetBool("isWalk", true);
     }
 
-    public void SetNextPos(Vector2 pos)
+    public void SetNextPos(UnityEngine.Vector2 pos)
     {
         nextPos = pos;
         //transform.position = new Vector2(pos.x, pos.y);
@@ -100,7 +114,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        Instantiate(robotDeath, transform.position, Quaternion.identity);
+        Instantiate(robotDeath, transform.position, UnityEngine.Quaternion.identity);
         Destroy(gameObject);
     }
 

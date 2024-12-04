@@ -83,6 +83,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemies.TryGetValue(pos.Uuid, out Enemy enemy))
         {
+            enemy.SetMoveMode();
             // Rigidbody2D를 가져옴
             Rigidbody2D rigid = enemy.GetComponent<Rigidbody2D>();
 

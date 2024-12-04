@@ -174,7 +174,7 @@ public class TowerPlacer : MonoBehaviour
             towerScript.SetTowerId(towerData.TowerPos.Uuid);
             TowerManager.instance.AddTower(towerData.TowerPos.Uuid, towerScript);
         }
-        
+
         TowerPlacementManager.instance.SetPlacementState(false, null, null);
     }
 
@@ -191,8 +191,8 @@ public class TowerPlacer : MonoBehaviour
             Vector3 hitPoint = hit.point;
 
             Vector3 snappedPosition = new Vector3(
-                Mathf.Floor(hitPoint.x),
-                Mathf.Floor(hitPoint.y),
+                Mathf.Round(hitPoint.x),
+                Mathf.Round(hitPoint.y),
                 0
             );
 
@@ -206,14 +206,15 @@ public class TowerPlacer : MonoBehaviour
                 }
 
                 float distance = Vector3.Distance(transform.position, snappedPosition);
+                Collider2D[] hitcolliders = Physics2D.OverlapPointAll(mouseWorldPos, LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
                 // 설치 가능 여부에 따라 적절한 하이라이트 생성
-                if (distance <= maxPlacementDistance)
+                if (distance > maxPlacementDistance || hitcolliders.Length > 0)
                 {
-                    currentHighlight = Instantiate(isValidTile, snappedPosition, Quaternion.identity);
+                    currentHighlight = Instantiate(isUnvalidTile, snappedPosition, Quaternion.identity);
                 }
                 else
                 {
-                    currentHighlight = Instantiate(isUnvalidTile, snappedPosition, Quaternion.identity);
+                    currentHighlight = Instantiate(isValidTile, snappedPosition, Quaternion.identity);
                 }
 
                 // 새로운 타일 위치 업데이트
