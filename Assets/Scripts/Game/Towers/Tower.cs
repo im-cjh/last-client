@@ -1,3 +1,4 @@
+using Protocol;
 using System;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph;
@@ -9,15 +10,6 @@ public class Tower : MonoBehaviour
     private string towerId;
 
     private HpBar hpBar; // 체력바
-    [SerializeField] private float maxHp = 100f; // 최대체력
-    private float curHp; // 현재 체력
-
-    [SerializeField] private float attackRange = 5f; // 공격 범위 (인식 범위)
-    [SerializeField] private float attackDamage = 5f;
-    private float curAttackDamage;
-    [SerializeField] private float attackCoolDown = 1f; // 공격속도
-    private float curAttackCoolDown;
-    private float lastAttackTime; // 마지막 공격 시간
     private Transform cannon; // 대포
     [SerializeField] private GameObject bullet; // 총알
     private Transform firePoint; // 총알 나가는 위치
@@ -26,7 +18,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private Color hitColor;
     private Color originalColor;
     private GameObject buffEffect;
-
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,11 +29,7 @@ public class Tower : MonoBehaviour
         cannon = transform.Find("Cannon");
         buffEffect = transform.Find("BuffEffect")?.gameObject;
         firePoint = cannon.transform.Find("FirePoint");
-
-        curHp = maxHp;
         originalColor = spriteRenderer.color;
-        curAttackDamage = attackDamage;
-        curAttackCoolDown = attackCoolDown;
     }
 
     public void SetTowerId(string uuid)
@@ -131,22 +119,11 @@ public class Tower : MonoBehaviour
     //     return nearestEnemy;
     // }
 
-    public void GetDamage(float damage)
+    public void SetHp(float curHp, float maxHp)
     {
-        curHp -= damage;
         hpBar.SetHp(curHp, maxHp);
-
-        if (curHp <= 0)
-        {
-            Instantiate(towerExplosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
-        else
-        {
-            // 맞았을 때 잠깐동안 색이 바뀜
-            spriteRenderer.color = hitColor;
-            Invoke("ResetColor", 0.1f);
-        }
+        spriteRenderer.color = hitColor;
+        Invoke("ResetColor", 0.1f);
     }
 
     private void ResetColor()
@@ -154,21 +131,6 @@ public class Tower : MonoBehaviour
         spriteRenderer.color = originalColor;
     }
 
-    public void ApplyBuff(float damageBuff, float speedBuff)
-    {
-        curAttackDamage += damageBuff;
-        curAttackCoolDown -= speedBuff;
-
-        if (attackCoolDown < 0.1f)
-        {
-            attackCoolDown = 0.1f;
-        }
-
-        if (buffEffect != null)
-        {
-            buffEffect.SetActive(true);
-        }
-    }
 
     // public void RemoveBuff(float damageBuff, float speedBuff)
     // {

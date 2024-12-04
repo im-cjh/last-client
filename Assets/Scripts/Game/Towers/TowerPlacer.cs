@@ -174,7 +174,7 @@ public class TowerPlacer : MonoBehaviour
             towerScript.SetTowerId(towerData.TowerPos.Uuid);
             TowerManager.instance.AddTower(towerData.TowerPos.Uuid, towerScript);
         }
-
+        
         TowerPlacementManager.instance.SetPlacementState(false, null, null);
     }
 

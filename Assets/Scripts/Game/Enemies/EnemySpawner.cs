@@ -2,6 +2,7 @@ using Protocol;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -104,5 +105,15 @@ public class EnemySpawner : MonoBehaviour
             Debug.LogError($"Monster with UUID {pos.Uuid} not found");
         }
     }
-
+    public void HandleMonsterAttackTower(string monsterId)
+    {
+        if (enemies.TryGetValue(monsterId, out Enemy enemy))
+        {
+            enemy.SetAttackMode();
+        }
+        else
+        {
+            Debug.LogError($"not found");
+        }
+    }
 }
