@@ -41,10 +41,9 @@ public class Enemy : MonoBehaviour
     {
         if (nextPos != null)
         {
-            //rigid.MovePosition(Vector2.Lerp(rigid.position, nextPos.Value, moveSpeed));
             //this.transform.SetPositionAndRotation(new Vector3(nextPos.Value.x, nextPos.Value.y, 0), Quaternion.identity);
             //rigid.MovePosition(Vector2.Lerp(rigid.position, nextPos.Value, moveSpeed * Time.deltaTime));
-            //Vector3 newPosition = currentPosition + (targetPosition - currentPosition) * deltaTime;
+            
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(nextPos.Value.x, nextPos.Value.y, 0), Time.deltaTime * this.moveSpeed);
         }
         //     animator.SetBool("isAttack", false);
@@ -66,6 +65,18 @@ public class Enemy : MonoBehaviour
         //        hpBar.transform.localScale = new Vector3(Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
         //    }
         //}
+    }
+
+    public void SetAttackMode()
+    {
+        animator.SetBool("isAttack", true);
+        animator.SetBool("isWalk", false);
+    }
+
+    public void SetMoveMode()
+    {
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isWalk", true);
     }
 
     public void SetNextPos(Vector2 pos)
