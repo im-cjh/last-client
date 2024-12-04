@@ -60,25 +60,6 @@ public class Enemy : MonoBehaviour
 
             transform.position = UnityEngine.Vector3.MoveTowards(transform.position, new UnityEngine.Vector3(nextPos.Value.x, nextPos.Value.y, 0), Time.deltaTime * this.moveSpeed);
         }
-        //     animator.SetBool("isAttack", false);
-        //     animator.SetBool("isWalk", true);
-        //     Vector3 moveTo = (targetTransform.position - transform.position).normalized;
-        //     transform.position += moveTo * currentSpeed * Time.deltaTime;
-
-        //    // 바라보는 방향에 따라서 이미지 바뀌게
-        //    Vector3 curScale = transform.localScale;
-        //    Vector3 curHpBarScale = hpBar.transform.localScale;
-        //    if (moveTo.x > 0)
-        //    {
-        //        transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
-        //        hpBar.transform.localScale = new Vector3(-Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
-        //    }
-        //    else
-        //    {
-        //        transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
-        //        hpBar.transform.localScale = new Vector3(Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
-        //    }
-        //}
     }
 
     public void SetAttackMode()

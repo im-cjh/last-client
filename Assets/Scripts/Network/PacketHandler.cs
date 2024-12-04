@@ -72,7 +72,12 @@ public class PacketHandler
     {
         B2C_MonsterAttackTowerNotification pkt = B2C_MonsterAttackTowerNotification.Parser.ParseFrom(pBuffer);
         EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
-        TowerManager.instance.GetTowerByUuid(pkt.TargetId).SetHp(pkt.Hp, pkt.MaxHp);
+        Tower tower = TowerManager.instance.GetTowerByUuid(pkt.TargetId);
+
+        if (tower != null)
+        {
+            tower.SetHp(pkt.Hp, pkt.MaxHp);
+        }
     }
 
     /*---------------------------------------------
@@ -303,6 +308,11 @@ public class PacketHandler
         if (tower != null)
         {
             tower.Destroy();
+        }
+        else
+        {
+            Debug.Log("타워가 존재하지 않습니다.");
+            return;
         }
 
         TowerManager.instance.RemoveTower(packet.TowerId);
