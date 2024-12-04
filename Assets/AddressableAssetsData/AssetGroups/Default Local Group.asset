@@ -30,6 +30,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2873a9a43e9be8746a456128ab43c603
+    m_Address: Prefab/Characters/White
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a47d16024e4ee244b29267a07d40729
+    m_Address: Prefab/Characters/Shark
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2a9b3f4b0ab55f04da4fbdb8990c8a31
     m_Address: Prefab/Towers/MissileTower
     m_ReadOnly: 0
