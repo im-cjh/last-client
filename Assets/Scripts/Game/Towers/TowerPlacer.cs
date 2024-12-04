@@ -162,7 +162,8 @@ public class TowerPlacer : MonoBehaviour
 
     public void BuildTower(TowerData towerData)
     {
-        Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X + 0.5f, towerData.TowerPos.Y + 0.5f);
+        //Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X + 0.5f, towerData.TowerPos.Y + 0.5f);
+        Vector2 cellCenterWorld = new Vector2(towerData.TowerPos.X, towerData.TowerPos.Y);
 
         GameObject newTower = Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
         Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
