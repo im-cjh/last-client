@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Protocol;
-using static UnityEditor.PlayerSettings;
 
 public class CharacterManager : MonoBehaviour
 {
     public static CharacterManager Instance { get; private set; }
 
-    //public GameObject characterPrefab; // Ä³¸¯ÅÍ ÇÁ¸®ÆÕ
+    //public GameObject characterPrefab; // ìºë¦­í„° í”„ë¦¬íŒ¹
 
-    private Dictionary<string, Character> characters = new Dictionary<string, Character>(); // UUID¿Í Ä³¸¯ÅÍ ¸ÅÇÎ
+    private Dictionary<string, Character> characters = new Dictionary<string, Character>(); // UUIDì™€ ìºë¦­í„° ë§¤í•‘
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); 
 
     private void Awake()
@@ -18,15 +17,15 @@ public class CharacterManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    // ¼­¹ö µ¥ÀÌÅÍ¸¦ ±â¹İÀ¸·Î Ä³¸¯ÅÍ »ı¼º
+    // ì„œë²„ ë°ì´í„°ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ìºë¦­í„° ìƒì„±
     public void SpawnCharacter(GamePlayerData playerData)
     {
         if (characters.ContainsKey(playerData.Position.Uuid))
         {
-            Debug.LogWarning($"ÀÌ¹Ì »ı¼ºµÈ Ä³¸¯ÅÍ°¡ ÀÖ½À´Ï´Ù: {playerData.Position.Uuid}");
+            Debug.LogWarning($"ì´ë¯¸ ìƒì„±ëœ ìºë¦­í„°ê°€ ìˆìŠµë‹ˆë‹¤: {playerData.Position.Uuid}");
             return;
         }
-        // ¼­¹ö¿¡¼­ ¹ŞÀº ½ºÆù À§Ä¡ »ç¿ë
+        // ì„œë²„ì—ì„œ ë°›ì€ ìŠ¤í° ìœ„ì¹˜ ì‚¬ìš©
         Vector3 pos = new Vector3(playerData.Position.X, playerData.Position.Y, 0);
 
         if (!prefabMap.TryGetValue(playerData.PrefabId, out GameObject prefab))
@@ -35,24 +34,24 @@ public class CharacterManager : MonoBehaviour
             return;
         }
 
-        // Ä³¸¯ÅÍ »ı¼º
-        // 2D °ÔÀÓ¿¡¼­´Â rotation ±âº»°ªÀ¸·Î Quaternion.identity »ç¿ë
+        // ìºë¦­í„° ìƒì„±
+        // 2D ê²Œì„ì—ì„œëŠ” rotation ê¸°ë³¸ê°’ìœ¼ë¡œ Quaternion.identity ì‚¬ìš©
         GameObject character = Instantiate(prefab, pos, Quaternion.identity);
         Character chara = character.GetComponent<Character>();
 
         if (chara != null)
         {
             chara.nickname = playerData.Nickname;
-            chara.isLocalPlayer = playerData.Position.Uuid == PlayerInfoManager.instance.userId; // UUID ±â¹İ ·ÎÄÃ ÆÇº°
-            characters[playerData.Position.Uuid] = chara; // UUID·Î Ä³¸¯ÅÍ ¸ÅÇÎ
+            chara.isLocalPlayer = playerData.Position.Uuid == PlayerInfoManager.instance.userId; // UUID ê¸°ë°˜ ë¡œì»¬ íŒë³„
+            characters[playerData.Position.Uuid] = chara; // UUIDë¡œ ìºë¦­í„° ë§¤í•‘
         }
         else
         {
-            Debug.LogError("Ä³¸¯ÅÍ ÇÁ¸®ÆÕ¿¡ Character ½ºÅ©¸³Æ®°¡ ¾ø½À´Ï´Ù.");
+            Debug.LogError("ìºë¦­í„° í”„ë¦¬íŒ¹ì— Character ìŠ¤í¬ë¦½íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
         }
     }
 
-    // ¸ğµç ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ »ı¼º
+    // ëª¨ë“  í”Œë ˆì´ì–´ ìºë¦­í„° ìƒì„±
     public async void InitializeCharacters()
     {
         await Utilities.RegisterPrefab("Prefab/Characters/Red", prefabMap);
@@ -63,7 +62,7 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    // Æ¯Á¤ Ä³¸¯ÅÍ °¡Á®¿À±â
+    // íŠ¹ì • ìºë¦­í„° ê°€ì ¸ì˜¤ê¸°
     public Character GetCharacter(string uuid)
     {
         if (characters.TryGetValue(uuid, out Character character))
@@ -71,7 +70,7 @@ public class CharacterManager : MonoBehaviour
             return character;
         }
 
-        Debug.LogError($"UUID {uuid}¿¡ ÇØ´çÇÏ´Â Ä³¸¯ÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogError($"UUID {uuid}ì— í•´ë‹¹í•˜ëŠ” ìºë¦­í„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return null;
     }
 }

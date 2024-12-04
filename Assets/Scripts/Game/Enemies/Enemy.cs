@@ -45,14 +45,17 @@ public class Enemy : MonoBehaviour
         UnityEngine.Vector3 curHpBarScale = transform.localScale;
         if (nextPos != null)
         {
+            //if (inputVec.x > 0)
             if (nextPos.Value.x > transform.position.x)
             {
-                transform.localScale = new UnityEngine.Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
+                spriteRenderer.flipX = true;
+                //transform.localScale = new UnityEngine.Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
                 hpBar.transform.localScale = new UnityEngine.Vector3(-Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
             }
-            else
+            else if(nextPos.Value.x < transform.position.x)
             {
-                transform.localScale = new UnityEngine.Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
+                spriteRenderer.flipX = false;
+                //transform.localScale = new UnityEngine.Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
                 hpBar.transform.localScale = new UnityEngine.Vector3(Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
             }
             //this.transform.SetPositionAndRotation(new Vector3(nextPos.Value.x, nextPos.Value.y, 0), Quaternion.identity);

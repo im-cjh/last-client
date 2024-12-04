@@ -64,6 +64,7 @@ public class PacketHandler
 
     private static void HandleMonsterAttackBase(byte[] pBuffer)
     {
+        Debug.LogAssertion("asdddddddddddddddddddddddddddd");
         B2C_MonsterAttackBaseNotification pkt = B2C_MonsterAttackBaseNotification.Parser.ParseFrom(pBuffer);
         EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
     }
