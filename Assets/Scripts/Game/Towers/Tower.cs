@@ -44,19 +44,44 @@ public class Tower : MonoBehaviour
             0
         );
 
-        // 타겟의 방향, 각도 계산
-        Vector3 direction = targetPos - cannon.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        string targetUuid = monsterPos.Uuid;
 
-        // 각도 방향으로 대포 돌려
-        cannon.rotation = Quaternion.Euler(0, 0, angle - 90);
+        Enemy targetMonster = EnemySpawner.instance.GetMonsterByUuid(targetUuid);
+        if (targetMonster != null)
+        {
+            // 타겟의 방향, 각도 계산
+            Vector3 direction = targetMonster.transform.position - cannon.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // 총알 발사
-        GameObject spawnedBullet = Instantiate(bullet, firePoint.position, cannon.rotation);
+            // 각도 방향으로 대포 돌려
+            cannon.rotation = Quaternion.Euler(0, 0, angle - 90);
 
-        // travelTime 동안 날아가고 사라짐
-        Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
-        bulletScript.destroyAfter = travelTime / 1000;
+            // 총알 발사
+            GameObject spawnedBullet = Instantiate(bullet, firePoint.position, cannon.rotation);
+
+            // travelTime 동안 날아가고 사라짐
+            Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
+            bulletScript.destroyAfter = travelTime / 1000;
+        }
+
+        // // 타겟의 방향, 각도 계산
+        // Vector3 direction = targetPos - cannon.position;
+        // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // // 각도 방향으로 대포 돌려
+        // cannon.rotation = Quaternion.Euler(0, 0, angle - 90);
+
+        // // 총알 발사
+        // GameObject spawnedBullet = Instantiate(bullet, firePoint.position, cannon.rotation);
+
+        // // travelTime 동안 날아가고 사라짐
+        // Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
+        // bulletScript.destroyAfter = travelTime / 1000;
+    }
+
+    private void InterpolatePosition(Vector3 serverPosition, Vector3 clientPosition)
+    {
+
     }
 
     public void SetHp(float curHp, float maxHp)

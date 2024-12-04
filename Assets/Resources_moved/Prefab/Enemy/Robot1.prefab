@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -208,7 +208,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -375,15 +375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   robotDeath: {fileID: 4439013494382861041, guid: 6caa43cd0937c9449bddc9510123845b, type: 3}
-  maxHp: 10
-  detectRange: 3
-  defaultAttackDistanceX: 1
-  defaultAttackDistanceY: 1
-  attackDamage: 10
-  attackCoolDown: 2
-  moveSpeed: 2
+  moveSpeed: 3
   hitColor: {r: 1, g: 0, b: 0, a: 1}
-  slowColor: {r: 0, g: 0.8691118, b: 1, a: 1}
 --- !u!58 &6704431248783475502
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -494,7 +487,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: -5278734259511242463, guid: 5aabb4be75173e34e846c6f43a6868cf, type: 3}
   m_Color: {r: 0.0795412, g: 0.4056604, b: 0, a: 1}
