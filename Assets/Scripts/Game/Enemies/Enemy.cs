@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
     {
         if (nextPos != null)
         {
+            //rigid.MovePosition(Vector2.Lerp(rigid.position, nextPos.Value, moveSpeed));
             rigid.MovePosition(Vector2.Lerp(rigid.position, nextPos.Value, moveSpeed * Time.deltaTime));
         }
         //     animator.SetBool("isAttack", false);

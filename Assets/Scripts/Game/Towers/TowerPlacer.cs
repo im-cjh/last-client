@@ -11,7 +11,7 @@ public class TowerPlacer : MonoBehaviour
     protected Tilemap tilemap;
     protected Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
     private string currentTowerPrefabId;
-    private string currentCardId;
+    protected string currentCardId;
     [SerializeField] protected float maxPlacementDistance = 5f; // 설치 가능한 최대 거리
 
     [SerializeField] protected GameObject isValidTile; // 설치 가능한 타일 색상

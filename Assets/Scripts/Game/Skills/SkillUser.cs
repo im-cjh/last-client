@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 public class SkillUser : TowerPlacer
 {
     private string currentSkillPrefabId;
-    private string currentCardId;
     public static new SkillUser instance = null;
 
     void Awake()

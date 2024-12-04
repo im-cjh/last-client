@@ -144,7 +144,7 @@ public class PacketHandler
         Debug.Log("게임 시작 패킷 수신");
 
         //temp
-        // PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
+        PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
 
         // 2. PlayerManager에 데이터 저장
         foreach (var playerData in pkt.PlayerDatas)
