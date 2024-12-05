@@ -58,6 +58,7 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
         handlerMapping[ePacketID.B2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
         handlerMapping[ePacketID.B2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
+        handlerMapping[ePacketID.B2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
 
         handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
@@ -67,12 +68,12 @@ public class PacketHandler
     private static void HandleLeaveRoomNotificationPacket(byte[] pBuffer)
     {
         Protocol.L2C_LeaveRoomNotification pkt = L2C_LeaveRoomNotification.Parser.ParseFrom(pBuffer);
-        
+
         LobbyManager.instance.uiRoom.RemoveUserFromSlot(pkt.UserId);
     }
 
     private static void HandleMonsterAttackBase(byte[] pBuffer)
-    {                
+    {
         B2C_MonsterAttackBaseNotification pkt = B2C_MonsterAttackBaseNotification.Parser.ParseFrom(pBuffer);
         EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
         Base.instance.GetDamage(pkt.AttackDamage);
@@ -312,6 +313,19 @@ public class PacketHandler
         if (tower != null)
         {
             tower.AttackTarget(packet.MonsterPos, packet.TravelTime);
+        }
+    }
+
+    static void HandleTowerHealthUpdateNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleTowerHealthUpdateNotification Called");
+
+        B2C_TowerHealthUpdateNotification packet = Protocol.B2C_TowerHealthUpdateNotification.Parser.ParseFrom(pBuffer);
+
+        Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
+        if (tower != null)
+        {
+            tower.SetHp(packet.Hp, packet.MaxHp);
         }
     }
 
