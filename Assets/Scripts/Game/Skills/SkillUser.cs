@@ -23,8 +23,8 @@ public class SkillUser : TowerPlacer
     {
         tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
 
-        await RegisterPrefab("Prefab/Skills/OrbitalBeam");
-        await RegisterPrefab("Prefab/Skills/TowerRepair");
+        await Utilities.RegisterPrefab("Prefab/Skills/OrbitalBeam", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Skills/TowerRepair", prefabMap);
     }
 
     void Update()
