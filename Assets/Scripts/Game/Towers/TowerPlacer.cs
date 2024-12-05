@@ -85,10 +85,6 @@ public class TowerPlacer : MonoBehaviour
         Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
         worldPosition += offset;
 
-        //부모 오브젝트의 Cam을 가져오기
-        //Vector3 mouseWorldPos = parentCamera.ScreenToWorldPoint(Input.mousePosition);
-
-
         SendBuildRequestToServer(prefabId, cardId, worldPosition.x, worldPosition.y);
 
         if (currentHighlight != null)
