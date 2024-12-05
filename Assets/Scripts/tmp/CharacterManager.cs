@@ -43,6 +43,7 @@ public class CharacterManager : MonoBehaviour
         {
             chara.nickname = playerData.Nickname;
             chara.isLocalPlayer = playerData.Position.Uuid == PlayerInfoManager.instance.userId; // UUID 기반 로컬 판별
+            chara.cam.gameObject.SetActive(playerData.Position.Uuid == PlayerInfoManager.instance.userId);
             characters[playerData.Position.Uuid] = chara; // UUID로 캐릭터 매핑
         }
         else

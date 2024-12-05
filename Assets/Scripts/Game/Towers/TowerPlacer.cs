@@ -20,6 +20,7 @@ public class TowerPlacer : MonoBehaviour
     protected GameObject currentHighlight;
     protected Vector3Int previousCellPosition = Vector3Int.zero;
 
+
     public static TowerPlacer instance = null;
 
     void Awake()
@@ -40,6 +41,17 @@ public class TowerPlacer : MonoBehaviour
         await RegisterPrefab("Prefab/Towers/StrongTower");
         await RegisterPrefab("Prefab/Towers/TankTower");
         await RegisterPrefab("Prefab/Towers/ThunderTower");
+
+        // 부모 오브젝트에서 카메라 컴포넌트를 가져옴
+        Camera parentCamera = transform.parent.GetComponent<Camera>();
+        if (parentCamera != null)
+        {
+            Debug.Log("Parent Camera found: " + parentCamera.name);
+        }
+        else
+        {
+            Debug.LogWarning("No Camera component found on the parent object.");
+        }
     }
 
     protected async Task RegisterPrefab(string key)
@@ -99,6 +111,7 @@ public class TowerPlacer : MonoBehaviour
 
     private void PlaceTower(string prefabId, string cardId, Vector3Int cellPosition)
     {
+        // 마우스 위치를 월드 좌표로 변환
         Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
         Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
         worldPosition += offset;
