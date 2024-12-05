@@ -6,12 +6,11 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance = null;
     [SerializeField] private TextMeshProUGUI scoreText;
-    private int score = 0;
-    [SerializeField] private int scorePerCard = 5;
-    [SerializeField] private HandManager handManager;
-    private int nextScore;
+    private int curScore = 0;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private TextMeshProUGUI waveText;
+    private int curWave = 1;
+
     void Awake()
     {
         if (instance == null)
@@ -20,30 +19,20 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        nextScore = scorePerCard;
-    }
-
     public int GetScore()
     {
-        return score;
+        return curScore;
     }
 
-    public void AddScore()
+    public void AddScore(int score)
     {
-        score++;
-        scoreText.text = $"{score}";
-
-        if (score >= nextScore)
-        {
-            GiveCard();
-            nextScore += scorePerCard;
-        }
+        curScore += score;
+        scoreText.text = $"{curScore}";
     }
 
-    private void GiveCard()
+    public void AddWave()
     {
-        handManager.AddCard();
+        curWave++;
+        waveText.text = $"{curWave} Wave";
     }
 }

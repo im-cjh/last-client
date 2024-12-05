@@ -4,7 +4,8 @@ public class TowerPlacementManager : MonoBehaviour
 {
     public static TowerPlacementManager instance = null;
     private bool isPlacementActive = false;
-    public string towerPrefabId;
+    private string towerPrefabId;
+    private string cardId;
 
     void Awake()
     {
@@ -14,16 +15,22 @@ public class TowerPlacementManager : MonoBehaviour
         }
     }
 
-    public void SetPlacementState(bool state, string prefabId)
+    public void SetPlacementState(bool state, string prefabId, string uuid)
     {
         isPlacementActive = state;
         towerPrefabId = prefabId;
+        cardId = uuid;
         Debug.Log("타워 설치 상태: " + state);
     }
 
     public string GetTowerPrefabId()
     {
         return towerPrefabId;
+    }
+
+    public string GetCardId()
+    {
+        return cardId;
     }
 
     public bool IsPlacementActive()

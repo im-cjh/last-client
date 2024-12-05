@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -296,7 +296,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 2
   m_Sprite: {fileID: -5278734259511242463, guid: 5aabb4be75173e34e846c6f43a6868cf, type: 3}
   m_Color: {r: 0.19753313, g: 1, b: 0, a: 1}
@@ -383,7 +383,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -183386625
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 5170674638241529836}
   - component: {fileID: 3385435866974015860}
   - component: {fileID: 4375962485437394006}
-  - component: {fileID: 1313517982419618148}
+  - component: {fileID: 8030937008692036307}
   m_Layer: 8
   m_Name: BuffTower
   m_TagString: Tower
@@ -534,7 +534,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.7, y: 2.7}
   m_EdgeRadius: 0
---- !u!114 &1313517982419618148
+--- !u!114 &8030937008692036307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -543,19 +543,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8502727748603339796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc6398f4fe6ea86438781d38e151396f, type: 3}
+  m_Script: {fileID: 11500000, guid: 827fc5d93428bf24c86d195f5a92e425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   towerExplosion: {fileID: 5218235734879889509, guid: 79d7c360e08092a458cfd28862483a9d, type: 3}
   maxHp: 100
   attackRange: 5
-  attackDamage: 2
-  attackCoolDown: 2
+  attackDamage: 5
+  attackCoolDown: 1
   bullet: {fileID: 7942084093754132198, guid: a9976d99e0ebbdd428cd296e42c9a531, type: 3}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
-  buffRange: 5
-  damageBuffAmount: 2
-  speedBuffAmount: 0.2
 --- !u!1 &8735435331097510415
 GameObject:
   m_ObjectHideFlags: 0

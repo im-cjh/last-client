@@ -40,19 +40,39 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnMonster(string prefabId, PosInfo pos)
     {
-        Debug.Log(prefabId);
+        //Debug.Log(prefabId);
         if (prefabMap.TryGetValue(prefabId, out GameObject prefab))
         {
             // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
             GameObject monster = Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
             Enemy chara = monster.GetComponent<Enemy>();
+            chara.SetMonsterId(pos.Uuid);
             enemies[pos.Uuid] = chara;
-            // Debug.Log($"Monster spawned: {prefabId} at {pos}");
+            
         }
         else
         {
             Debug.LogError($"Prefab not found: {prefabId}");
         }
+    }
+
+    public void RemoveMonster(string uuid)
+    {
+        if (enemies.ContainsKey(uuid))
+        {
+            enemies.Remove(uuid);
+            Debug.Log("몬스터 제거: uuid: " + uuid);
+        }
+    }
+
+    public Enemy GetMonsterByUuid(string uuid)
+    {
+        if (enemies.ContainsKey(uuid))
+        {
+            return enemies[uuid];
+        }
+
+        return null;
     }
 
     /*---------------------------------------------
@@ -62,6 +82,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemies.TryGetValue(pos.Uuid, out Enemy enemy))
         {
+            enemy.SetMoveMode();
             // Rigidbody2D를 가져옴
             Rigidbody2D rigid = enemy.GetComponent<Rigidbody2D>();
 
@@ -70,13 +91,9 @@ public class EnemySpawner : MonoBehaviour
                 // 목표 위치를 Vector2로 변환
                 Vector2 targetPosition = new Vector2(pos.X, pos.Y);
 
-                // 현재 위치에서 목표 위치로 부드럽게 이동
-                float moveSpeed = 5f; // 이동 속도 조정 가능
-                enemy.SetNextPos(targetPosition);
-                //enemy.transform.position = new Vector2(pos.X, pos.Y);
-                //rigid.MovePosition(Vector2.Lerp(rigid.position, targetPosition, moveSpeed * Time.deltaTime));
 
-                Debug.Log($"Monster {pos.Uuid} moved to ({pos.X}, {pos.Y})");
+                enemy.SetNextPos(targetPosition);
+                //Debug.Log($"Monster {pos.Uuid} moved to ({pos.X}, {pos.Y})");
             }
             else
             {
@@ -88,5 +105,15 @@ public class EnemySpawner : MonoBehaviour
             Debug.LogError($"Monster with UUID {pos.Uuid} not found");
         }
     }
-
+    public void HandleMonsterAttackTower(string monsterId)
+    {
+        if (enemies.TryGetValue(monsterId, out Enemy enemy))
+        {
+            enemy.SetAttackMode();
+        }
+        else
+        {
+            Debug.LogError($"not found");
+        }
+    }
 }

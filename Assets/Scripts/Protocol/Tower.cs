@@ -24,30 +24,27 @@ namespace Protocol {
     static TowerReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgt0b3dlci5wcm90bxIIUHJvdG9jb2waDHN0cnVjdC5wcm90byJcChVDMkJf",
+            "Cgt0b3dlci5wcm90bxIIUHJvdG9jb2waDHN0cnVjdC5wcm90byJsChVDMkJf",
             "VG93ZXJCdWlsZFJlcXVlc3QSIgoFdG93ZXIYASABKAsyEy5Qcm90b2NvbC5U",
-            "b3dlckRhdGESDwoHb3duZXJJZBgCIAEoCRIOCgZyb29tSWQYAyABKAUiKwoW",
-            "QjJDX1Rvd2VyQnVpbGRSZXNwb25zZRIRCglpc1N1Y2Nlc3MYASABKAgiUQoa",
-            "QjJDX1Rvd2VyQnVpbGROb3RpZmljYXRpb24SIgoFdG93ZXIYASABKAsyEy5Q",
-            "cm90b2NvbC5Ub3dlckRhdGESDwoHb3duZXJJZBgCIAEoCSI7ChZCMkNfVG93",
-            "ZXJBdHRhY2tSZXF1ZXN0Eg8KB3Rvd2VySWQYASABKAkSEAoIdGFyZ2V0SWQY",
-            "AiABKAkiVgobQjJDX1Rvd2VyQXR0YWNrTm90aWZpY2F0aW9uEhEKCWlzU3Vj",
-            "Y2VzcxgBIAEoCBIOCgZkYW1hZ2UYAiABKAUSFAoMdGFyZ2V0SGVhbHRoGAMg",
-            "ASgFIioKF0MyQl9Ub3dlckRlc3Ryb3lSZXF1ZXN0Eg8KB3Rvd2VySWQYASAB",
-            "KAkiKwoYQzJCX1Rvd2VyRGVzdHJveVJlc3BvbnNlEg8KB3Rvd2VySWQYASAB",
-            "KAkiLwocQzJCX1Rvd2VyRGVzdHJveU5vdGlmaWNhdGlvbhIPCgd0b3dlcklk",
-            "GAEgASgJYgZwcm90bzM="));
+            "b3dlckRhdGESDwoHb3duZXJJZBgCIAEoCRIOCgZyb29tSWQYAyABKAUSDgoG",
+            "Y2FyZElkGAQgASgJIisKFkIyQ19Ub3dlckJ1aWxkUmVzcG9uc2USEQoJaXNT",
+            "dWNjZXNzGAEgASgIIlEKGkIyQ19Ub3dlckJ1aWxkTm90aWZpY2F0aW9uEiIK",
+            "BXRvd2VyGAEgASgLMhMuUHJvdG9jb2wuVG93ZXJEYXRhEg8KB293bmVySWQY",
+            "AiABKAkicAoiQjJDX1Rvd2VyQXR0YWNrTW9uc3Rlck5vdGlmaWNhdGlvbhIP",
+            "Cgd0b3dlcklkGAEgASgJEiUKCm1vbnN0ZXJQb3MYAiABKAsyES5Qcm90b2Nv",
+            "bC5Qb3NJbmZvEhIKCnRyYXZlbFRpbWUYAyABKAIiQgocQjJDX1Rvd2VyRGVz",
+            "dHJveU5vdGlmaWNhdGlvbhIRCglpc1N1Y2Nlc3MYASABKAgSDwoHdG93ZXJJ",
+            "ZBgCIAEoCSIyChtCMkNfQmFzZURlc3Ryb3lOb3RpZmljYXRpb24SEwoLaXNE",
+            "ZXN0cm9pZWQYASABKAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_TowerBuildRequest), global::Protocol.C2B_TowerBuildRequest.Parser, new[]{ "Tower", "OwnerId", "RoomId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_TowerBuildRequest), global::Protocol.C2B_TowerBuildRequest.Parser, new[]{ "Tower", "OwnerId", "RoomId", "CardId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_TowerBuildResponse), global::Protocol.B2C_TowerBuildResponse.Parser, new[]{ "IsSuccess" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_TowerBuildNotification), global::Protocol.B2C_TowerBuildNotification.Parser, new[]{ "Tower", "OwnerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_TowerAttackRequest), global::Protocol.B2C_TowerAttackRequest.Parser, new[]{ "TowerId", "TargetId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_TowerAttackNotification), global::Protocol.B2C_TowerAttackNotification.Parser, new[]{ "IsSuccess", "Damage", "TargetHealth" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_TowerDestroyRequest), global::Protocol.C2B_TowerDestroyRequest.Parser, new[]{ "TowerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_TowerDestroyResponse), global::Protocol.C2B_TowerDestroyResponse.Parser, new[]{ "TowerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_TowerDestroyNotification), global::Protocol.C2B_TowerDestroyNotification.Parser, new[]{ "TowerId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_TowerAttackMonsterNotification), global::Protocol.B2C_TowerAttackMonsterNotification.Parser, new[]{ "TowerId", "MonsterPos", "TravelTime" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_TowerDestroyNotification), global::Protocol.B2C_TowerDestroyNotification.Parser, new[]{ "IsSuccess", "TowerId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_BaseDestroyNotification), global::Protocol.B2C_BaseDestroyNotification.Parser, new[]{ "IsDestroied" }, null, null, null, null)
           }));
     }
     #endregion
@@ -55,7 +52,7 @@ namespace Protocol {
   }
   #region Messages
   /// <summary>
-  ///타워 생성 요청
+  /// 타워 생성 요청
   /// </summary>
   public sealed partial class C2B_TowerBuildRequest : pb::IMessage<C2B_TowerBuildRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -94,6 +91,7 @@ namespace Protocol {
       tower_ = other.tower_ != null ? other.tower_.Clone() : null;
       ownerId_ = other.ownerId_;
       roomId_ = other.roomId_;
+      cardId_ = other.cardId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -148,6 +146,18 @@ namespace Protocol {
       }
     }
 
+    /// <summary>Field number for the "cardId" field.</summary>
+    public const int CardIdFieldNumber = 4;
+    private string cardId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string CardId {
+      get { return cardId_; }
+      set {
+        cardId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -166,6 +176,7 @@ namespace Protocol {
       if (!object.Equals(Tower, other.Tower)) return false;
       if (OwnerId != other.OwnerId) return false;
       if (RoomId != other.RoomId) return false;
+      if (CardId != other.CardId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -176,6 +187,7 @@ namespace Protocol {
       if (tower_ != null) hash ^= Tower.GetHashCode();
       if (OwnerId.Length != 0) hash ^= OwnerId.GetHashCode();
       if (RoomId != 0) hash ^= RoomId.GetHashCode();
+      if (CardId.Length != 0) hash ^= CardId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -206,6 +218,10 @@ namespace Protocol {
         output.WriteRawTag(24);
         output.WriteInt32(RoomId);
       }
+      if (CardId.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(CardId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -228,6 +244,10 @@ namespace Protocol {
         output.WriteRawTag(24);
         output.WriteInt32(RoomId);
       }
+      if (CardId.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(CardId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -246,6 +266,9 @@ namespace Protocol {
       }
       if (RoomId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomId);
+      }
+      if (CardId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CardId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -270,6 +293,9 @@ namespace Protocol {
       }
       if (other.RoomId != 0) {
         RoomId = other.RoomId;
+      }
+      if (other.CardId.Length != 0) {
+        CardId = other.CardId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -299,6 +325,10 @@ namespace Protocol {
           }
           case 24: {
             RoomId = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            CardId = input.ReadString();
             break;
           }
         }
@@ -331,6 +361,10 @@ namespace Protocol {
             RoomId = input.ReadInt32();
             break;
           }
+          case 34: {
+            CardId = input.ReadString();
+            break;
+          }
         }
       }
     }
@@ -339,7 +373,7 @@ namespace Protocol {
   }
 
   /// <summary>
-  ///타워 생성 응답
+  /// 타워 생성 응답
   /// </summary>
   public sealed partial class B2C_TowerBuildResponse : pb::IMessage<B2C_TowerBuildResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -531,7 +565,7 @@ namespace Protocol {
   }
 
   /// <summary>
-  ///타워 생성 알림
+  /// 타워 생성 알림
   /// </summary>
   public sealed partial class B2C_TowerBuildNotification : pb::IMessage<B2C_TowerBuildNotification>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -775,18 +809,18 @@ namespace Protocol {
   }
 
   /// <summary>
-  ///타워 공격 요청
+  /// 타워 -> 몬스터 공격 알림
   /// </summary>
-  public sealed partial class B2C_TowerAttackRequest : pb::IMessage<B2C_TowerAttackRequest>
+  public sealed partial class B2C_TowerAttackMonsterNotification : pb::IMessage<B2C_TowerAttackMonsterNotification>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<B2C_TowerAttackRequest> _parser = new pb::MessageParser<B2C_TowerAttackRequest>(() => new B2C_TowerAttackRequest());
+    private static readonly pb::MessageParser<B2C_TowerAttackMonsterNotification> _parser = new pb::MessageParser<B2C_TowerAttackMonsterNotification>(() => new B2C_TowerAttackMonsterNotification());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<B2C_TowerAttackRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<B2C_TowerAttackMonsterNotification> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -802,7 +836,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_TowerAttackRequest() {
+    public B2C_TowerAttackMonsterNotification() {
       OnConstruction();
     }
 
@@ -810,16 +844,17 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_TowerAttackRequest(B2C_TowerAttackRequest other) : this() {
+    public B2C_TowerAttackMonsterNotification(B2C_TowerAttackMonsterNotification other) : this() {
       towerId_ = other.towerId_;
-      targetId_ = other.targetId_;
+      monsterPos_ = other.monsterPos_ != null ? other.monsterPos_.Clone() : null;
+      travelTime_ = other.travelTime_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_TowerAttackRequest Clone() {
-      return new B2C_TowerAttackRequest(this);
+    public B2C_TowerAttackMonsterNotification Clone() {
+      return new B2C_TowerAttackMonsterNotification(this);
     }
 
     /// <summary>Field number for the "towerId" field.</summary>
@@ -834,27 +869,39 @@ namespace Protocol {
       }
     }
 
-    /// <summary>Field number for the "targetId" field.</summary>
-    public const int TargetIdFieldNumber = 2;
-    private string targetId_ = "";
+    /// <summary>Field number for the "monsterPos" field.</summary>
+    public const int MonsterPosFieldNumber = 2;
+    private global::Protocol.PosInfo monsterPos_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string TargetId {
-      get { return targetId_; }
+    public global::Protocol.PosInfo MonsterPos {
+      get { return monsterPos_; }
       set {
-        targetId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        monsterPos_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "travelTime" field.</summary>
+    public const int TravelTimeFieldNumber = 3;
+    private float travelTime_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float TravelTime {
+      get { return travelTime_; }
+      set {
+        travelTime_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as B2C_TowerAttackRequest);
+      return Equals(other as B2C_TowerAttackMonsterNotification);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(B2C_TowerAttackRequest other) {
+    public bool Equals(B2C_TowerAttackMonsterNotification other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -862,7 +909,8 @@ namespace Protocol {
         return true;
       }
       if (TowerId != other.TowerId) return false;
-      if (TargetId != other.TargetId) return false;
+      if (!object.Equals(MonsterPos, other.MonsterPos)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(TravelTime, other.TravelTime)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -871,7 +919,8 @@ namespace Protocol {
     public override int GetHashCode() {
       int hash = 1;
       if (TowerId.Length != 0) hash ^= TowerId.GetHashCode();
-      if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
+      if (monsterPos_ != null) hash ^= MonsterPos.GetHashCode();
+      if (TravelTime != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(TravelTime);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -894,9 +943,13 @@ namespace Protocol {
         output.WriteRawTag(10);
         output.WriteString(TowerId);
       }
-      if (TargetId.Length != 0) {
+      if (monsterPos_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(TargetId);
+        output.WriteMessage(MonsterPos);
+      }
+      if (TravelTime != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(TravelTime);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -912,9 +965,13 @@ namespace Protocol {
         output.WriteRawTag(10);
         output.WriteString(TowerId);
       }
-      if (TargetId.Length != 0) {
+      if (monsterPos_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(TargetId);
+        output.WriteMessage(MonsterPos);
+      }
+      if (TravelTime != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(TravelTime);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -929,8 +986,11 @@ namespace Protocol {
       if (TowerId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(TowerId);
       }
-      if (TargetId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetId);
+      if (monsterPos_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MonsterPos);
+      }
+      if (TravelTime != 0F) {
+        size += 1 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -940,15 +1000,21 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(B2C_TowerAttackRequest other) {
+    public void MergeFrom(B2C_TowerAttackMonsterNotification other) {
       if (other == null) {
         return;
       }
       if (other.TowerId.Length != 0) {
         TowerId = other.TowerId;
       }
-      if (other.TargetId.Length != 0) {
-        TargetId = other.TargetId;
+      if (other.monsterPos_ != null) {
+        if (monsterPos_ == null) {
+          MonsterPos = new global::Protocol.PosInfo();
+        }
+        MonsterPos.MergeFrom(other.MonsterPos);
+      }
+      if (other.TravelTime != 0F) {
+        TravelTime = other.TravelTime;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -970,7 +1036,14 @@ namespace Protocol {
             break;
           }
           case 18: {
-            TargetId = input.ReadString();
+            if (monsterPos_ == null) {
+              MonsterPos = new global::Protocol.PosInfo();
+            }
+            input.ReadMessage(MonsterPos);
+            break;
+          }
+          case 29: {
+            TravelTime = input.ReadFloat();
             break;
           }
         }
@@ -993,7 +1066,14 @@ namespace Protocol {
             break;
           }
           case 18: {
-            TargetId = input.ReadString();
+            if (monsterPos_ == null) {
+              MonsterPos = new global::Protocol.PosInfo();
+            }
+            input.ReadMessage(MonsterPos);
+            break;
+          }
+          case 29: {
+            TravelTime = input.ReadFloat();
             break;
           }
         }
@@ -1003,16 +1083,19 @@ namespace Protocol {
 
   }
 
-  public sealed partial class B2C_TowerAttackNotification : pb::IMessage<B2C_TowerAttackNotification>
+  /// <summary>
+  ///타워 파괴 알림
+  /// </summary>
+  public sealed partial class B2C_TowerDestroyNotification : pb::IMessage<B2C_TowerDestroyNotification>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<B2C_TowerAttackNotification> _parser = new pb::MessageParser<B2C_TowerAttackNotification>(() => new B2C_TowerAttackNotification());
+    private static readonly pb::MessageParser<B2C_TowerDestroyNotification> _parser = new pb::MessageParser<B2C_TowerDestroyNotification>(() => new B2C_TowerDestroyNotification());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<B2C_TowerAttackNotification> Parser { get { return _parser; } }
+    public static pb::MessageParser<B2C_TowerDestroyNotification> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1028,7 +1111,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_TowerAttackNotification() {
+    public B2C_TowerDestroyNotification() {
       OnConstruction();
     }
 
@@ -1036,17 +1119,16 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_TowerAttackNotification(B2C_TowerAttackNotification other) : this() {
+    public B2C_TowerDestroyNotification(B2C_TowerDestroyNotification other) : this() {
       isSuccess_ = other.isSuccess_;
-      damage_ = other.damage_;
-      targetHealth_ = other.targetHealth_;
+      towerId_ = other.towerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public B2C_TowerAttackNotification Clone() {
-      return new B2C_TowerAttackNotification(this);
+    public B2C_TowerDestroyNotification Clone() {
+      return new B2C_TowerDestroyNotification(this);
     }
 
     /// <summary>Field number for the "isSuccess" field.</summary>
@@ -1061,39 +1143,27 @@ namespace Protocol {
       }
     }
 
-    /// <summary>Field number for the "damage" field.</summary>
-    public const int DamageFieldNumber = 2;
-    private int damage_;
+    /// <summary>Field number for the "towerId" field.</summary>
+    public const int TowerIdFieldNumber = 2;
+    private string towerId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Damage {
-      get { return damage_; }
+    public string TowerId {
+      get { return towerId_; }
       set {
-        damage_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "targetHealth" field.</summary>
-    public const int TargetHealthFieldNumber = 3;
-    private int targetHealth_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int TargetHealth {
-      get { return targetHealth_; }
-      set {
-        targetHealth_ = value;
+        towerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as B2C_TowerAttackNotification);
+      return Equals(other as B2C_TowerDestroyNotification);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(B2C_TowerAttackNotification other) {
+    public bool Equals(B2C_TowerDestroyNotification other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1101,8 +1171,7 @@ namespace Protocol {
         return true;
       }
       if (IsSuccess != other.IsSuccess) return false;
-      if (Damage != other.Damage) return false;
-      if (TargetHealth != other.TargetHealth) return false;
+      if (TowerId != other.TowerId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1111,8 +1180,7 @@ namespace Protocol {
     public override int GetHashCode() {
       int hash = 1;
       if (IsSuccess != false) hash ^= IsSuccess.GetHashCode();
-      if (Damage != 0) hash ^= Damage.GetHashCode();
-      if (TargetHealth != 0) hash ^= TargetHealth.GetHashCode();
+      if (TowerId.Length != 0) hash ^= TowerId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1135,13 +1203,9 @@ namespace Protocol {
         output.WriteRawTag(8);
         output.WriteBool(IsSuccess);
       }
-      if (Damage != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(Damage);
-      }
-      if (TargetHealth != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(TargetHealth);
+      if (TowerId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(TowerId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1157,13 +1221,9 @@ namespace Protocol {
         output.WriteRawTag(8);
         output.WriteBool(IsSuccess);
       }
-      if (Damage != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(Damage);
-      }
-      if (TargetHealth != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(TargetHealth);
+      if (TowerId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(TowerId);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1178,11 +1238,8 @@ namespace Protocol {
       if (IsSuccess != false) {
         size += 1 + 1;
       }
-      if (Damage != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Damage);
-      }
-      if (TargetHealth != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetHealth);
+      if (TowerId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TowerId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1192,18 +1249,15 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(B2C_TowerAttackNotification other) {
+    public void MergeFrom(B2C_TowerDestroyNotification other) {
       if (other == null) {
         return;
       }
       if (other.IsSuccess != false) {
         IsSuccess = other.IsSuccess;
       }
-      if (other.Damage != 0) {
-        Damage = other.Damage;
-      }
-      if (other.TargetHealth != 0) {
-        TargetHealth = other.TargetHealth;
+      if (other.TowerId.Length != 0) {
+        TowerId = other.TowerId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1224,12 +1278,8 @@ namespace Protocol {
             IsSuccess = input.ReadBool();
             break;
           }
-          case 16: {
-            Damage = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            TargetHealth = input.ReadInt32();
+          case 18: {
+            TowerId = input.ReadString();
             break;
           }
         }
@@ -1251,12 +1301,8 @@ namespace Protocol {
             IsSuccess = input.ReadBool();
             break;
           }
-          case 16: {
-            Damage = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            TargetHealth = input.ReadInt32();
+          case 18: {
+            TowerId = input.ReadString();
             break;
           }
         }
@@ -1266,16 +1312,19 @@ namespace Protocol {
 
   }
 
-  public sealed partial class C2B_TowerDestroyRequest : pb::IMessage<C2B_TowerDestroyRequest>
+  /// <summary>
+  /// 베이스 파괴 알림
+  /// </summary>
+  public sealed partial class B2C_BaseDestroyNotification : pb::IMessage<B2C_BaseDestroyNotification>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<C2B_TowerDestroyRequest> _parser = new pb::MessageParser<C2B_TowerDestroyRequest>(() => new C2B_TowerDestroyRequest());
+    private static readonly pb::MessageParser<B2C_BaseDestroyNotification> _parser = new pb::MessageParser<B2C_BaseDestroyNotification>(() => new B2C_BaseDestroyNotification());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<C2B_TowerDestroyRequest> Parser { get { return _parser; } }
+    public static pb::MessageParser<B2C_BaseDestroyNotification> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1291,7 +1340,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyRequest() {
+    public B2C_BaseDestroyNotification() {
       OnConstruction();
     }
 
@@ -1299,45 +1348,45 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyRequest(C2B_TowerDestroyRequest other) : this() {
-      towerId_ = other.towerId_;
+    public B2C_BaseDestroyNotification(B2C_BaseDestroyNotification other) : this() {
+      isDestroied_ = other.isDestroied_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyRequest Clone() {
-      return new C2B_TowerDestroyRequest(this);
+    public B2C_BaseDestroyNotification Clone() {
+      return new B2C_BaseDestroyNotification(this);
     }
 
-    /// <summary>Field number for the "towerId" field.</summary>
-    public const int TowerIdFieldNumber = 1;
-    private string towerId_ = "";
+    /// <summary>Field number for the "isDestroied" field.</summary>
+    public const int IsDestroiedFieldNumber = 1;
+    private bool isDestroied_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string TowerId {
-      get { return towerId_; }
+    public bool IsDestroied {
+      get { return isDestroied_; }
       set {
-        towerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        isDestroied_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as C2B_TowerDestroyRequest);
+      return Equals(other as B2C_BaseDestroyNotification);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(C2B_TowerDestroyRequest other) {
+    public bool Equals(B2C_BaseDestroyNotification other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (TowerId != other.TowerId) return false;
+      if (IsDestroied != other.IsDestroied) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1345,7 +1394,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (TowerId.Length != 0) hash ^= TowerId.GetHashCode();
+      if (IsDestroied != false) hash ^= IsDestroied.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1364,9 +1413,9 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (TowerId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(TowerId);
+      if (IsDestroied != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(IsDestroied);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1378,9 +1427,9 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TowerId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(TowerId);
+      if (IsDestroied != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(IsDestroied);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1392,8 +1441,8 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (TowerId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(TowerId);
+      if (IsDestroied != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1403,12 +1452,12 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(C2B_TowerDestroyRequest other) {
+    public void MergeFrom(B2C_BaseDestroyNotification other) {
       if (other == null) {
         return;
       }
-      if (other.TowerId.Length != 0) {
-        TowerId = other.TowerId;
+      if (other.IsDestroied != false) {
+        IsDestroied = other.IsDestroied;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1425,8 +1474,8 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            TowerId = input.ReadString();
+          case 8: {
+            IsDestroied = input.ReadBool();
             break;
           }
         }
@@ -1444,386 +1493,8 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
-            TowerId = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class C2B_TowerDestroyResponse : pb::IMessage<C2B_TowerDestroyResponse>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<C2B_TowerDestroyResponse> _parser = new pb::MessageParser<C2B_TowerDestroyResponse>(() => new C2B_TowerDestroyResponse());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<C2B_TowerDestroyResponse> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.TowerReflection.Descriptor.MessageTypes[6]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyResponse() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyResponse(C2B_TowerDestroyResponse other) : this() {
-      towerId_ = other.towerId_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyResponse Clone() {
-      return new C2B_TowerDestroyResponse(this);
-    }
-
-    /// <summary>Field number for the "towerId" field.</summary>
-    public const int TowerIdFieldNumber = 1;
-    private string towerId_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string TowerId {
-      get { return towerId_; }
-      set {
-        towerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as C2B_TowerDestroyResponse);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(C2B_TowerDestroyResponse other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (TowerId != other.TowerId) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (TowerId.Length != 0) hash ^= TowerId.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (TowerId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(TowerId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TowerId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(TowerId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (TowerId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(TowerId);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(C2B_TowerDestroyResponse other) {
-      if (other == null) {
-        return;
-      }
-      if (other.TowerId.Length != 0) {
-        TowerId = other.TowerId;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            TowerId = input.ReadString();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            TowerId = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class C2B_TowerDestroyNotification : pb::IMessage<C2B_TowerDestroyNotification>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<C2B_TowerDestroyNotification> _parser = new pb::MessageParser<C2B_TowerDestroyNotification>(() => new C2B_TowerDestroyNotification());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<C2B_TowerDestroyNotification> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.TowerReflection.Descriptor.MessageTypes[7]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyNotification() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyNotification(C2B_TowerDestroyNotification other) : this() {
-      towerId_ = other.towerId_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public C2B_TowerDestroyNotification Clone() {
-      return new C2B_TowerDestroyNotification(this);
-    }
-
-    /// <summary>Field number for the "towerId" field.</summary>
-    public const int TowerIdFieldNumber = 1;
-    private string towerId_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string TowerId {
-      get { return towerId_; }
-      set {
-        towerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as C2B_TowerDestroyNotification);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(C2B_TowerDestroyNotification other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (TowerId != other.TowerId) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (TowerId.Length != 0) hash ^= TowerId.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (TowerId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(TowerId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (TowerId.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(TowerId);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int CalculateSize() {
-      int size = 0;
-      if (TowerId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(TowerId);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(C2B_TowerDestroyNotification other) {
-      if (other == null) {
-        return;
-      }
-      if (other.TowerId.Length != 0) {
-        TowerId = other.TowerId;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 10: {
-            TowerId = input.ReadString();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 10: {
-            TowerId = input.ReadString();
+          case 8: {
+            IsDestroied = input.ReadBool();
             break;
           }
         }

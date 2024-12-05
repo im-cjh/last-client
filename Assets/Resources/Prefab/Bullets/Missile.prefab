@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 2669238349039794423, guid: d884347ae53271043bcd83bf23b622ab, type: 3}
-  moveSpeed: 10
-  attackDamage: 0
+  moveSpeed: 15
+  destroyAfter: 0
   isSlowBullet: 0
   isSplash: 1
 --- !u!61 &5445185560444591744

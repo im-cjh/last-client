@@ -3,19 +3,17 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject explosion;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 15f;
     private SpriteRenderer spriteRenderer;
-    public float attackDamage;
-
+    private float attackDamage;
+    public float destroyAfter;
     public bool isSlowBullet = false;
     public bool isSplash = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        // 7초 후 사라짐
-        Destroy(gameObject, 7f);
+        Invoke("Remove", destroyAfter);
     }
 
     // Update is called once per frame

@@ -41,16 +41,53 @@ public class PacketHandler
         handlerMapping[ePacketID.L2C_JoinRoomResponse] = HandleJoinRoomResponsePacket;
         handlerMapping[ePacketID.L2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
         handlerMapping[ePacketID.L2C_CreateRoomResponse] = HandleCreateRoomResponsePacket;
+        handlerMapping[ePacketID.L2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
 
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
+        handlerMapping[ePacketID.B2C_increaseWaveNotification] = HandleIncreaseWaveNotification;
         handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
+        handlerMapping[ePacketID.B2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
         handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
         handlerMapping[ePacketID.B2C_MonsterPositionUpdateNotification] = HandleMonsterMove;
+        handlerMapping[ePacketID.B2C_MonsterAttackTowerNotification] = HandleMonsterAttackTower;
+        handlerMapping[ePacketID.B2C_MonsterAttackBaseNotification] = HandleMonsterAttackBase;
 
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
+        handlerMapping[ePacketID.B2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
+        handlerMapping[ePacketID.B2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
+
+        handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
+        handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
+        handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
+    }
+
+    private static void HandleLeaveRoomNotificationPacket(byte[] pBuffer)
+    {
+        Protocol.L2C_LeaveRoomNotification pkt = L2C_LeaveRoomNotification.Parser.ParseFrom(pBuffer);
+        
+        LobbyManager.instance.uiRoom.RemoveUserFromSlot(pkt.UserId);
+    }
+
+    private static void HandleMonsterAttackBase(byte[] pBuffer)
+    {                
+        B2C_MonsterAttackBaseNotification pkt = B2C_MonsterAttackBaseNotification.Parser.ParseFrom(pBuffer);
+        EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+        Base.instance.GetDamage(pkt.AttackDamage);
+    }
+
+    private static void HandleMonsterAttackTower(byte[] pBuffer)
+    {
+        B2C_MonsterAttackTowerNotification pkt = B2C_MonsterAttackTowerNotification.Parser.ParseFrom(pBuffer);
+        EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+        Tower tower = TowerManager.instance.GetTowerByUuid(pkt.TargetId);
+
+        if (tower != null)
+        {
+            tower.SetHp(pkt.Hp, pkt.MaxHp);
+        }
     }
 
     /*---------------------------------------------
@@ -136,7 +173,6 @@ public class PacketHandler
     {
         // 1. 패킷 파싱
         Protocol.B2C_GameStartNotification pkt = Protocol.B2C_GameStartNotification.Parser.ParseFrom(pBuffer);
-        Debug.Log("게임 시작 패킷 수신");
 
         //temp
         PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
@@ -151,9 +187,19 @@ public class PacketHandler
         // 3. 게임 씬으로 전환
         SceneChanger.ChangeScene(SceneChanger.SceneType.TestGame);
 
-        // 4. 씬 전환 후 캐릭터 초기화 (중복 등록 방지)
+        // 4. 씬 전환 후 캐릭터, 장애물 초기화 (중복 등록 방지)
         SceneChanger.OnSceneLoaded -= InitializeCharacters; // 기존 이벤트 제거
         SceneChanger.OnSceneLoaded += InitializeCharacters; // 새로운 이벤트 등록
+    }
+
+    private static void HandleIncreaseWaveNotification(byte[] pBuffer)
+    {
+        B2C_increaseWaveNotification packet = Protocol.B2C_increaseWaveNotification.Parser.ParseFrom(pBuffer);
+        if (packet.IsSuccess)
+        {
+            Debug.Log("다음 웨이브");
+            ScoreManager.instance.AddWave();
+        }
     }
 
     // 캐릭터 초기화 메서드 (독립적인 메서드로 분리)
@@ -205,12 +251,21 @@ public class PacketHandler
 
     static void HandleSpawnMonster(byte[] pBuffer)
     {
+        Debug.Log("HandleSpawnMonster Called");
+
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
-        Debug.Log("HandleSpawnMonster: ");
-        Debug.Log(packet.PrefabId);
-        Debug.Log(packet.PosInfo);
 
         EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
+    }
+
+    static void HandleMonsterHealthUpdateNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleMonsterHealthUpdateNotification Called");
+
+        B2C_MonsterHealthUpdateNotification packet = Protocol.B2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
+
+        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        monster.SetHp(packet.Hp, packet.MaxHp);
     }
 
     static void HandleMonsterDeath(byte[] pBuffer)
@@ -218,7 +273,13 @@ public class PacketHandler
         Debug.Log("HandleMonsterDeath Called");
 
         B2C_MonsterDeathNotification packet = Protocol.B2C_MonsterDeathNotification.Parser.ParseFrom(pBuffer);
-        ScoreManager.instance.AddScore();
+
+        Debug.Log("Monster Death: MonsterId: " + packet.MonsterId);
+        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        monster.Die();
+        EnemySpawner.instance.RemoveMonster(packet.MonsterId);
+        ScoreManager.instance.AddScore(packet.Score);
+
     }
 
     static void HandleBuildTowerResponse(byte[] pBuffer)
@@ -239,6 +300,68 @@ public class PacketHandler
         B2C_TowerBuildNotification packet = Protocol.B2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
 
         TowerPlacer.instance.BuildTower(packet.Tower);
+    }
+
+    static void HandleTowerAttackMonsterNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleTowerAttackMonsterNotification");
+
+        B2C_TowerAttackMonsterNotification packet = Protocol.B2C_TowerAttackMonsterNotification.Parser.ParseFrom(pBuffer);
+
+        Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
+        if (tower != null)
+        {
+            tower.AttackTarget(packet.MonsterPos, packet.TravelTime);
+        }
+    }
+
+    static void HandleTowerDestroyNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleTowerDestroyNotification Called");
+
+        B2C_TowerDestroyNotification packet = Protocol.B2C_TowerDestroyNotification.Parser.ParseFrom(pBuffer);
+
+        Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
+        if (tower != null)
+        {
+            tower.Destroy();
+        }
+        else
+        {
+            Debug.Log("타워가 존재하지 않습니다.");
+            return;
+        }
+
+        TowerManager.instance.RemoveTower(packet.TowerId);
+    }
+
+    static void HandleUseSkillNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleUseSkillNotification Called");
+
+        B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
+
+        Debug.Log("HandleUseSkillNotification packet: " + packet);
+
+        SkillUser.instance.UseSkill(packet.Skill);
+    }
+
+    static void HandleInitCardData(byte[] pBuffer)
+    {
+        //Debug.Log("HandleInitCardData Called");
+
+        B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
+
+        HandManager.instance.AddInitCard(packet.CardData);
+    }
+
+    static void HandleSkillResponse(byte[] pBuffer)
+    {
+        Debug.Log("HandleSkillResponse Called");
+
+        B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
+
+        //HandManager.instance.AddInitCard(packet.CardData);
     }
 }
 

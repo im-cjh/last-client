@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     private TextMeshPro nicknameText;      // 닉네임 텍스트
     private Vector2 lastSyncedPosition; // 마지막으로 서버에 전송된 위치
     private Animator animator;
+    //public Camera cam;
 
     // Constants
     private const float SyncThreshold = 0.1f; // ���� ����ȭ �ּ� �Ÿ�
@@ -50,11 +51,6 @@ public class Character : MonoBehaviour
         {
             MoveCharacter(); // 로컬 플레이어 이동 처리
         }
-    }
-
-    private void LateUpdate()
-    {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
     // 입력 처리 (로컬 플레이어 전용)
