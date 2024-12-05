@@ -36,11 +36,31 @@ public class LobbyManager : MonoBehaviour
         uiMain.gameObject.SetActive(false);
         uiRoom.gameObject.SetActive(true);
         uiRoom.SetRoomInfo(roomData);
+
+        PlayerInfoManager.instance.roomId = roomData.Id;
     }
 
     public void OnJoinedRoomSomeone(Protocol.UserData userData)
     {
 
         uiRoom.AddUserToSlot(userData);
+    }
+
+    public void onExitRoom()
+    {
+        uiMain.gameObject.SetActive(true);
+        uiRoom.gameObject.SetActive(false);
+
+        Protocol.C2L_LeaveRoomRequest pkt = new C2L_LeaveRoomRequest();
+        pkt.RoomId = PlayerInfoManager.instance.roomId;
+        if(PlayerInfoManager.instance.roomId == -1)
+        {
+            Debug.LogError("[onExitRoom] 유효하지 않은 roomId");
+            return;
+        }
+        PlayerInfoManager.instance.roomId = -1;
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_LeaveRoomRequest, 0);
+
+        NetworkManager.instance.SendLobbyPacket(sendBuffer);
     }
 }

@@ -41,6 +41,7 @@ public class PacketHandler
         handlerMapping[ePacketID.L2C_JoinRoomResponse] = HandleJoinRoomResponsePacket;
         handlerMapping[ePacketID.L2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
         handlerMapping[ePacketID.L2C_CreateRoomResponse] = HandleCreateRoomResponsePacket;
+        handlerMapping[ePacketID.L2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
 
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
@@ -62,9 +63,15 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
     }
 
-    private static void HandleMonsterAttackBase(byte[] pBuffer)
+    private static void HandleLeaveRoomNotificationPacket(byte[] pBuffer)
     {
-        Debug.Log("asdddddddddddddddddddddddddddd");
+        Protocol.L2C_LeaveRoomNotification pkt = L2C_LeaveRoomNotification.Parser.ParseFrom(pBuffer);
+        
+        LobbyManager.instance.uiRoom.RemoveUserFromSlot(pkt.UserId);
+    }
+
+    private static void HandleMonsterAttackBase(byte[] pBuffer)
+    {                                                                           
         B2C_MonsterAttackBaseNotification pkt = B2C_MonsterAttackBaseNotification.Parser.ParseFrom(pBuffer);
         EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
     }
