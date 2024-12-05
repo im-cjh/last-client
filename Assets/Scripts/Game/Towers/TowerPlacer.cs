@@ -19,7 +19,7 @@ public class TowerPlacer : MonoBehaviour
     protected bool isValidTile;
     protected GameObject currentHighlight;
     protected Vector3Int previousCellPosition = Vector3Int.zero;
-
+    private Camera cam;
 
     public static TowerPlacer instance = null;
 
@@ -34,56 +34,24 @@ public class TowerPlacer : MonoBehaviour
     async void Start()
     {
         tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
-        await RegisterPrefab("Prefab/Towers/BasicTower");
-        await RegisterPrefab("Prefab/Towers/BuffTower");
-        await RegisterPrefab("Prefab/Towers/IceTower");
-        await RegisterPrefab("Prefab/Towers/MissileTower");
-        await RegisterPrefab("Prefab/Towers/StrongTower");
-        await RegisterPrefab("Prefab/Towers/TankTower");
-        await RegisterPrefab("Prefab/Towers/ThunderTower");
+        await Utilities.RegisterPrefab("Prefab/Towers/BasicTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/BuffTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/IceTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/MissileTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/StrongTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/TankTower", prefabMap );
+        await Utilities.RegisterPrefab("Prefab/Towers/ThunderTower", prefabMap);
 
         // 부모 오브젝트에서 카메라 컴포넌트를 가져옴
-        Camera parentCamera = transform.parent.GetComponent<Camera>();
-        if (parentCamera != null)
+        cam = transform.Find("cam").GetComponent<Camera>();
+        if (cam != null)
         {
-            Debug.Log("Parent Camera found: " + parentCamera.name);
+            Debug.Log("Parent Camera found: " + cam.name);
         }
         else
         {
             Debug.LogWarning("No Camera component found on the parent object.");
         }
-    }
-
-    protected async Task RegisterPrefab(string key)
-    {
-        // Ű�� ����ȭ (��: Prefab/Enemy/Robot1 -> Robot1)
-        string shortKey = ExtractShortKey(key);
-
-        // �̹� ��ϵ� �������� ����
-        if (prefabMap.ContainsKey(shortKey))
-        {
-            Debug.LogWarning($"Prefab '{shortKey}' is already registered.");
-            return;
-        }
-
-        // ������ �ε�
-        GameObject prefab = await AssetManager.LoadAsset<GameObject>(key);
-
-        if (prefab != null)
-        {
-            prefabMap[shortKey] = prefab;
-            //Debug.Log($"Prefab '{shortKey}' loaded and registered.");
-        }
-        else
-        {
-            Debug.LogError($"Failed to load prefab: {key}");
-        }
-    }
-
-    protected string ExtractShortKey(string key)
-    {
-        // �����÷� �и��Ͽ� ������ �κи� ��ȯ
-        return key.Substring(key.LastIndexOf('/') + 1);
     }
 
     void Update()
@@ -93,7 +61,8 @@ public class TowerPlacer : MonoBehaviour
             currentTowerPrefabId = TowerPlacementManager.instance.GetTowerPrefabId();
             currentCardId = TowerPlacementManager.instance.GetCardId();
 
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
 
             if (cellPosition != previousCellPosition)
