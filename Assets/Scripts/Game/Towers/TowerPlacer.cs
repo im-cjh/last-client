@@ -103,8 +103,6 @@ public class TowerPlacer : MonoBehaviour
         Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
         worldPosition += offset;
 
-        Instantiate(prefabMap[prefabId], worldPosition, Quaternion.identity);
-
         SendBuildRequestToServer(prefabId, cardId, worldPosition.x, worldPosition.y);
 
         if (currentHighlight != null)
