@@ -58,7 +58,8 @@ public class UIRoom : UIBase
 
     public void OnClickExit()
     {
-        HideDirect();
+        //HideDirect();
+        LobbyManager.instance.onExitRoom();
     }
 
     public void OnClickGameStart()
