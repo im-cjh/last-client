@@ -19,7 +19,6 @@ public class TowerPlacer : MonoBehaviour
     protected bool isValidTile;
     protected GameObject currentHighlight;
     protected Vector3Int previousCellPosition = Vector3Int.zero;
-    //protected Camera cam;
 
     public static TowerPlacer instance = null;
 
@@ -39,7 +38,7 @@ public class TowerPlacer : MonoBehaviour
         await Utilities.RegisterPrefab("Prefab/Towers/IceTower", prefabMap);
         await Utilities.RegisterPrefab("Prefab/Towers/MissileTower", prefabMap);
         await Utilities.RegisterPrefab("Prefab/Towers/StrongTower", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Towers/TankTower", prefabMap );
+        await Utilities.RegisterPrefab("Prefab/Towers/TankTower", prefabMap);
         await Utilities.RegisterPrefab("Prefab/Towers/ThunderTower", prefabMap);
 
         //cam = GetComponentInChildren<Camera>();
@@ -150,7 +149,7 @@ public class TowerPlacer : MonoBehaviour
         Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
         worldPosition += offset;
 
-        currentHighlight = Instantiate(isValidTile ? validTile : unvalidTile, worldPosition, UnityEngine.Quaternion.identity);
+        currentHighlight = Instantiate(isValidTile ? validTile : unvalidTile, worldPosition, Quaternion.identity);
     }
 
     bool CheckPlacement(Vector3Int cellPosition)
@@ -160,10 +159,15 @@ public class TowerPlacer : MonoBehaviour
             return false;
         }
 
-        Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition), LayerMask.GetMask("Tower", "Character", "Enemy", "Obstacle"));
-        if (hitcolliders.Length > 0)
+        Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+        Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
+        foreach (var collider in hitcolliders)
         {
-            return false;
+            Debug.Log($"Hit collider: {collider.name}, Tag: {collider.tag}");
+            if (collider.CompareTag("Obstacle") || collider.CompareTag("Tower") || collider.CompareTag("Enemy") || collider.CompareTag("Player"))
+            {
+                return false;
+            }
         }
 
         Vector3 cellworldPosition = tilemap.GetCellCenterWorld(cellPosition);

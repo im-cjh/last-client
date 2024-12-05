@@ -45,6 +45,7 @@ public class PacketHandler
 
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
+        handlerMapping[ePacketID.B2C_increaseWaveNotification] = HandleIncreaseWaveNotification;
         handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
         handlerMapping[ePacketID.B2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
@@ -71,9 +72,10 @@ public class PacketHandler
     }
 
     private static void HandleMonsterAttackBase(byte[] pBuffer)
-    {                                                                           
+    {                
         B2C_MonsterAttackBaseNotification pkt = B2C_MonsterAttackBaseNotification.Parser.ParseFrom(pBuffer);
         EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+        Base.instance.GetDamage(pkt.AttackDamage);
     }
 
     private static void HandleMonsterAttackTower(byte[] pBuffer)
@@ -188,6 +190,16 @@ public class PacketHandler
         // 4. 씬 전환 후 캐릭터, 장애물 초기화 (중복 등록 방지)
         SceneChanger.OnSceneLoaded -= InitializeCharacters; // 기존 이벤트 제거
         SceneChanger.OnSceneLoaded += InitializeCharacters; // 새로운 이벤트 등록
+    }
+
+    private static void HandleIncreaseWaveNotification(byte[] pBuffer)
+    {
+        B2C_increaseWaveNotification packet = Protocol.B2C_increaseWaveNotification.Parser.ParseFrom(pBuffer);
+        if (packet.IsSuccess)
+        {
+            Debug.Log("다음 웨이브");
+            ScoreManager.instance.AddWave();
+        }
     }
 
     // 캐릭터 초기화 메서드 (독립적인 메서드로 분리)
@@ -331,7 +343,7 @@ public class PacketHandler
 
         Debug.Log("HandleUseSkillNotification packet: " + packet);
 
-        //SkillUser.instance.UseSkill(packet.Skill);
+        SkillUser.instance.UseSkill(packet.Skill);
     }
 
     static void HandleInitCardData(byte[] pBuffer)

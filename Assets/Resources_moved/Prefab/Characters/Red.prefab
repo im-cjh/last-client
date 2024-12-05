@@ -204,6 +204,7 @@ MonoBehaviour:
   maxPlacementDistance: 5
   validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
   unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
+  detectionRadius: 0.1
 --- !u!114 &-3560058151231491998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +220,7 @@ MonoBehaviour:
   maxPlacementDistance: 5
   validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
   unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
+  detectionRadius: 0.1
 --- !u!114 &1086451438732558881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +236,6 @@ MonoBehaviour:
   nickname: Test123
   speed: 5
   isLocalPlayer: 0
-  cam: {fileID: 0}
 --- !u!1 &8680587044116734378
 GameObject:
   m_ObjectHideFlags: 0
