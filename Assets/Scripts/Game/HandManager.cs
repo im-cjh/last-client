@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using Google.Protobuf.Collections;
 using UnityEngine;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class HandManager : MonoBehaviour
 {
@@ -42,11 +43,11 @@ public class HandManager : MonoBehaviour
         //Debug.Log("InitCardData: " + cardData);
         foreach (Protocol.CardData card in cardData)
         {
-            AddCard(card.PrefabId, card.CardId);
+            AddCard(card);
         }
     }
 
-    public void AddCard(string prefabId, string uuid)
+    public void AddCard(Protocol.CardData card)
     {
         if (hands.Count >= maxHand)
         {
@@ -54,21 +55,21 @@ public class HandManager : MonoBehaviour
             return;
         }
 
-        if (!cardPrefabs.ContainsKey(prefabId))
+        if (!cardPrefabs.ContainsKey(card.PrefabId))
         {
-            Debug.LogError("등록되지 않은 프리팹: " + prefabId);
+            Debug.LogError("등록되지 않은 프리팹: " + card.PrefabId);
             return;
         }
 
         // 새로운 카드 생성
         //Debug.Log("AddCard: prefabId: " + prefabId);
-        GameObject newCard = Instantiate(cardPrefabs[prefabId], handZone);
+        GameObject newCard = Instantiate(cardPrefabs[card.PrefabId], handZone);
 
         // 카드의 Card Script 불러오기
         Card cardScript = newCard.GetComponent<Card>();
         if (cardScript != null)
         {
-            cardScript.SetCardId(uuid);
+            cardScript.SetCardId(card.CardId);
         }
         else
         {

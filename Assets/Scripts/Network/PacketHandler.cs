@@ -63,6 +63,14 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
         handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
+        handlerMapping[ePacketID.B2C_AddCard] = HandleAddCard;
+    }
+
+    private static void HandleAddCard(byte[] pBuffer)
+    {
+        Protocol.B2C_AddCard packet = B2C_AddCard.Parser.ParseFrom(pBuffer);
+
+        HandManager.instance.AddCard(packet.CardData);
     }
 
     private static void HandleLeaveRoomNotificationPacket(byte[] pBuffer)
