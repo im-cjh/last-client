@@ -8,6 +8,9 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     private int curScore = 0;
 
+    [SerializeField] private TextMeshProUGUI waveText;
+    private int curWave = 1;
+
     void Awake()
     {
         if (instance == null)
@@ -25,5 +28,11 @@ public class ScoreManager : MonoBehaviour
     {
         curScore += score;
         scoreText.text = $"{curScore}";
+    }
+
+    public void AddWave()
+    {
+        curWave++;
+        waveText.text = $"{curWave} Wave";
     }
 }
