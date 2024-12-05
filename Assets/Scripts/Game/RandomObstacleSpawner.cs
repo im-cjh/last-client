@@ -20,7 +20,7 @@ public class RandomObstacleSpawner : MonoBehaviour
 
     public void HandleSpawnObstacle(RepeatedField<Protocol.PosInfo> posInfos)
     {
-        Debug.Log("HandleSpawnObstacle Called");
+        //Debug.Log("HandleSpawnObstacle Called");
         foreach (Protocol.PosInfo obstaclePos in posInfos)
         {
             //Vector3 cellPosition = new Vector3(obstaclePos.X+0.5f, obstaclePos.Y+0.5f, 0);

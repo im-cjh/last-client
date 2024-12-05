@@ -48,7 +48,7 @@ public class EnemySpawner : MonoBehaviour
             Enemy chara = monster.GetComponent<Enemy>();
             chara.SetMonsterId(pos.Uuid);
             enemies[pos.Uuid] = chara;
-            Debug.Log($"몬스터 스폰: {prefabId}, Uuid: {pos.Uuid}");
+            
         }
         else
         {

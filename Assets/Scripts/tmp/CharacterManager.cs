@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Protocol;
+using System.Threading.Tasks;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -42,8 +43,25 @@ public class CharacterManager : MonoBehaviour
         if (chara != null)
         {
             chara.nickname = playerData.Nickname;
-            chara.isLocalPlayer = playerData.Position.Uuid == PlayerInfoManager.instance.userId; // UUID 기반 로컬 판별
-            chara.cam.gameObject.SetActive(playerData.Position.Uuid == PlayerInfoManager.instance.userId);
+            if(playerData.Position.Uuid == PlayerInfoManager.instance.userId)
+            {
+                chara.isLocalPlayer = true;
+                if (CameraFollow.instance != null)
+                {
+                    CameraFollow.instance.SetPlayer(chara.gameObject);
+                }
+                else
+                {
+                    Debug.LogError("CameraFollow.instance가 초기화되지 않았습니다.");
+                }
+            }
+            else
+            {
+                Debug.Log("엘스");
+                chara.isLocalPlayer = false;
+            }
+            //chara.isLocalPlayer = playerData.Position.Uuid == PlayerInfoManager.instance.userId; // UUID 기반 로컬 판별
+            //chara.cam.gameObject.SetActive(playerData.Position.Uuid == PlayerInfoManager.instance.userId);
             characters[playerData.Position.Uuid] = chara; // UUID로 캐릭터 매핑
         }
         else
@@ -53,7 +71,7 @@ public class CharacterManager : MonoBehaviour
     }
 
     // 모든 플레이어 캐릭터 생성
-    public async void InitializeCharacters()
+    public async Task InitializeCharacters()
     {
         await Utilities.RegisterPrefab("Prefab/Characters/Red", prefabMap);
 

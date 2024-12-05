@@ -164,7 +164,6 @@ public class PacketHandler
     {
         // 1. 패킷 파싱
         Protocol.B2C_GameStartNotification pkt = Protocol.B2C_GameStartNotification.Parser.ParseFrom(pBuffer);
-        Debug.Log("게임 시작 패킷 수신");
 
         //temp
         PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
@@ -246,8 +245,6 @@ public class PacketHandler
 
         B2C_MonsterHealthUpdateNotification packet = Protocol.B2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
-        Debug.Log("MonsterId: " + packet.MonsterId);
-        Debug.Log("CurHp / MaxHp : " + packet.Hp + " / " + packet.MaxHp);
         Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
         monster.SetHp(packet.Hp, packet.MaxHp);
     }
@@ -327,12 +324,12 @@ public class PacketHandler
 
         Debug.Log("HandleUseSkillNotification packet: " + packet);
 
-        SkillUser.instance.UseSkill(packet.Skill);
+        //SkillUser.instance.UseSkill(packet.Skill);
     }
 
     static void HandleInitCardData(byte[] pBuffer)
     {
-        Debug.Log("HandleInitCardData Called");
+        //Debug.Log("HandleInitCardData Called");
 
         B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
 

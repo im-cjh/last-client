@@ -19,7 +19,7 @@ public class TowerPlacer : MonoBehaviour
     protected bool isValidTile;
     protected GameObject currentHighlight;
     protected Vector3Int previousCellPosition = Vector3Int.zero;
-    private Camera cam;
+    //protected Camera cam;
 
     public static TowerPlacer instance = null;
 
@@ -42,16 +42,15 @@ public class TowerPlacer : MonoBehaviour
         await Utilities.RegisterPrefab("Prefab/Towers/TankTower", prefabMap );
         await Utilities.RegisterPrefab("Prefab/Towers/ThunderTower", prefabMap);
 
-        // 부모 오브젝트에서 카메라 컴포넌트를 가져옴
-        cam = transform.Find("cam").GetComponent<Camera>();
-        if (cam != null)
-        {
-            Debug.Log("Parent Camera found: " + cam.name);
-        }
-        else
-        {
-            Debug.LogWarning("No Camera component found on the parent object.");
-        }
+        //cam = GetComponentInChildren<Camera>();
+        //if (cam != null)
+        //{
+        //    Debug.Log("Parent Camera found: " + cam.name);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("No Camera component found on the parent object.");
+        //}
     }
 
     void Update()
@@ -61,8 +60,8 @@ public class TowerPlacer : MonoBehaviour
             currentTowerPrefabId = TowerPlacementManager.instance.GetTowerPrefabId();
             currentCardId = TowerPlacementManager.instance.GetCardId();
 
-            //Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
 
             if (cellPosition != previousCellPosition)

@@ -39,7 +39,7 @@ public class HandManager : MonoBehaviour
 
     public void AddInitCard(Google.Protobuf.Collections.RepeatedField<Protocol.CardData> cardData)
     {
-        Debug.Log("InitCardData: " + cardData);
+        //Debug.Log("InitCardData: " + cardData);
         foreach (Protocol.CardData card in cardData)
         {
             AddCard(card.PrefabId, card.CardId);
@@ -61,7 +61,7 @@ public class HandManager : MonoBehaviour
         }
 
         // 새로운 카드 생성
-        Debug.Log("AddCard: prefabId: " + prefabId);
+        //Debug.Log("AddCard: prefabId: " + prefabId);
         GameObject newCard = Instantiate(cardPrefabs[prefabId], handZone);
 
         // 카드의 Card Script 불러오기

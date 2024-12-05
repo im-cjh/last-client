@@ -13,7 +13,7 @@ public class PlayerInfoManager : MonoBehaviour
     public int sequence = 0;
 
     [Header("# Player Info")]
-    public string userId = "ddd";
+    public string userId;
     public string nickname = "test";
     public int roomId = 0;
     public string prefabId = "Red";
