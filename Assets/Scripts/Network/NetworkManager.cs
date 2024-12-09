@@ -29,8 +29,8 @@ public class NetworkManager : MonoBehaviour
 
     private void Start()
     {
-        //string ip = "127.0.0.1";
-        string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com";
+        string ip = "127.0.0.1";
+        //string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com";
         int port = 3000;
 
         if (ConnectToLobbyServer(ip, port))
@@ -45,7 +45,7 @@ public class NetworkManager : MonoBehaviour
         {
             mLobbyTcpClient = new TcpClient(ip, port);
             mLobbyStream = mLobbyTcpClient.GetStream();
-
+            Debug.Log("로비 서버 연결");
             return true;
         }
         catch (SocketException e)
