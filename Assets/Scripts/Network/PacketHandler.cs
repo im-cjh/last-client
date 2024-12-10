@@ -47,6 +47,7 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
         handlerMapping[ePacketID.B2C_increaseWaveNotification] = HandleIncreaseWaveNotification;
         handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
+        handlerMapping[ePacketID.B2C_PlayerAnimationUpdateNotification] = HandleCharacterAnimation;
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
         handlerMapping[ePacketID.B2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
         handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
@@ -83,14 +84,14 @@ public class PacketHandler
     private static void HandleMonsterAttackBase(byte[] pBuffer)
     {
         B2C_MonsterAttackBaseNotification pkt = B2C_MonsterAttackBaseNotification.Parser.ParseFrom(pBuffer);
-        EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+        MonsterManager.instance.HandleMonsterAttackTower(pkt.MonsterId);
         Base.instance.GetDamage(pkt.AttackDamage);
     }
 
     private static void HandleMonsterAttackTower(byte[] pBuffer)
     {
         B2C_MonsterAttackTowerNotification pkt = B2C_MonsterAttackTowerNotification.Parser.ParseFrom(pBuffer);
-        EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+        MonsterManager.instance.HandleMonsterAttackTower(pkt.MonsterId);
         Tower tower = TowerManager.instance.GetTowerByUuid(pkt.TargetId);
 
         if (tower != null)
@@ -106,7 +107,7 @@ public class PacketHandler
     {
         B2C_MonsterPositionUpdateNotification pkt = Protocol.B2C_MonsterPositionUpdateNotification.Parser.ParseFrom(pBuffer);
 
-        EnemySpawner.instance.HandleMonsterMove(pkt.PosInfo);
+        MonsterManager.instance.HandleMonsterMove(pkt.PosInfo);
     }
 
     static void HandleInitPacket(byte[] pBuffer)
@@ -258,13 +259,23 @@ public class PacketHandler
         }
     }
 
+    // 캐릭터 애니메이션 동기화
+    static void HandleCharacterAnimation(byte[] pBuffer)
+    {
+        Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
+
+        Character character = CharacterManager.Instance.GetCharacter(packet.CharacterId);
+
+        character.UpdateAnimationFromServer(packet.Parameter, packet.State);
+    }
+
     static void HandleSpawnMonster(byte[] pBuffer)
     {
         Debug.Log("HandleSpawnMonster Called");
 
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
 
-        EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
+        MonsterManager.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
     }
 
     static void HandleMonsterHealthUpdateNotification(byte[] pBuffer)
@@ -273,7 +284,7 @@ public class PacketHandler
 
         B2C_MonsterHealthUpdateNotification packet = Protocol.B2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
-        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        Enemy monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
         monster.SetHp(packet.Hp, packet.MaxHp);
     }
 
@@ -284,9 +295,9 @@ public class PacketHandler
         B2C_MonsterDeathNotification packet = Protocol.B2C_MonsterDeathNotification.Parser.ParseFrom(pBuffer);
 
         Debug.Log("Monster Death: MonsterId: " + packet.MonsterId);
-        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        Enemy monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
         monster.Die();
-        EnemySpawner.instance.RemoveMonster(packet.MonsterId);
+        MonsterManager.instance.RemoveMonster(packet.MonsterId);
         ScoreManager.instance.AddScore(packet.Score);
 
     }

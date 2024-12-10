@@ -5,9 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class RandomObstacleSpawner : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap;
     [SerializeField] private GameObject obstaclePrefab;
-    [SerializeField] private int obstacleCount = 20;
 
     private List<Vector3> usedPositions = new List<Vector3>();
     public static RandomObstacleSpawner instance;
@@ -16,7 +14,6 @@ public class RandomObstacleSpawner : MonoBehaviour
     {
         instance = this;
     }
-    
 
     public void HandleSpawnObstacle(RepeatedField<Protocol.PosInfo> posInfos)
     {

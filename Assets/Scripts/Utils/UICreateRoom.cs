@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UICreateRoom: UIBase
+public class UICreateRoom : UIBase
 {
     [SerializeField] private TMP_InputField roomName;
     [SerializeField] private TMP_Dropdown count;
@@ -12,7 +12,7 @@ public class UICreateRoom: UIBase
     public override void Opened(object[] param = null)
     {
         base.Opened(param);
-        var roomNameSample = new List<string>() { "³Ê¸¸ ¿À¸é °í!", "°³³äÀÖ´Â »ç¶÷¸¸", "¾îµô ³ÑºÁ?", "Áñ°Å¿î °ÔÀÓ ÇÑÆÇ ÇÏ½¯?", "»§¾ß! »§¾ß!" };
+        var roomNameSample = new List<string>() { "ë„ˆë§Œ ì˜¤ë©´ ê³ !", "ê°œë…ìˆëŠ” ì‚¬ëŒë§Œ", "ì•¡ì…˜ ì¾Œê°!", "í•œíŒ ã„±ã„±ã„±", "ëŸ¬ë‹¤ì´íŠ¸ ìš´ë™í•˜ëŸ¬ê°€ì‹¤ë¶„" };
         roomName.text = roomNameSample[Random.Range(0, roomNameSample.Count)];
     }
 
@@ -20,7 +20,7 @@ public class UICreateRoom: UIBase
     {
         Protocol.C2L_CreateRoomRequest pkt = new C2L_CreateRoomRequest();
         pkt.Name = roomName.text;
-        pkt.MaxUserNum = count.value+1; // 0ºÎÅÍ ½ÃÀÛÇØ¼­ +1ÇØÁà¾ß µÊ
+        pkt.MaxUserNum = count.value + 1; // 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ +1ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_CreateRoomRequest, 0);
         NetworkManager.instance.SendLobbyPacket(sendBuffer);

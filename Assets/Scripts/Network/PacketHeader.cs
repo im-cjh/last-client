@@ -52,6 +52,10 @@ public enum ePacketID : UInt16
     B2C_MonsterHealthUpdateNotification = 505,
     B2C_InitCardData = 506,
     B2C_AddCard = 507,
+    B2L_SocketDisconnectedNotification = 508,
+    B2C_GameEndNotification = 509,
+    C2B_PlayerAnimationUpdateRequest = 510,
+    B2C_PlayerAnimationUpdateNotification = 511,
 }
 
 [Serializable]

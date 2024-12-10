@@ -5,6 +5,7 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Protocol;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -65,8 +66,30 @@ public class GameManager : MonoBehaviour
             RoomId = PlayerInfoManager.instance.roomId
         };
 
-
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PositionUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
         NetworkManager.instance.SendBattlePacket(sendBuffer);
+    }
+
+    public void SendAnimationUpdatePacket(string parameter, bool state)
+    {
+        Protocol.C2B_PlayerAnimationUpdateRequest pkt = new Protocol.C2B_PlayerAnimationUpdateRequest
+        {
+            Parameter = parameter,
+            State = state,
+            RoomId = PlayerInfoManager.instance.roomId
+        };
+
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PlayerAnimationUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendBattlePacket(sendBuffer);
+    }
+
+    public void ReceiveAnimationUpdatePacket(string playerId, string parameter, bool state)
+    {
+        // 특정 플레이어의 애니메이션 업데이트
+        Character player = CharacterManager.Instance.GetCharacter(playerId);
+        if (player != null)
+        {
+            player.UpdateAnimationFromServer(parameter, state);
+        }
     }
 }

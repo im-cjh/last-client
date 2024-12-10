@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class MonsterManager : MonoBehaviour
 {
     /*---------------------------------------------
         [��� ����]
 ---------------------------------------------*/
-    public static EnemySpawner instance;
+    public static MonsterManager instance;
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
     private Dictionary<string, Enemy> enemies = new Dictionary<string, Enemy>();
-
 
     void Awake()
     {
         instance = this;
     }
-
 
     /*---------------------------------------------
     [프리팹 로드 및 등록]
@@ -48,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
             Enemy chara = monster.GetComponent<Enemy>();
             chara.SetMonsterId(pos.Uuid);
             enemies[pos.Uuid] = chara;
-            
+
         }
         else
         {
@@ -105,6 +103,7 @@ public class EnemySpawner : MonoBehaviour
             Debug.LogError($"Monster with UUID {pos.Uuid} not found");
         }
     }
+
     public void HandleMonsterAttackTower(string monsterId)
     {
         if (enemies.TryGetValue(monsterId, out Enemy enemy))

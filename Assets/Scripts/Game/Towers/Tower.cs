@@ -46,7 +46,7 @@ public class Tower : MonoBehaviour
 
         string targetUuid = monsterPos.Uuid;
 
-        Enemy targetMonster = EnemySpawner.instance.GetMonsterByUuid(targetUuid);
+        Enemy targetMonster = MonsterManager.instance.GetMonsterByUuid(targetUuid);
         if (targetMonster != null)
         {
             // 타겟의 방향, 각도 계산

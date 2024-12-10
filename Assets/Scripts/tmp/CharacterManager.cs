@@ -7,10 +7,10 @@ public class CharacterManager : MonoBehaviour
 {
     public static CharacterManager Instance { get; private set; }
 
-    //public GameObject characterPrefab; // 캐릭터 프리팹
+    // public GameObject characterPrefab; // 캐릭터 프리팹
 
     private Dictionary<string, Character> characters = new Dictionary<string, Character>(); // UUID와 캐릭터 매핑
-    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); 
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class CharacterManager : MonoBehaviour
         if (chara != null)
         {
             chara.nickname = playerData.Nickname;
-            if(playerData.Position.Uuid == PlayerInfoManager.instance.userId)
+            if (playerData.Position.Uuid == PlayerInfoManager.instance.userId)
             {
                 chara.isLocalPlayer = true;
                 if (CameraFollow.instance != null)
