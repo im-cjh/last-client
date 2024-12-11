@@ -12,6 +12,7 @@ public class CharacterManager : MonoBehaviour
 
     private Dictionary<string, Character> characters = new Dictionary<string, Character>(); // UUID와 캐릭터 매핑
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
+    private Character localPlayer;
 
     private void Awake()
     {
@@ -53,6 +54,7 @@ public class CharacterManager : MonoBehaviour
             if (playerData.Position.Uuid == PlayerInfoManager.instance.userId)
             {
                 chara.isLocalPlayer = true;
+                localPlayer = chara;
                 chara.SetCharacterId(playerData.Position.Uuid);
                 if (CameraFollow.instance != null)
                 {
@@ -103,16 +105,6 @@ public class CharacterManager : MonoBehaviour
 
     public Character GetLocalPlayer()
     {
-        foreach (KeyValuePair<string, Character> c in characters)
-        {
-            Character character = c.Value;
-            if (character.isLocalPlayer)
-            {
-                return character;
-            }
-        }
-
-        Debug.LogError("LocalPlayer인 캐릭터가 없습니다.");
-        return null;
+        return localPlayer;
     }
 }

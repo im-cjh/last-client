@@ -29,7 +29,6 @@ public class Character : MonoBehaviour
     private Tilemap tilemap;
     private float maxPlacementDistance = 5f;
 
-    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
     private string cardPrefabId;
     private string cardId;
     //public Camera cam;
@@ -44,20 +43,9 @@ public class Character : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    async void Start()
+    void Start()
     {
         tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
-
-        await Utilities.RegisterPrefab("Prefab/Towers/BasicTower", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Towers/BuffTower", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Towers/IceTower", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Towers/MissileTower", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Towers/StrongTower", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Towers/TankTower", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Towers/ThunderTower", prefabMap);
-
-        await Utilities.RegisterPrefab("Prefab/Skills/OrbitalBeam", prefabMap);
-        await Utilities.RegisterPrefab("Prefab/Skills/TowerRepair", prefabMap);
     }
 
     private void OnEnable()
@@ -80,7 +68,7 @@ public class Character : MonoBehaviour
 
                 if (cellPosition != previousCellPosition)
                 {
-                    HighlightTile(cellPosition);
+                    HighlightTile(cellPosition, true);
                     previousCellPosition = cellPosition;
                 }
 
@@ -89,7 +77,6 @@ public class Character : MonoBehaviour
                     Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
                     Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
                     worldPosition += offset;
-                    isTowerActive = true;
                     SendBuildRequestToServer(worldPosition.x, worldPosition.y);
 
                     Destroy(currentHighlight);
@@ -103,7 +90,7 @@ public class Character : MonoBehaviour
 
                 if (cellPosition != previousCellPosition)
                 {
-                    HighlightTile(cellPosition);
+                    HighlightTile(cellPosition, false);
                     previousCellPosition = cellPosition;
                 }
 
@@ -112,13 +99,62 @@ public class Character : MonoBehaviour
                     Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
                     Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
                     worldPosition += offset;
-                    isSkillActive = true;
                     SendSkillRequestToServer(worldPosition.x, worldPosition.y);
 
                     Destroy(currentHighlight);
                 }
             }
         }
+    }
+
+    private void HighlightTile(Vector3Int cellPosition, bool isTower)
+    {
+        // 기존 하이라이트 제거
+        if (currentHighlight != null)
+        {
+            Destroy(currentHighlight);
+        }
+
+        // 유효한 타일인지 검사
+        isValidTile = CheckPlacement(cellPosition, isTower);
+
+        // 적절한 하이라이트 생성
+        Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
+        Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+        worldPosition += offset;
+
+        currentHighlight = Instantiate(isValidTile ? validTile : unvalidTile, worldPosition, Quaternion.identity);
+    }
+
+    private bool CheckPlacement(Vector3Int cellPosition, bool isTower)
+    {
+        if (!tilemap.HasTile(cellPosition))
+        {
+            return false;
+        }
+
+        if (isTower)
+        {
+            Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
+            foreach (var collider in hitcolliders)
+            {
+                if (collider.CompareTag("Obstacle") || collider.CompareTag("Tower") || collider.CompareTag("Enemy") || collider.CompareTag("Player"))
+                {
+                    return false;
+                }
+            }
+        }
+
+        Vector3 cellworldPosition = tilemap.GetCellCenterWorld(cellPosition);
+        float distance = Vector3.Distance(transform.position, cellworldPosition);
+
+        if (distance > maxPlacementDistance)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public void SetPrefabId(string prefabId, string uuid)
@@ -254,52 +290,4 @@ public class Character : MonoBehaviour
     {
         return characterId;
     }
-
-    private void HighlightTile(Vector3Int cellPosition)
-    {
-        // 기존 하이라이트 제거
-        if (currentHighlight != null)
-        {
-            Destroy(currentHighlight);
-        }
-
-        // 유효한 타일인지 검사
-        isValidTile = CheckPlacement(cellPosition);
-
-        // 적절한 하이라이트 생성
-        Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
-        Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
-        worldPosition += offset;
-
-        currentHighlight = Instantiate(isValidTile ? validTile : unvalidTile, worldPosition, Quaternion.identity);
-    }
-
-    bool CheckPlacement(Vector3Int cellPosition)
-    {
-        if (!tilemap.HasTile(cellPosition))
-        {
-            return false;
-        }
-
-        Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
-        Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
-        foreach (var collider in hitcolliders)
-        {
-            if (collider.CompareTag("Obstacle") || collider.CompareTag("Tower") || collider.CompareTag("Enemy") || collider.CompareTag("Player"))
-            {
-                return false;
-            }
-        }
-
-        Vector3 cellworldPosition = tilemap.GetCellCenterWorld(cellPosition);
-        float distance = Vector3.Distance(transform.position, cellworldPosition);
-
-        if (distance > maxPlacementDistance)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
 }

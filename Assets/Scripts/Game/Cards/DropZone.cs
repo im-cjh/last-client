@@ -40,7 +40,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                 {
                     Debug.Log("Player: " + character.GetCharacterId() + "의 스킬 사용 모드 활성화: 스킬: " + skillPrefabId);
                     character.SetPrefabId(skillPrefabId, cardId);
-                    character.isTowerActive = true;
+                    character.isSkillActive = true;
                     handManager.RemoveCard(droppedCard);
                     HideDropZone();
                 }

@@ -189,8 +189,6 @@ GameObject:
   - component: {fileID: 2459269277211809937}
   - component: {fileID: 3837058707882532637}
   - component: {fileID: 2539617411242045817}
-  - component: {fileID: 3768172988368211069}
-  - component: {fileID: 1208537262608817188}
   - component: {fileID: 6256458400324502087}
   m_Layer: 0
   m_Name: White
@@ -365,36 +363,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.72068596, y: 0.33163643}
   m_EdgeRadius: 0
---- !u!114 &3768172988368211069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8421273849853060538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dfac22033940a544a1ba1296f425c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
---- !u!114 &1208537262608817188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8421273849853060538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a91f59407b986a84a88e7414663e505c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!114 &6256458400324502087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,3 +380,5 @@ MonoBehaviour:
   isLocalPlayer: 0
   isTowerActive: 0
   isSkillActive: 0
+  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
+  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}

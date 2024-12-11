@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 2385078100372050194}
   - component: {fileID: 4280969950144920185}
   - component: {fileID: 6681292788127677118}
-  - component: {fileID: -11309774062441031}
-  - component: {fileID: 2164616751854903744}
   - component: {fileID: 7498682887664863199}
   m_Layer: 0
   m_Name: Shark
@@ -189,36 +187,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6388836, y: 0.36144924}
   m_EdgeRadius: 0
---- !u!114 &-11309774062441031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6963965405315877273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dfac22033940a544a1ba1296f425c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
---- !u!114 &2164616751854903744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6963965405315877273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a91f59407b986a84a88e7414663e505c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!114 &7498682887664863199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +204,8 @@ MonoBehaviour:
   isLocalPlayer: 0
   isTowerActive: 0
   isSkillActive: 0
+  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
+  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!1 &8339019819721504761
 GameObject:
   m_ObjectHideFlags: 0

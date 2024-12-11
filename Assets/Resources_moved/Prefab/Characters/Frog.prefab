@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 5468090491595359997}
   - component: {fileID: 1460372111577917988}
   - component: {fileID: 3037992597417420681}
-  - component: {fileID: 7629982915196096027}
-  - component: {fileID: 6064825480068619015}
   - component: {fileID: 6665882585561286073}
   m_Layer: 0
   m_Name: Frog
@@ -189,36 +187,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6586666, y: 0.26272488}
   m_EdgeRadius: 0
---- !u!114 &7629982915196096027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933658247340150390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dfac22033940a544a1ba1296f425c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
---- !u!114 &6064825480068619015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933658247340150390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a91f59407b986a84a88e7414663e505c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!114 &6665882585561286073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +204,8 @@ MonoBehaviour:
   isLocalPlayer: 0
   isTowerActive: 0
   isSkillActive: 0
+  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
+  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!1 &7658637184074018268
 GameObject:
   m_ObjectHideFlags: 0
