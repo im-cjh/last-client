@@ -82,14 +82,4 @@ public class GameManager : MonoBehaviour
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PlayerAnimationUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
         NetworkManager.instance.SendBattlePacket(sendBuffer);
     }
-
-    public void ReceiveAnimationUpdatePacket(string playerId, string parameter, bool state)
-    {
-        // 특정 플레이어의 애니메이션 업데이트
-        Character player = CharacterManager.Instance.GetCharacter(playerId);
-        if (player != null)
-        {
-            player.UpdateAnimationFromServer(parameter, state);
-        }
-    }
 }

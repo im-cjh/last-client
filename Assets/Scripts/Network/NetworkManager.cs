@@ -29,8 +29,8 @@ public class NetworkManager : MonoBehaviour
 
     private void Start()
     {
-        //string ip = "127.0.0.1";
-        string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com";
+        string ip = "127.0.0.1";
+        // string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com";
         int port = 3000;
 
         if (ConnectToLobbyServer(ip, port))
@@ -65,7 +65,7 @@ public class NetworkManager : MonoBehaviour
             StartBattleReceiving();
 
             Protocol.C2B_Init pkt = new Protocol.C2B_Init();
-            
+
             pkt.RoomId = pRoomId;
             pkt.PlayerData = new Protocol.GamePlayerData
             {
@@ -75,7 +75,7 @@ public class NetworkManager : MonoBehaviour
                     X = 0,
                     Y = 0,
                 },
-                Nickname= PlayerInfoManager.instance.nickname,
+                Nickname = PlayerInfoManager.instance.nickname,
                 PrefabId = PlayerInfoManager.instance.prefabId,
             };
 
@@ -119,7 +119,7 @@ public class NetworkManager : MonoBehaviour
         pkt.Nickname = PlayerInfoManager.instance.nickname;
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_Init, PlayerInfoManager.instance.GetNextSequence());
-        
+
         SendLobbyPacket(sendBuffer);
     }
     void StartLobbyReceiving()

@@ -10,6 +10,7 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Canvas canvas;
+    private Character character;
 
     private Vector3 originalPosition; // 카드의 원래 위치
     private Vector3 originalScale;    // 카드의 원래 크기
@@ -28,6 +29,8 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
+
+        character = CharacterManager.instance.GetLocalPlayer();
 
         // 카드의 원래 크기를 저장
         originalScale = rectTransform.localScale;
@@ -74,8 +77,7 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (TowerPlacementManager.instance.IsPlacementActive()) return;
-        if (SkillManager.instance.IsSkillActiveOn()) return;
+        if (character.isTowerActive || character.isSkillActive) return;
 
         isDragging = true; // 드래그 상태 설정
         canvasGroup.alpha = 0.6f; // 드래그 중 투명도 조정
@@ -100,8 +102,7 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (TowerPlacementManager.instance.IsPlacementActive()) return;
-        if (SkillManager.instance.IsSkillActiveOn()) return;
+        if (character.isTowerActive || character.isSkillActive) return;
 
         // 마우스 위치를 Canvas의 로컬 좌표로 변환
         Vector2 localPoint;
@@ -118,8 +119,7 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (TowerPlacementManager.instance.IsPlacementActive()) return;
-        if (SkillManager.instance.IsSkillActiveOn()) return;
+        if (character.isTowerActive || character.isSkillActive) return;
 
         isDragging = false; // 드래그 상태 해제
         canvasGroup.alpha = 1f; // 드래그 종료 후 투명도 복원

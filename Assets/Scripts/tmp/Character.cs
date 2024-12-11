@@ -1,5 +1,8 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+using UnityEngine.Animations;
 
 public class Character : MonoBehaviour
 {
@@ -7,14 +10,28 @@ public class Character : MonoBehaviour
     public string nickname;          //// 캐릭터 닉네임
     public float speed = 5f;         // 이동 속도
     public bool isLocalPlayer;       // 로컬 플레이어 여부
+    public bool isTowerActive;
+    public bool isSkillActive;
 
     // Private Fields
     private Vector2 inputVec;        // 이동 방향
     private Rigidbody2D rigid;       // Rigidbody2D컴포넌트
-    private SpriteRenderer spriteRenderer;  // SpriteRenderer 컴포넌트
     private TextMeshPro nicknameText;      // 닉네임 텍스트
     private Vector2 lastSyncedPosition; // 마지막으로 서버에 전송된 위치
     private Animator animator;
+    private string characterId;
+
+    [SerializeField] private GameObject validTile; // 설치 가능한 타일 색상
+    [SerializeField] private GameObject unvalidTile; // 설치 불가능한 타일 색상
+    private bool isValidTile;
+    private GameObject currentHighlight;
+    private Vector3Int previousCellPosition = Vector3Int.zero;
+    private Tilemap tilemap;
+    private float maxPlacementDistance = 5f;
+
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
+    private string cardPrefabId;
+    private string cardId;
     //public Camera cam;
 
     // Constants
@@ -22,16 +39,29 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
-        // ������Ʈ �ʱ�ȭ
         rigid = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         nicknameText = GetComponentInChildren<TextMeshPro>();
         animator = GetComponent<Animator>();
     }
 
+    async void Start()
+    {
+        tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
+
+        await Utilities.RegisterPrefab("Prefab/Towers/BasicTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/BuffTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/IceTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/MissileTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/StrongTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/TankTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/ThunderTower", prefabMap);
+
+        await Utilities.RegisterPrefab("Prefab/Skills/OrbitalBeam", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Skills/TowerRepair", prefabMap);
+    }
+
     private void OnEnable()
     {
-        // �г��� ǥ�� ����
         nicknameText.text = nickname;
         nicknameText.GetComponent<MeshRenderer>().sortingOrder = 6;
     }
@@ -42,7 +72,105 @@ public class Character : MonoBehaviour
         {
             HandleInput();          // 로컬 플레이어만 입력 처리
             TrySendPositionToServer(); // 로컬 플레이어 위치 동기화
+
+            if (isTowerActive)
+            {
+                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
+
+                if (cellPosition != previousCellPosition)
+                {
+                    HighlightTile(cellPosition);
+                    previousCellPosition = cellPosition;
+                }
+
+                if (Input.GetMouseButtonDown(0) && isValidTile) // 마우스 클릭
+                {
+                    Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
+                    Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+                    worldPosition += offset;
+                    isTowerActive = true;
+                    SendBuildRequestToServer(worldPosition.x, worldPosition.y);
+
+                    Destroy(currentHighlight);
+                }
+            }
+
+            if (isSkillActive)
+            {
+                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
+
+                if (cellPosition != previousCellPosition)
+                {
+                    HighlightTile(cellPosition);
+                    previousCellPosition = cellPosition;
+                }
+
+                if (Input.GetMouseButtonDown(0) && isValidTile) // 마우스 클릭
+                {
+                    Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
+                    Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+                    worldPosition += offset;
+                    isSkillActive = true;
+                    SendSkillRequestToServer(worldPosition.x, worldPosition.y);
+
+                    Destroy(currentHighlight);
+                }
+            }
         }
+    }
+
+    public void SetPrefabId(string prefabId, string uuid)
+    {
+        cardPrefabId = prefabId;
+        cardId = uuid;
+    }
+
+    private void SendBuildRequestToServer(float x, float y)
+    {
+        // tower의 uuid는 서버에서 만들어서 보내줌
+        Debug.Log($"서버에게 타워 설치 요청: prefabId:{cardPrefabId}, x:{x}, y:{y}");
+        Protocol.C2B_TowerBuildRequest pkt = new Protocol.C2B_TowerBuildRequest
+        {
+            Tower = new Protocol.TowerData
+            {
+                TowerPos = new Protocol.PosInfo
+                {
+                    X = x,
+                    Y = y,
+                },
+                PrefabId = cardPrefabId
+            },
+            RoomId = PlayerInfoManager.instance.roomId,
+            OwnerId = PlayerInfoManager.instance.userId,
+            CardId = cardId,
+        };
+
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendBattlePacket(sendBuffer);
+    }
+
+    private void SendSkillRequestToServer(float x, float y)
+    {
+        Debug.Log($"서버에게 스킬 사용 요청: prefabId:{cardPrefabId}, x:{x}, y:{y}");
+        Protocol.C2B_SkillRequest pkt = new Protocol.C2B_SkillRequest
+        {
+            Skill = new Protocol.SkillData
+            {
+                PrefabId = cardPrefabId,
+                SkillPos = new Protocol.PosInfo
+                {
+                    X = x,
+                    Y = y
+                }
+            },
+            RoomId = PlayerInfoManager.instance.roomId,
+            CardId = cardId,
+        };
+
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_SkillRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendBattlePacket(sendBuffer);
     }
 
     private void FixedUpdate()
@@ -59,13 +187,12 @@ public class Character : MonoBehaviour
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
 
-        if (inputVec.magnitude > 0)
+        bool isWalking = inputVec.magnitude > 0;
+        animator.SetBool("isWalk", isWalking);
+
+        if (isWalking != animator.GetBool("isWalk"))
         {
-            animator.SetBool("isWalk", true);
-        }
-        else
-        {
-            animator.SetBool("isWalk", false);
+            GameManager.instance.SendAnimationUpdatePacket("isWalk", isWalking);
         }
 
         Vector3 curScale = transform.localScale;
@@ -109,4 +236,70 @@ public class Character : MonoBehaviour
             rigid.MovePosition(serverPosition); // �����̵�
         }
     }
+
+    public void UpdateAnimationFromServer(string parameter, bool state)
+    {
+        if (!isLocalPlayer)
+        {
+            animator.SetBool(parameter, state);
+        }
+    }
+
+    public void SetCharacterId(string uuid)
+    {
+        characterId = uuid;
+    }
+
+    public string GetCharacterId()
+    {
+        return characterId;
+    }
+
+    private void HighlightTile(Vector3Int cellPosition)
+    {
+        // 기존 하이라이트 제거
+        if (currentHighlight != null)
+        {
+            Destroy(currentHighlight);
+        }
+
+        // 유효한 타일인지 검사
+        isValidTile = CheckPlacement(cellPosition);
+
+        // 적절한 하이라이트 생성
+        Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
+        Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+        worldPosition += offset;
+
+        currentHighlight = Instantiate(isValidTile ? validTile : unvalidTile, worldPosition, Quaternion.identity);
+    }
+
+    bool CheckPlacement(Vector3Int cellPosition)
+    {
+        if (!tilemap.HasTile(cellPosition))
+        {
+            return false;
+        }
+
+        Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+        Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
+        foreach (var collider in hitcolliders)
+        {
+            if (collider.CompareTag("Obstacle") || collider.CompareTag("Tower") || collider.CompareTag("Enemy") || collider.CompareTag("Player"))
+            {
+                return false;
+            }
+        }
+
+        Vector3 cellworldPosition = tilemap.GetCellCenterWorld(cellPosition);
+        float distance = Vector3.Distance(transform.position, cellworldPosition);
+
+        if (distance > maxPlacementDistance)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 }

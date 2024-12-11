@@ -61,7 +61,7 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
         handlerMapping[ePacketID.B2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
 
-        handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
+        // handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
         handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
         handlerMapping[ePacketID.B2C_AddCard] = HandleAddCard;
@@ -213,10 +213,10 @@ public class PacketHandler
     }
 
     // 캐릭터 초기화 메서드 (독립적인 메서드로 분리)
-    private static void InitializeCharacters()
+    private static async void InitializeCharacters()
     {
         Debug.Log("게임 씬 로드 완료. 캐릭터 초기화 시작");
-        CharacterManager.Instance.InitializeCharacters();
+        await CharacterManager.instance.InitializeCharacters();
 
         //장애물도 일단 여기서 처리해주기...
         RandomObstacleSpawner.instance.HandleSpawnObstacle(PlayerInfoManager.instance.tmp_obstaclePosInfos);
@@ -238,7 +238,7 @@ public class PacketHandler
             var posInfo = response.PosInfo;
             // Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
             // 3. 캐릭터 검색
-            Character character = CharacterManager.Instance.GetCharacter(posInfo.Uuid);
+            Character character = CharacterManager.instance.GetCharacter(posInfo.Uuid);
 
             if (character != null)
             {
@@ -263,10 +263,14 @@ public class PacketHandler
     static void HandleCharacterAnimation(byte[] pBuffer)
     {
         Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
+        Debug.Log("HandleCharacterAnimation Called: packet: " + packet);
 
-        Character character = CharacterManager.Instance.GetCharacter(packet.CharacterId);
+        Character character = CharacterManager.instance.GetCharacter(packet.CharacterId);
 
-        character.UpdateAnimationFromServer(packet.Parameter, packet.State);
+        if (character != null)
+        {
+            character.UpdateAnimationFromServer(packet.Parameter, packet.State);
+        }
     }
 
     static void HandleSpawnMonster(byte[] pBuffer)
@@ -319,7 +323,7 @@ public class PacketHandler
 
         B2C_TowerBuildNotification packet = Protocol.B2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
 
-        TowerPlacer.instance.BuildTower(packet.Tower);
+        TowerPlacementManager.instance.BuildTower(packet.OwnerId, packet.Tower);
     }
 
     static void HandleTowerAttackMonsterNotification(byte[] pBuffer)
@@ -368,16 +372,16 @@ public class PacketHandler
         TowerManager.instance.RemoveTower(packet.TowerId);
     }
 
-    static void HandleUseSkillNotification(byte[] pBuffer)
-    {
-        Debug.Log("HandleUseSkillNotification Called");
+    // static void HandleUseSkillNotification(byte[] pBuffer)
+    // {
+    //     Debug.Log("HandleUseSkillNotification Called");
 
-        B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
+    //     B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
 
-        Debug.Log("HandleUseSkillNotification packet: " + packet);
+    //     Debug.Log("HandleUseSkillNotification packet: " + packet);
 
-        SkillUser.instance.UseSkill(packet.Skill);
-    }
+    //     SkillUser.instance.UseSkill(packet.Skill);
+    // }
 
     static void HandleInitCardData(byte[] pBuffer)
     {

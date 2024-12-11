@@ -29,17 +29,17 @@ namespace Protocol {
             "dG9jb2wuU2tpbGxEYXRhEg4KBnJvb21JZBgCIAEoBRIOCgZjYXJkSWQYAyAB",
             "KAkiNgoRQjJDX1NraWxsUmVzcG9uc2USEQoJaXNTdWNjZXNzGAEgASgIEg4K",
             "BmNhcmRJZBgCIAEoCSI+ChhCMkNfVXNlU2tpbGxOb3RpZmljYXRpb24SIgoF",
-            "c2tpbGwYASABKAsyEy5Qcm90b2NvbC5Ta2lsbERhdGEiMwoLQjJDX0FkZENh",
-            "cmQSJAoIY2FyZERhdGEYASABKAsyEi5Qcm90b2NvbC5DYXJkRGF0YSI4ChBC",
-            "MkNfSW5pdENhcmREYXRhEiQKCGNhcmREYXRhGAEgAygLMhIuUHJvdG9jb2wu",
-            "Q2FyZERhdGFiBnByb3RvMw=="));
+            "c2tpbGwYASABKAsyEy5Qcm90b2NvbC5Ta2lsbERhdGEiQwoLQjJDX0FkZENh",
+            "cmQSDgoGY2FyZElkGAEgASgJEiQKCGNhcmREYXRhGAIgASgLMhIuUHJvdG9j",
+            "b2wuQ2FyZERhdGEiOAoQQjJDX0luaXRDYXJkRGF0YRIkCghjYXJkRGF0YRgB",
+            "IAMoCzISLlByb3RvY29sLkNhcmREYXRhYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_SkillRequest), global::Protocol.C2B_SkillRequest.Parser, new[]{ "Skill", "RoomId", "CardId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_SkillResponse), global::Protocol.B2C_SkillResponse.Parser, new[]{ "IsSuccess", "CardId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_UseSkillNotification), global::Protocol.B2C_UseSkillNotification.Parser, new[]{ "Skill" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_AddCard), global::Protocol.B2C_AddCard.Parser, new[]{ "CardData" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_AddCard), global::Protocol.B2C_AddCard.Parser, new[]{ "CardId", "CardData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_InitCardData), global::Protocol.B2C_InitCardData.Parser, new[]{ "CardData" }, null, null, null, null)
           }));
     }
@@ -792,6 +792,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public B2C_AddCard(B2C_AddCard other) : this() {
+      cardId_ = other.cardId_;
       cardData_ = other.cardData_ != null ? other.cardData_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -802,8 +803,20 @@ namespace Protocol {
       return new B2C_AddCard(this);
     }
 
+    /// <summary>Field number for the "cardId" field.</summary>
+    public const int CardIdFieldNumber = 1;
+    private string cardId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string CardId {
+      get { return cardId_; }
+      set {
+        cardId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "cardData" field.</summary>
-    public const int CardDataFieldNumber = 1;
+    public const int CardDataFieldNumber = 2;
     private global::Protocol.CardData cardData_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -829,6 +842,7 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (CardId != other.CardId) return false;
       if (!object.Equals(CardData, other.CardData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -837,6 +851,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (CardId.Length != 0) hash ^= CardId.GetHashCode();
       if (cardData_ != null) hash ^= CardData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -856,8 +871,12 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (cardData_ != null) {
+      if (CardId.Length != 0) {
         output.WriteRawTag(10);
+        output.WriteString(CardId);
+      }
+      if (cardData_ != null) {
+        output.WriteRawTag(18);
         output.WriteMessage(CardData);
       }
       if (_unknownFields != null) {
@@ -870,8 +889,12 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (cardData_ != null) {
+      if (CardId.Length != 0) {
         output.WriteRawTag(10);
+        output.WriteString(CardId);
+      }
+      if (cardData_ != null) {
+        output.WriteRawTag(18);
         output.WriteMessage(CardData);
       }
       if (_unknownFields != null) {
@@ -884,6 +907,9 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (CardId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CardId);
+      }
       if (cardData_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CardData);
       }
@@ -898,6 +924,9 @@ namespace Protocol {
     public void MergeFrom(B2C_AddCard other) {
       if (other == null) {
         return;
+      }
+      if (other.CardId.Length != 0) {
+        CardId = other.CardId;
       }
       if (other.cardData_ != null) {
         if (cardData_ == null) {
@@ -921,6 +950,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
+            CardId = input.ReadString();
+            break;
+          }
+          case 18: {
             if (cardData_ == null) {
               CardData = new global::Protocol.CardData();
             }
@@ -943,6 +976,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
+            CardId = input.ReadString();
+            break;
+          }
+          case 18: {
             if (cardData_ == null) {
               CardData = new global::Protocol.CardData();
             }

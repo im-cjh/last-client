@@ -1,11 +1,11 @@
 using UnityEngine;
+using Protocol;
+using System.Collections.Generic;
 
 public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance = null;
-    private bool isSkillActive = false;
-    private string skillPrefabId;
-    private string cardId;
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
 
     void Awake()
     {
@@ -15,26 +15,19 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public void SetSkillActive(bool state, string prefabId, string uuid)
+    async void Start()
     {
-        isSkillActive = state;
-        skillPrefabId = prefabId;
-        cardId = uuid;
-        Debug.Log("스킬 활성화: " + state);
+        await Utilities.RegisterPrefab("Prefab/Skills/OrbitalBeam", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Skills/TowerRepair", prefabMap);
     }
 
-    public string GetSkillPrefabId()
+    public void UseSkill(string ownerId, SkillData skillData)
     {
-        return skillPrefabId;
-    }
+        Debug.Log("UseSkill Called. skillData: " + skillData);
+        Vector2 cellCenterWorld = new Vector2(skillData.SkillPos.X, skillData.SkillPos.Y);
 
-    public string GetCardId()
-    {
-        return cardId;
-    }
-
-    public bool IsSkillActiveOn()
-    {
-        return isSkillActive;
+        Instantiate(prefabMap[skillData.PrefabId], cellCenterWorld, Quaternion.identity);
+        Debug.Log($"스킬이 {cellCenterWorld} 위치에 사용되었습니다.");
+        CharacterManager.instance.GetCharacter(ownerId).isSkillActive = false;
     }
 }

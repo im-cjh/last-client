@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Protocol;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 public class CharacterManager : MonoBehaviour
 {
-    public static CharacterManager Instance { get; private set; }
+    public static CharacterManager instance { get; private set; }
 
     // public GameObject characterPrefab; // 캐릭터 프리팹
 
@@ -14,8 +15,14 @@ public class CharacterManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // 서버 데이터를 기반으로 캐릭터 생성
@@ -46,6 +53,7 @@ public class CharacterManager : MonoBehaviour
             if (playerData.Position.Uuid == PlayerInfoManager.instance.userId)
             {
                 chara.isLocalPlayer = true;
+                chara.SetCharacterId(playerData.Position.Uuid);
                 if (CameraFollow.instance != null)
                 {
                     CameraFollow.instance.SetPlayer(chara.gameObject);
@@ -60,9 +68,9 @@ public class CharacterManager : MonoBehaviour
                 Debug.Log("엘스");
                 chara.isLocalPlayer = false;
             }
-            //chara.isLocalPlayer = playerData.Position.Uuid == PlayerInfoManager.instance.userId; // UUID 기반 로컬 판별
-            //chara.cam.gameObject.SetActive(playerData.Position.Uuid == PlayerInfoManager.instance.userId);
+
             characters[playerData.Position.Uuid] = chara; // UUID로 캐릭터 매핑
+            chara.SetCharacterId(playerData.Position.Uuid);
         }
         else
         {
@@ -90,6 +98,21 @@ public class CharacterManager : MonoBehaviour
         }
 
         Debug.LogError($"UUID {uuid}에 해당하는 캐릭터를 찾을 수 없습니다.");
+        return null;
+    }
+
+    public Character GetLocalPlayer()
+    {
+        foreach (KeyValuePair<string, Character> c in characters)
+        {
+            Character character = c.Value;
+            if (character.isLocalPlayer)
+            {
+                return character;
+            }
+        }
+
+        Debug.LogError("LocalPlayer인 캐릭터가 없습니다.");
         return null;
     }
 }

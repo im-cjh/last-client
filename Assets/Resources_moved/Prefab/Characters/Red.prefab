@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 2064078030942271958}
   - component: {fileID: 8330649093144843714}
   - component: {fileID: 2082354148967573662}
-  - component: {fileID: 4223483524656494278}
-  - component: {fileID: -3560058151231491998}
   - component: {fileID: 1086451438732558881}
   m_Layer: 9
   m_Name: Red
@@ -189,38 +187,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.75723696, y: 0.60175645}
   m_EdgeRadius: 0
---- !u!114 &4223483524656494278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5800219005008998565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dfac22033940a544a1ba1296f425c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
-  detectionRadius: 0.1
---- !u!114 &-3560058151231491998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5800219005008998565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a91f59407b986a84a88e7414663e505c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
-  detectionRadius: 0.1
 --- !u!114 &1086451438732558881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +202,10 @@ MonoBehaviour:
   nickname: Test123
   speed: 5
   isLocalPlayer: 0
+  isTowerActive: 0
+  isSkillActive: 0
+  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
+  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!1 &8680587044116734378
 GameObject:
   m_ObjectHideFlags: 0
