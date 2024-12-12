@@ -24487,7 +24487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseExplosion: {fileID: 2922508063519949763, guid: c22eccaecf4cf8648b746ef41646e222, type: 3}
-  maxHp: 1000
+  maxHp: 300
 --- !u!1 &1358692016
 GameObject:
   m_ObjectHideFlags: 0

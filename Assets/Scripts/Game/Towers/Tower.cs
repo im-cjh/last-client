@@ -46,7 +46,7 @@ public class Tower : MonoBehaviour
 
         string targetUuid = monsterPos.Uuid;
 
-        Enemy targetMonster = MonsterManager.instance.GetMonsterByUuid(targetUuid);
+        Monster targetMonster = MonsterManager.instance.GetMonsterByUuid(targetUuid);
         if (targetMonster != null)
         {
             // 타겟의 방향, 각도 계산
@@ -79,14 +79,15 @@ public class Tower : MonoBehaviour
         // bulletScript.destroyAfter = travelTime / 1000;
     }
 
-    private void InterpolatePosition(Vector3 serverPosition, Vector3 clientPosition)
-    {
+    // private void InterpolatePosition(Vector3 serverPosition, Vector3 clientPosition)
+    // {
 
-    }
+    // }
 
     public void SetHp(float curHp, float maxHp)
     {
         hpBar.SetHp(curHp, maxHp);
+        Debug.Log($"TowerHp: {curHp}/{maxHp}");
         spriteRenderer.color = hitColor;
         Invoke("ResetColor", 0.1f);
     }

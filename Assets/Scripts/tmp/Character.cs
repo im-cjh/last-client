@@ -228,7 +228,7 @@ public class Character : MonoBehaviour
 
         if (isWalking != animator.GetBool("isWalk"))
         {
-            GameManager.instance.SendAnimationUpdatePacket("isWalk", isWalking);
+            // GameManager.instance.SendAnimationUpdatePacket("isWalk", isWalking);
         }
 
         Vector3 curScale = transform.localScale;

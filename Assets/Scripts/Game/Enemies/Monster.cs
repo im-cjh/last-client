@@ -6,7 +6,7 @@ using TMPro;
 using DG.Tweening;
 using System.Numerics;
 
-public class Enemy : MonoBehaviour
+public class Monster : MonoBehaviour
 {
     private Transform targetTransform; // 공격 목표
     private Animator animator;
@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     private Color originalColor;
     private Rigidbody2D rigid;       // Rigidbody2D컴포넌트
     private UnityEngine.Vector2? nextPos = null;
+    private GameObject atkBuffEffect;
+    private GameObject asBuffEffect;
 
     private void Awake()
     {
@@ -36,11 +38,17 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+
+        atkBuffEffect = transform.Find("MonsterAttackBuffEffect")?.gameObject;
+        asBuffEffect = transform.Find("MonsterAttackSpeedBuffEffect")?.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
+        atkBuffEffect.SetActive(MonsterManager.instance.GetBuffState("atkBuff"));
+        asBuffEffect.SetActive(MonsterManager.instance.GetBuffState("asBuff"));
+
         UnityEngine.Vector3 curScale = transform.localScale;
         UnityEngine.Vector3 curHpBarScale = transform.localScale;
         if (nextPos != null)
@@ -52,7 +60,7 @@ public class Enemy : MonoBehaviour
                 //transform.localScale = new UnityEngine.Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
                 hpBar.transform.localScale = new UnityEngine.Vector3(-Mathf.Abs(curHpBarScale.x), curHpBarScale.y, curHpBarScale.z);
             }
-            else if(nextPos.Value.x < transform.position.x)
+            else if (nextPos.Value.x < transform.position.x)
             {
                 spriteRenderer.flipX = false;
                 //transform.localScale = new UnityEngine.Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);

@@ -10,7 +10,9 @@ public class MonsterManager : MonoBehaviour
 ---------------------------------------------*/
     public static MonsterManager instance;
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
-    private Dictionary<string, Enemy> enemies = new Dictionary<string, Enemy>();
+    private Dictionary<string, Monster> enemies = new Dictionary<string, Monster>();
+    private bool atkBuff;
+    private bool asBuff;
 
     void Awake()
     {
@@ -43,7 +45,7 @@ public class MonsterManager : MonoBehaviour
         {
             // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
             GameObject monster = Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
-            Enemy chara = monster.GetComponent<Enemy>();
+            Monster chara = monster.GetComponent<Monster>();
             chara.SetMonsterId(pos.Uuid);
             enemies[pos.Uuid] = chara;
 
@@ -63,7 +65,7 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    public Enemy GetMonsterByUuid(string uuid)
+    public Monster GetMonsterByUuid(string uuid)
     {
         if (enemies.ContainsKey(uuid))
         {
@@ -78,11 +80,11 @@ public class MonsterManager : MonoBehaviour
     ---------------------------------------------*/
     public void HandleMonsterMove(PosInfo pos)
     {
-        if (enemies.TryGetValue(pos.Uuid, out Enemy enemy))
+        if (enemies.TryGetValue(pos.Uuid, out Monster monster))
         {
-            enemy.SetMoveMode();
+            monster.SetMoveMode();
             // Rigidbody2D를 가져옴
-            Rigidbody2D rigid = enemy.GetComponent<Rigidbody2D>();
+            Rigidbody2D rigid = monster.GetComponent<Rigidbody2D>();
 
             if (rigid != null)
             {
@@ -90,7 +92,7 @@ public class MonsterManager : MonoBehaviour
                 Vector2 targetPosition = new Vector2(pos.X, pos.Y);
 
 
-                enemy.SetNextPos(targetPosition);
+                monster.SetNextPos(targetPosition);
                 //Debug.Log($"Monster {pos.Uuid} moved to ({pos.X}, {pos.Y})");
             }
             else
@@ -106,13 +108,39 @@ public class MonsterManager : MonoBehaviour
 
     public void HandleMonsterAttackTower(string monsterId)
     {
-        if (enemies.TryGetValue(monsterId, out Enemy enemy))
+        if (enemies.TryGetValue(monsterId, out Monster monster))
         {
-            enemy.SetAttackMode();
+            monster.SetAttackMode();
         }
         else
         {
             Debug.LogError($"not found");
+        }
+    }
+
+    public void SetBuffState(string buffType, bool state)
+    {
+        switch (buffType)
+        {
+            case "atkBuff":
+                atkBuff = state;
+                break;
+            case "asBuff":
+                asBuff = state;
+                break;
+        }
+    }
+
+    public bool GetBuffState(string buffType)
+    {
+        switch (buffType)
+        {
+            case "atkBuff":
+                return atkBuff;
+            case "asBuff":
+                return asBuff;
+            default:
+                return false;
         }
     }
 }

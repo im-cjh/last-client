@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 5618851376053584407}
   - component: {fileID: 4473701194945295909}
   m_Layer: 0
-  m_Name: BuffEffect
+  m_Name: MonsterAttackSpeedBuffEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1800218339376966189
 Transform:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.97062385, g: 1, b: 0, a: 1}
+      maxColor: {r: 0, g: 0.8895252, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4798,8 +4798,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -286598461
-  m_SortingLayer: 2
+  m_SortingLayerID: 2031739859
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_RenderMode: 0
   m_MeshDistribution: 0

@@ -46,8 +46,9 @@ public class PacketHandler
         handlerMapping[ePacketID.L2C_GameStart] = HandleLobbyGameStart;
         handlerMapping[ePacketID.B2C_GameStartNotification] = HandleBattleGameStart;
         handlerMapping[ePacketID.B2C_increaseWaveNotification] = HandleIncreaseWaveNotification;
+
         handlerMapping[ePacketID.B2C_PlayerPositionUpdateNotification] = HandleMove;
-        handlerMapping[ePacketID.B2C_PlayerAnimationUpdateNotification] = HandleCharacterAnimation;
+
         handlerMapping[ePacketID.B2C_SpawnMonsterNotification] = HandleSpawnMonster;
         handlerMapping[ePacketID.B2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
         handlerMapping[ePacketID.B2C_MonsterDeathNotification] = HandleMonsterDeath;
@@ -55,13 +56,15 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_MonsterAttackTowerNotification] = HandleMonsterAttackTower;
         handlerMapping[ePacketID.B2C_MonsterAttackBaseNotification] = HandleMonsterAttackBase;
 
+        handlerMapping[ePacketID.B2C_MonsterBuffNotification] = HandleMonsterBuff;
+
         handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.B2C_TowerBuildNotification] = HandleBuildTowerNotification;
         handlerMapping[ePacketID.B2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
         handlerMapping[ePacketID.B2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
         handlerMapping[ePacketID.B2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
 
-        // handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
+        handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
         handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
         handlerMapping[ePacketID.B2C_AddCard] = HandleAddCard;
@@ -260,18 +263,18 @@ public class PacketHandler
     }
 
     // 캐릭터 애니메이션 동기화
-    static void HandleCharacterAnimation(byte[] pBuffer)
-    {
-        Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
-        Debug.Log("HandleCharacterAnimation Called: packet: " + packet);
+    // static void HandleCharacterAnimation(byte[] pBuffer)
+    // {
+    //     Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
+    //     Debug.Log("HandleCharacterAnimation Called: packet: " + packet);
 
-        Character character = CharacterManager.instance.GetCharacter(packet.CharacterId);
+    //     Character character = CharacterManager.instance.GetCharacter(packet.CharacterId);
 
-        if (character != null)
-        {
-            character.UpdateAnimationFromServer(packet.Parameter, packet.State);
-        }
-    }
+    //     if (character != null)
+    //     {
+    //         character.UpdateAnimationFromServer(packet.Parameter, packet.State);
+    //     }
+    // }
 
     static void HandleSpawnMonster(byte[] pBuffer)
     {
@@ -288,7 +291,7 @@ public class PacketHandler
 
         B2C_MonsterHealthUpdateNotification packet = Protocol.B2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
-        Enemy monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
+        Monster monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
         monster.SetHp(packet.Hp, packet.MaxHp);
     }
 
@@ -299,7 +302,7 @@ public class PacketHandler
         B2C_MonsterDeathNotification packet = Protocol.B2C_MonsterDeathNotification.Parser.ParseFrom(pBuffer);
 
         Debug.Log("Monster Death: MonsterId: " + packet.MonsterId);
-        Enemy monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
+        Monster monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
         monster.Die();
         MonsterManager.instance.RemoveMonster(packet.MonsterId);
         ScoreManager.instance.AddScore(packet.Score);
@@ -372,16 +375,16 @@ public class PacketHandler
         TowerManager.instance.RemoveTower(packet.TowerId);
     }
 
-    // static void HandleUseSkillNotification(byte[] pBuffer)
-    // {
-    //     Debug.Log("HandleUseSkillNotification Called");
+    static void HandleUseSkillNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleUseSkillNotification Called");
 
-    //     B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
+        B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
 
-    //     Debug.Log("HandleUseSkillNotification packet: " + packet);
+        Debug.Log("HandleUseSkillNotification packet.OwnerId: " + packet.OwnerId);
 
-    //     SkillUser.instance.UseSkill(packet.Skill);
-    // }
+        SkillManager.instance.UseSkill(packet.OwnerId, packet.Skill);
+    }
 
     static void HandleInitCardData(byte[] pBuffer)
     {
@@ -395,10 +398,15 @@ public class PacketHandler
     static void HandleSkillResponse(byte[] pBuffer)
     {
         Debug.Log("HandleSkillResponse Called");
+    }
 
-        B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
+    static void HandleMonsterBuff(byte[] pBuffer)
+    {
+        Debug.Log("HandleMonsterBuff Called");
 
-        //HandManager.instance.AddInitCard(packet.CardData);
+        B2C_MonsterBuffNotification packet = Protocol.B2C_MonsterBuffNotification.Parser.ParseFrom(pBuffer);
+
+        MonsterManager.instance.SetBuffState(packet.BuffType, packet.State);
     }
 }
 

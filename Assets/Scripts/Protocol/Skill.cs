@@ -28,17 +28,18 @@ namespace Protocol {
             "cm90byJWChBDMkJfU2tpbGxSZXF1ZXN0EiIKBXNraWxsGAEgASgLMhMuUHJv",
             "dG9jb2wuU2tpbGxEYXRhEg4KBnJvb21JZBgCIAEoBRIOCgZjYXJkSWQYAyAB",
             "KAkiNgoRQjJDX1NraWxsUmVzcG9uc2USEQoJaXNTdWNjZXNzGAEgASgIEg4K",
-            "BmNhcmRJZBgCIAEoCSI+ChhCMkNfVXNlU2tpbGxOb3RpZmljYXRpb24SIgoF",
-            "c2tpbGwYASABKAsyEy5Qcm90b2NvbC5Ta2lsbERhdGEiQwoLQjJDX0FkZENh",
-            "cmQSDgoGY2FyZElkGAEgASgJEiQKCGNhcmREYXRhGAIgASgLMhIuUHJvdG9j",
-            "b2wuQ2FyZERhdGEiOAoQQjJDX0luaXRDYXJkRGF0YRIkCghjYXJkRGF0YRgB",
-            "IAMoCzISLlByb3RvY29sLkNhcmREYXRhYgZwcm90bzM="));
+            "BmNhcmRJZBgCIAEoCSJPChhCMkNfVXNlU2tpbGxOb3RpZmljYXRpb24SDwoH",
+            "b3duZXJJZBgBIAEoCRIiCgVza2lsbBgCIAEoCzITLlByb3RvY29sLlNraWxs",
+            "RGF0YSJDCgtCMkNfQWRkQ2FyZBIOCgZjYXJkSWQYASABKAkSJAoIY2FyZERh",
+            "dGEYAiABKAsyEi5Qcm90b2NvbC5DYXJkRGF0YSI4ChBCMkNfSW5pdENhcmRE",
+            "YXRhEiQKCGNhcmREYXRhGAEgAygLMhIuUHJvdG9jb2wuQ2FyZERhdGFiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C2B_SkillRequest), global::Protocol.C2B_SkillRequest.Parser, new[]{ "Skill", "RoomId", "CardId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_SkillResponse), global::Protocol.B2C_SkillResponse.Parser, new[]{ "IsSuccess", "CardId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_UseSkillNotification), global::Protocol.B2C_UseSkillNotification.Parser, new[]{ "Skill" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_UseSkillNotification), global::Protocol.B2C_UseSkillNotification.Parser, new[]{ "OwnerId", "Skill" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_AddCard), global::Protocol.B2C_AddCard.Parser, new[]{ "CardId", "CardData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.B2C_InitCardData), global::Protocol.B2C_InitCardData.Parser, new[]{ "CardData" }, null, null, null, null)
           }));
@@ -591,6 +592,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public B2C_UseSkillNotification(B2C_UseSkillNotification other) : this() {
+      ownerId_ = other.ownerId_;
       skill_ = other.skill_ != null ? other.skill_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -601,8 +603,20 @@ namespace Protocol {
       return new B2C_UseSkillNotification(this);
     }
 
+    /// <summary>Field number for the "ownerId" field.</summary>
+    public const int OwnerIdFieldNumber = 1;
+    private string ownerId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string OwnerId {
+      get { return ownerId_; }
+      set {
+        ownerId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "skill" field.</summary>
-    public const int SkillFieldNumber = 1;
+    public const int SkillFieldNumber = 2;
     private global::Protocol.SkillData skill_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -628,6 +642,7 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (OwnerId != other.OwnerId) return false;
       if (!object.Equals(Skill, other.Skill)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -636,6 +651,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (OwnerId.Length != 0) hash ^= OwnerId.GetHashCode();
       if (skill_ != null) hash ^= Skill.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -655,8 +671,12 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (skill_ != null) {
+      if (OwnerId.Length != 0) {
         output.WriteRawTag(10);
+        output.WriteString(OwnerId);
+      }
+      if (skill_ != null) {
+        output.WriteRawTag(18);
         output.WriteMessage(Skill);
       }
       if (_unknownFields != null) {
@@ -669,8 +689,12 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (skill_ != null) {
+      if (OwnerId.Length != 0) {
         output.WriteRawTag(10);
+        output.WriteString(OwnerId);
+      }
+      if (skill_ != null) {
+        output.WriteRawTag(18);
         output.WriteMessage(Skill);
       }
       if (_unknownFields != null) {
@@ -683,6 +707,9 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (OwnerId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(OwnerId);
+      }
       if (skill_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Skill);
       }
@@ -697,6 +724,9 @@ namespace Protocol {
     public void MergeFrom(B2C_UseSkillNotification other) {
       if (other == null) {
         return;
+      }
+      if (other.OwnerId.Length != 0) {
+        OwnerId = other.OwnerId;
       }
       if (other.skill_ != null) {
         if (skill_ == null) {
@@ -720,6 +750,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
+            OwnerId = input.ReadString();
+            break;
+          }
+          case 18: {
             if (skill_ == null) {
               Skill = new global::Protocol.SkillData();
             }
@@ -742,6 +776,10 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
+            OwnerId = input.ReadString();
+            break;
+          }
+          case 18: {
             if (skill_ == null) {
               Skill = new global::Protocol.SkillData();
             }
