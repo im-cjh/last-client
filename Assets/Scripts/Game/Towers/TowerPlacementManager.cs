@@ -6,6 +6,7 @@ public class TowerPlacementManager : MonoBehaviour
 {
     public static TowerPlacementManager instance = null;
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
+    private bool isTowerActive = false;
 
     void Awake()
     {
@@ -42,5 +43,16 @@ public class TowerPlacementManager : MonoBehaviour
 
         // 로컬 플레이어의 타워 설치 모드 비활성화
         CharacterManager.instance.GetCharacter(ownerId).isTowerActive = false;
+        isTowerActive = false;
+    }
+
+    public void SetTowerActive(bool state)
+    {
+        isTowerActive = state;
+    }
+
+    public bool GetTowerActive()
+    {
+        return isTowerActive;
     }
 }

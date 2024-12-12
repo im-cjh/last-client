@@ -6,6 +6,7 @@ public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance = null;
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
+    private bool isSkillActive = false;
 
     void Awake()
     {
@@ -28,6 +29,18 @@ public class SkillManager : MonoBehaviour
 
         Instantiate(prefabMap[skillData.PrefabId], cellCenterWorld, Quaternion.identity);
         Debug.Log($"스킬이 {cellCenterWorld} 위치에 사용되었습니다.");
+
         CharacterManager.instance.GetCharacter(ownerId).isSkillActive = false;
+        isSkillActive = false;
+    }
+
+    public void SetSkillActive(bool state)
+    {
+        isSkillActive = state;
+    }
+
+    public bool GetSkillActive()
+    {
+        return isSkillActive;
     }
 }

@@ -29,6 +29,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                     Debug.Log("Player: " + character.GetCharacterId() + "의 타워 설치 모드 활성화: 타워: " + towerPrefabId);
                     character.SetPrefabId(towerPrefabId, cardId);
                     character.isTowerActive = true;
+                    TowerPlacementManager.instance.SetTowerActive(true);
                     handManager.RemoveCard(droppedCard);
                     HideDropZone();
                 }
@@ -41,6 +42,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                     Debug.Log("Player: " + character.GetCharacterId() + "의 스킬 사용 모드 활성화: 스킬: " + skillPrefabId);
                     character.SetPrefabId(skillPrefabId, cardId);
                     character.isSkillActive = true;
+                    SkillManager.instance.SetSkillActive(true);
                     handManager.RemoveCard(droppedCard);
                     HideDropZone();
                 }
