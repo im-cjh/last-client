@@ -26,7 +26,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                 if (towerPrefabId != null)
                 {
                     // 로컬 플레이어의 타워 설치 모드 활성화
-                    Debug.Log("Player: " + character.GetCharacterId() + "의 타워 설치 모드 활성화: 타워: " + towerPrefabId);
                     character.SetPrefabId(towerPrefabId, cardId);
                     character.isTowerActive = true;
                     TowerPlacementManager.instance.SetTowerActive(true);
@@ -39,7 +38,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                 string skillPrefabId = card.GetPrefabId();
                 if (skillPrefabId != null)
                 {
-                    Debug.Log("Player: " + character.GetCharacterId() + "의 스킬 사용 모드 활성화: 스킬: " + skillPrefabId);
                     character.SetPrefabId(skillPrefabId, cardId);
                     character.isSkillActive = true;
                     SkillManager.instance.SetSkillActive(true);

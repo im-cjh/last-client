@@ -63,6 +63,7 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
         handlerMapping[ePacketID.B2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
         handlerMapping[ePacketID.B2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
+        handlerMapping[ePacketID.B2C_TowerBuffNotification] = HandleTowerBuffNotification;
 
         handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
@@ -139,7 +140,6 @@ public class PacketHandler
 
     static void HandleJoinRoomResponsePacket(byte[] pBuffer)
     {
-        Debug.Log("HandleJoinRoomResponsePacket");
         Protocol.L2C_JoinRoomResponse pkt = Protocol.L2C_JoinRoomResponse.Parser.ParseFrom(pBuffer);
         LobbyManager.instance.OnEnteredRoom(pkt.RoomInfo);
 
@@ -278,8 +278,6 @@ public class PacketHandler
 
     static void HandleSpawnMonster(byte[] pBuffer)
     {
-        Debug.Log("HandleSpawnMonster Called");
-
         B2C_SpawnMonsterNotification packet = Protocol.B2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
 
         MonsterManager.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
@@ -287,8 +285,6 @@ public class PacketHandler
 
     static void HandleMonsterHealthUpdateNotification(byte[] pBuffer)
     {
-        Debug.Log("HandleMonsterHealthUpdateNotification Called");
-
         B2C_MonsterHealthUpdateNotification packet = Protocol.B2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
         Monster monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
@@ -297,11 +293,7 @@ public class PacketHandler
 
     static void HandleMonsterDeath(byte[] pBuffer)
     {
-        Debug.Log("HandleMonsterDeath Called");
-
         B2C_MonsterDeathNotification packet = Protocol.B2C_MonsterDeathNotification.Parser.ParseFrom(pBuffer);
-
-        Debug.Log("Monster Death: MonsterId: " + packet.MonsterId);
         Monster monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
         monster.Die();
         MonsterManager.instance.RemoveMonster(packet.MonsterId);
@@ -311,8 +303,6 @@ public class PacketHandler
 
     static void HandleBuildTowerResponse(byte[] pBuffer)
     {
-        Debug.Log("HandleBuildTowerResponse Called");
-
         B2C_TowerBuildResponse packet = Protocol.B2C_TowerBuildResponse.Parser.ParseFrom(pBuffer);
         if (!packet.IsSuccess)
         {
@@ -322,8 +312,6 @@ public class PacketHandler
 
     static void HandleBuildTowerNotification(byte[] pBuffer)
     {
-        Debug.Log("HandleBuildTowerNotification Called");
-
         B2C_TowerBuildNotification packet = Protocol.B2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
 
         TowerPlacementManager.instance.BuildTower(packet.OwnerId, packet.Tower);
@@ -331,8 +319,6 @@ public class PacketHandler
 
     static void HandleTowerAttackMonsterNotification(byte[] pBuffer)
     {
-        Debug.Log("HandleTowerAttackMonsterNotification");
-
         B2C_TowerAttackMonsterNotification packet = Protocol.B2C_TowerAttackMonsterNotification.Parser.ParseFrom(pBuffer);
 
         Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
@@ -344,8 +330,6 @@ public class PacketHandler
 
     static void HandleTowerHealthUpdateNotification(byte[] pBuffer)
     {
-        Debug.Log("HandleTowerHealthUpdateNotification Called");
-
         B2C_TowerHealthUpdateNotification packet = Protocol.B2C_TowerHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
         Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
@@ -357,8 +341,6 @@ public class PacketHandler
 
     static void HandleTowerDestroyNotification(byte[] pBuffer)
     {
-        Debug.Log("HandleTowerDestroyNotification Called");
-
         B2C_TowerDestroyNotification packet = Protocol.B2C_TowerDestroyNotification.Parser.ParseFrom(pBuffer);
 
         Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
@@ -377,19 +359,13 @@ public class PacketHandler
 
     static void HandleUseSkillNotification(byte[] pBuffer)
     {
-        Debug.Log("HandleUseSkillNotification Called");
-
         B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
-
-        Debug.Log("HandleUseSkillNotification packet.OwnerId: " + packet.OwnerId);
 
         SkillManager.instance.UseSkill(packet.OwnerId, packet.Skill);
     }
 
     static void HandleInitCardData(byte[] pBuffer)
     {
-        //Debug.Log("HandleInitCardData Called");
-
         B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
 
         HandManager.instance.AddInitCard(packet.CardData);
@@ -397,16 +373,23 @@ public class PacketHandler
 
     static void HandleSkillResponse(byte[] pBuffer)
     {
-        Debug.Log("HandleSkillResponse Called");
+
     }
 
     static void HandleMonsterBuff(byte[] pBuffer)
     {
-        Debug.Log("HandleMonsterBuff Called");
-
         B2C_MonsterBuffNotification packet = Protocol.B2C_MonsterBuffNotification.Parser.ParseFrom(pBuffer);
 
         MonsterManager.instance.SetBuffState(packet.BuffType, packet.State);
+    }
+
+    static void HandleTowerBuffNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleTowerBuffNotification Called");
+
+        B2C_TowerBuffNotification packet = Protocol.B2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
+
+        TowerManager.instance.GetTowerByUuid(packet.TowerId).SetBuffEffect(packet.IsBuffed);
     }
 }
 

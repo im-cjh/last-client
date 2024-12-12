@@ -632,6 +632,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuffEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 4015735939414771497, guid: 3df9406fd79099649a6eabed464ef40d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
