@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void SendLocationUpdatePacket(float x, float y)
+    public void SendLocationUpdatePacket(float x, float y, string parameter, bool state)
     {
         // Debug.Log("my pos: " + x + " , " + y);
         Protocol.C2B_PlayerPositionUpdateRequest pkt = new Protocol.C2B_PlayerPositionUpdateRequest
@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
                 X = x,
                 Y = y
             },
+            Parameter = parameter,
+            State = state,
             RoomId = PlayerInfoManager.instance.roomId
         };
 

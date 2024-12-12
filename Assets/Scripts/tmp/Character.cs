@@ -20,6 +20,7 @@ public class Character : MonoBehaviour
     private Vector2 lastSyncedPosition; // 마지막으로 서버에 전송된 위치
     private Animator animator;
     private string characterId;
+    private bool isWalking;
 
     [SerializeField] private GameObject validTile; // 설치 가능한 타일 색상
     [SerializeField] private GameObject unvalidTile; // 설치 불가능한 타일 색상
@@ -28,6 +29,7 @@ public class Character : MonoBehaviour
     private Vector3Int previousCellPosition = Vector3Int.zero;
     private Tilemap tilemap;
     private float maxPlacementDistance = 5f;
+    private Vector3 previousPosition = Vector3.zero;
 
     private string cardPrefabId;
     private string cardId;
@@ -58,6 +60,9 @@ public class Character : MonoBehaviour
     {
         if (isLocalPlayer)
         {
+            isWalking = inputVec.magnitude > 0;
+            animator.SetBool("isWalk", isWalking);
+
             HandleInput();          // 로컬 플레이어만 입력 처리
             TrySendPositionToServer(); // 로컬 플레이어 위치 동기화
 
@@ -103,6 +108,25 @@ public class Character : MonoBehaviour
 
                     Destroy(currentHighlight);
                 }
+            }
+        }
+        else
+        {
+            if (previousPosition != transform.position)
+            {
+                Vector3 curScale = transform.localScale;
+                Vector3 curTextScale = nicknameText.transform.localScale;
+                if (previousPosition.x > transform.position.x)
+                {
+                    transform.localScale = new Vector3(Mathf.Abs(curScale.x), curScale.y, curScale.z);
+                    nicknameText.transform.localScale = new Vector3(Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(-Mathf.Abs(curScale.x), curScale.y, curScale.z);
+                    nicknameText.transform.localScale = new Vector3(-Mathf.Abs(curTextScale.x), curTextScale.y, curTextScale.z);
+                }
+                previousPosition = transform.position;
             }
         }
     }
@@ -223,14 +247,6 @@ public class Character : MonoBehaviour
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
 
-        bool isWalking = inputVec.magnitude > 0;
-        animator.SetBool("isWalk", isWalking);
-
-        if (isWalking != animator.GetBool("isWalk"))
-        {
-            // GameManager.instance.SendAnimationUpdatePacket("isWalk", isWalking);
-        }
-
         Vector3 curScale = transform.localScale;
         Vector3 curTextScale = nicknameText.transform.localScale;
         if (inputVec.x > 0)
@@ -257,19 +273,19 @@ public class Character : MonoBehaviour
     {
         if (Vector2.Distance(lastSyncedPosition, rigid.position) > SyncThreshold)
         {
-            GameManager.instance.SendLocationUpdatePacket(rigid.position.x, rigid.position.y);
+            GameManager.instance.SendLocationUpdatePacket(rigid.position.x, rigid.position.y, "isWalk", isWalking);
             lastSyncedPosition = rigid.position;
         }
     }
 
     // 서버로부터 받은 위치 데이터로 캐릭터 위치 업데이트
-    public void UpdatePositionFromServer(float x, float y)
+    public void UpdatePositionFromServer(float x, float y, string parameter, bool state)
     {
         if (!isLocalPlayer) // 로컬 플레이어는 서버에서 받은 위치를 적용하지 않음
         {
             Vector2 serverPosition = new Vector2(x, y);
-            //rigid.MovePosition(Vector2.Lerp(rigid.position, serverPosition, 0.1f)); // 부드럽게 위치 보간
             rigid.MovePosition(serverPosition); // �����̵�
+            animator.SetBool(parameter, state);
         }
     }
 

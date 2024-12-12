@@ -248,7 +248,7 @@ public class PacketHandler
                 // 로컬 플레이어가 아닌 경우에만 업데이트
                 if (!character.isLocalPlayer)
                 {
-                    character.UpdatePositionFromServer(posInfo.X, posInfo.Y);
+                    character.UpdatePositionFromServer(posInfo.X, posInfo.Y, response.Parameter, response.State);
                 }
             }
             else
