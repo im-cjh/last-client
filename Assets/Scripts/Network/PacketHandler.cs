@@ -36,38 +36,44 @@ public class PacketHandler
 ---------------------------------------------*/
     static void Init()
     {
+        //100번
+        handlerMapping[ePacketID.G2C_CreateRoomResponse] = HandleCreateRoomResponsePacket;
+        handlerMapping[ePacketID.G2C_CreateGameRoomNotification] = HandleCreateGameRoomNotification;
+        handlerMapping[ePacketID.G2C_GameStartNotification] = HandleBattleGameStart;
         handlerMapping[ePacketID.G2C_GetRoomListResponse] = HandleRoomsPacket;
         handlerMapping[ePacketID.G2C_JoinRoomResponse] = HandleJoinRoomResponsePacket;
         handlerMapping[ePacketID.G2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
-        handlerMapping[ePacketID.G2C_CreateRoomResponse] = HandleCreateRoomResponsePacket;
         //handlerMapping[ePacketID.L2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
 
-        handlerMapping[ePacketID.G2C_CreateGameRoomNotification] = HandleCreateGameRoomNotification;
-        handlerMapping[ePacketID.G2C_GameStartNotification] = HandleBattleGameStart;
         //handlerMapping[ePacketID.B2C_increaseWaveNotification] = HandleIncreaseWaveNotification;
-        handlerMapping[ePacketID.G2C_PlayerPositionUpdateNotification] = HandleMove;
+
+        //200번
         handlerMapping[ePacketID.G2C_SpawnMonsterNotification] = HandleSpawnMonster;
         handlerMapping[ePacketID.G2C_MonsterPositionUpdateNotification] = HandleMonsterMove;
-        handlerMapping[ePacketID.G2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
-        handlerMapping[ePacketID.G2C_MonsterDeathNotification] = HandleMonsterDeath;
         handlerMapping[ePacketID.G2C_MonsterAttackTowerNotification] = HandleMonsterAttackTower;
         handlerMapping[ePacketID.G2C_MonsterAttackBaseNotification] = HandleMonsterAttackBase;
+        handlerMapping[ePacketID.G2C_MonsterDeathNotification] = HandleMonsterDeath;
+        handlerMapping[ePacketID.G2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
 
+        //300번
         //handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.G2C_TowerBuildNotification] = HandleBuildTowerNotification;
         handlerMapping[ePacketID.G2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
         handlerMapping[ePacketID.G2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
         handlerMapping[ePacketID.G2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
 
-        //handlerMapping[ePacketID.B2C_UseSkillNotification] = HandleUseSkillNotification;
+        //400번
+        handlerMapping[ePacketID.G2C_UseSkillResponse] = HandleSkillResponse;
+        handlerMapping[ePacketID.G2C_UseSkillNotification] = HandleUseSkillNotification;
+        //500번
         handlerMapping[ePacketID.G2C_InitCardData] = HandleInitCardData;
-        //handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
+        handlerMapping[ePacketID.G2C_PlayerPositionUpdateNotification] = HandleMove;
         //handlerMapping[ePacketID.B2C_AddCard] = HandleAddCard;
     }
 
     private static void HandleAddCard(byte[] pBuffer)
     {
-        Protocol.B2C_AddCard packet = B2C_AddCard.Parser.ParseFrom(pBuffer);
+        Protocol.G2C_AddCard packet = G2C_AddCard.Parser.ParseFrom(pBuffer);
 
         HandManager.instance.AddCard(packet.CardData);
     }
@@ -367,7 +373,7 @@ public class PacketHandler
     {
         Debug.Log("HandleUseSkillNotification Called");
 
-        B2C_UseSkillNotification packet = Protocol.B2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
+        G2C_UseSkillNotification packet = Protocol.G2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
 
         Debug.Log("HandleUseSkillNotification packet: " + packet);
 

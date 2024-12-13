@@ -67,7 +67,7 @@ public class SkillUser : TowerPlacer
     private void SendSkillRequestToServer(string prefabId, string uuid, float x, float y)
     {
         Debug.Log($"서버에게 스킬 사용 요청: prefabId:{prefabId}, x:{x}, y:{y}");
-        Protocol.C2B_SkillRequest pkt = new Protocol.C2B_SkillRequest
+        Protocol.C2G_UseSkillRequest pkt = new Protocol.C2G_UseSkillRequest
         {
             Skill = new Protocol.SkillData
             {
@@ -82,8 +82,8 @@ public class SkillUser : TowerPlacer
             CardId = uuid,
         };
 
-       // byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_SkillRequest, PlayerInfoManager.instance.GetNextSequence());
-        //NetworkManager.instance.SendPacket(sendBuffer);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_UseSkillRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     public void UseSkill(SkillData skillData)
