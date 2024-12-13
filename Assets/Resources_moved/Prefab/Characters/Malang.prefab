@@ -190,8 +190,8 @@ GameObject:
   - component: {fileID: 3837058707882532637}
   - component: {fileID: 2539617411242045817}
   - component: {fileID: 6256458400324502087}
-  m_Layer: 0
-  m_Name: White
+  m_Layer: 9
+  m_Name: Malang
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,7 +259,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -6447722072507503168, guid: 10f3cacccb0c4c547be76836eba20664, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

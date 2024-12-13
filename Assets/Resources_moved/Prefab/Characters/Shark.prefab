@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4280969950144920185}
   - component: {fileID: 6681292788127677118}
   - component: {fileID: 7498682887664863199}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shark
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6963965405315877273}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.92, y: 11.24, z: 0}
+  m_LocalPosition: {x: -19.873, y: 11.973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -6443143152671075294, guid: d1c8b79577a809444a69dbf02ac0ba09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.8, y: 1.8}
@@ -175,17 +175,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.051377296, y: 0.26292753}
+  m_Offset: {x: 0.056845665, y: -0.21915674}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.28}
     oldSize: {x: 1.8, y: 1.8}
     newSize: {x: 1.8, y: 1.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.6388836, y: 0.36144924}
+  m_Size: {x: 0.6323223, y: 0.35488987}
   m_EdgeRadius: 0
 --- !u!114 &7498682887664863199
 MonoBehaviour:
@@ -240,7 +240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.9}
+  m_AnchoredPosition: {x: 0, y: 1.369}
   m_SizeDelta: {x: 2, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1623193264541699706

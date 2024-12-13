@@ -84,6 +84,9 @@ public class CharacterManager : MonoBehaviour
     public async Task InitializeCharacters()
     {
         await Utilities.RegisterPrefab("Prefab/Characters/Red", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Characters/Shark", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Characters/Malang", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Characters/Frog", prefabMap);
 
         foreach (var playerData in PlayerManager.Instance.GetAllPlayers())
         {

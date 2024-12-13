@@ -9,7 +9,7 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void Opened(object[] param)
     {
-        // UI°¡ ¿­·ÈÀ» ¶§ ÃÊ±âÈ­°¡ ÇÊ¿äÇÏ¸é ±¸Çö
+        // UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void Update()
@@ -48,7 +48,7 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void SetList()
     {
-        
+
         ClearList();
         for (int i = 0; i < rooms.Count; i++)
         {
@@ -69,9 +69,15 @@ public class UIMain : UIListBase<ItemRoom>
 
 
     public void OnClickJoinRoom(int roomId)
-    {  
+    {
         Protocol.C2L_JoinRoomRequest pkt = new Protocol.C2L_JoinRoomRequest();
         pkt.RoomId = roomId;
+        pkt.JoinUser = new UserData
+        {
+            Id = PlayerInfoManager.instance.userId,
+            Name = PlayerInfoManager.instance.nickname,
+            PrefabId = PlayerInfoManager.instance.prefabId
+        };
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_JoinRoomRequest, 0);
 
         NetworkManager.instance.SendLobbyPacket(sendBuffer);

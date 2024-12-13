@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1460372111577917988}
   - component: {fileID: 3037992597417420681}
   - component: {fileID: 6665882585561286073}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Frog
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -6367560908665664636, guid: 1283359aadf4b0a4f8f06d7f8a1c0e80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
