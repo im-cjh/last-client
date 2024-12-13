@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using UnityEngine.UIElements;
 
 public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -74,8 +73,7 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (TowerPlacementManager.instance.IsPlacementActive()) return;
-        if (SkillManager.instance.IsSkillActiveOn()) return;
+        if (TowerPlacementManager.instance.GetTowerActive() || SkillManager.instance.GetSkillActive()) return;
 
         isDragging = true; // 드래그 상태 설정
         canvasGroup.alpha = 0.6f; // 드래그 중 투명도 조정
@@ -100,8 +98,7 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (TowerPlacementManager.instance.IsPlacementActive()) return;
-        if (SkillManager.instance.IsSkillActiveOn()) return;
+        if (TowerPlacementManager.instance.GetTowerActive() || SkillManager.instance.GetSkillActive()) return;
 
         // 마우스 위치를 Canvas의 로컬 좌표로 변환
         Vector2 localPoint;
@@ -118,8 +115,7 @@ public class CardDragAndHover : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (TowerPlacementManager.instance.IsPlacementActive()) return;
-        if (SkillManager.instance.IsSkillActiveOn()) return;
+        if (TowerPlacementManager.instance.GetTowerActive() || SkillManager.instance.GetSkillActive()) return;
 
         isDragging = false; // 드래그 상태 해제
         canvasGroup.alpha = 1f; // 드래그 종료 후 투명도 복원

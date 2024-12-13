@@ -31,7 +31,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2873a9a43e9be8746a456128ab43c603
-    m_Address: Prefab/Characters/White
+    m_Address: Prefab/Characters/Malang
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -42,6 +42,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2a9b3f4b0ab55f04da4fbdb8990c8a31
     m_Address: Prefab/Towers/MissileTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2dcb5c2b31c21e64a86b53ed153ab5dd
+    m_Address: Prefab/Characters/Frog
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Protocol;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void SendLocationUpdatePacket(float x, float y)
+    public void SendLocationUpdatePacket(float x, float y, string parameter, bool state)
     {
         // Debug.Log("my pos: " + x + " , " + y);
         Protocol.C2G_PlayerPositionUpdateRequest pkt = new Protocol.C2G_PlayerPositionUpdateRequest
@@ -62,11 +63,25 @@ public class GameManager : MonoBehaviour
                 X = x,
                 Y = y
             },
+            Parameter = parameter,
+            State = state,
             RoomId = PlayerInfoManager.instance.roomId
         };
-
 
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_PlayerPositionUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
         NetworkManager.instance.SendPacket(sendBuffer);
     }
+
+    // public void SendAnimationUpdatePacket(string parameter, bool state)
+    // {
+    //     Protocol.C2B_PlayerAnimationUpdateRequest pkt = new Protocol.C2B_PlayerAnimationUpdateRequest
+    //     {
+    //         Parameter = parameter,
+    //         State = state,
+    //         RoomId = PlayerInfoManager.instance.roomId
+    //     };
+
+    //     byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PlayerAnimationUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
+    //     NetworkManager.instance.SendBattlePacket(sendBuffer);
+    // }
 }

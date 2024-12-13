@@ -3326,8 +3326,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Node.js \uAC8C\uC784\uC11C\uBC84\n\uBA40\uD2F0\uD50C\uB808\uC774\uC5B4
-    \uC0D8\uD50C"
+  m_Text: Project 9
 --- !u!222 &1619600035
 CanvasRenderer:
   m_ObjectHideFlags: 0

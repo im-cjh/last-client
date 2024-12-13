@@ -39,6 +39,7 @@ public class TowerManager : MonoBehaviour
             return towers[uuid];
         }
 
+        Debug.Log("해당하는 uuid의 타워를 찾을 수 없습니다: " + uuid);
         return null;
     }
 

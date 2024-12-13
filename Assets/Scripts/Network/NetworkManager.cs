@@ -53,7 +53,6 @@ public class NetworkManager : MonoBehaviour
         mLobbyStream.Write(sendBuffer, 0, sendBuffer.Length);
     }
 
-
     void SendInitialPacket()
     {
         Protocol.C2G_Init pkt = new Protocol.C2G_Init();
@@ -63,6 +62,7 @@ public class NetworkManager : MonoBehaviour
         
         SendPacket(sendBuffer);
     }
+
     void StartLobbyReceiving()
     {
         _ = RecvLobbyPacketsAsync();

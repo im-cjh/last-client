@@ -2,20 +2,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Protocol;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 public class CharacterManager : MonoBehaviour
 {
-    public static CharacterManager Instance { get; private set; }
+    public static CharacterManager instance { get; private set; }
 
-    //public GameObject characterPrefab; // 캐릭터 프리팹
+    // public GameObject characterPrefab; // 캐릭터 프리팹
 
     private Dictionary<string, Character> characters = new Dictionary<string, Character>(); // UUID와 캐릭터 매핑
-    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); 
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
+    private Character localPlayer;
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // 서버 데이터를 기반으로 캐릭터 생성
@@ -43,9 +51,11 @@ public class CharacterManager : MonoBehaviour
         if (chara != null)
         {
             chara.nickname = playerData.Nickname;
-            if(playerData.Position.Uuid == PlayerInfoManager.instance.userId)
+            if (playerData.Position.Uuid == PlayerInfoManager.instance.userId)
             {
                 chara.isLocalPlayer = true;
+                localPlayer = chara;
+                chara.SetCharacterId(playerData.Position.Uuid);
                 if (CameraFollow.instance != null)
                 {
                     CameraFollow.instance.SetPlayer(chara.gameObject);
@@ -60,9 +70,9 @@ public class CharacterManager : MonoBehaviour
                 Debug.Log("엘스");
                 chara.isLocalPlayer = false;
             }
-            //chara.isLocalPlayer = playerData.Position.Uuid == PlayerInfoManager.instance.userId; // UUID 기반 로컬 판별
-            //chara.cam.gameObject.SetActive(playerData.Position.Uuid == PlayerInfoManager.instance.userId);
+
             characters[playerData.Position.Uuid] = chara; // UUID로 캐릭터 매핑
+            chara.SetCharacterId(playerData.Position.Uuid);
         }
         else
         {
@@ -74,6 +84,9 @@ public class CharacterManager : MonoBehaviour
     public async Task InitializeCharacters()
     {
         await Utilities.RegisterPrefab("Prefab/Characters/Red", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Characters/Shark", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Characters/Malang", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Characters/Frog", prefabMap);
 
         foreach (var playerData in PlayerManager.Instance.GetAllPlayers())
         {
@@ -91,5 +104,10 @@ public class CharacterManager : MonoBehaviour
 
         Debug.LogError($"UUID {uuid}에 해당하는 캐릭터를 찾을 수 없습니다.");
         return null;
+    }
+
+    public Character GetLocalPlayer()
+    {
+        return localPlayer;
     }
 }

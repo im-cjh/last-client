@@ -1,11 +1,12 @@
 using UnityEngine;
+using Protocol;
+using System.Collections.Generic;
 
 public class TowerPlacementManager : MonoBehaviour
 {
     public static TowerPlacementManager instance = null;
-    private bool isPlacementActive = false;
-    private string towerPrefabId;
-    private string cardId;
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>(); // 설치할 타워 프리팹
+    private bool isTowerActive = false;
 
     void Awake()
     {
@@ -15,26 +16,43 @@ public class TowerPlacementManager : MonoBehaviour
         }
     }
 
-    public void SetPlacementState(bool state, string prefabId, string uuid)
+    async void Start()
     {
-        isPlacementActive = state;
-        towerPrefabId = prefabId;
-        cardId = uuid;
-        Debug.Log("타워 설치 상태: " + state);
+        await Utilities.RegisterPrefab("Prefab/Towers/BasicTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/BuffTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/IceTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/MissileTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/StrongTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/TankTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Towers/ThunderTower", prefabMap);
     }
 
-    public string GetTowerPrefabId()
+    public void BuildTower(string ownerId, TowerData towerData)
     {
-        return towerPrefabId;
+        Vector3 cellCenterWorld = new Vector3(towerData.TowerPos.X, towerData.TowerPos.Y);
+
+        GameObject newTower = Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
+        Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
+
+        Tower towerScript = newTower.GetComponent<Tower>();
+        if (towerScript != null)
+        {
+            towerScript.SetTowerId(towerData.TowerPos.Uuid);
+            TowerManager.instance.AddTower(towerData.TowerPos.Uuid, towerScript);
+        }
+
+        // 로컬 플레이어의 타워 설치 모드 비활성화
+        CharacterManager.instance.GetCharacter(ownerId).isTowerActive = false;
+        isTowerActive = false;
     }
 
-    public string GetCardId()
+    public void SetTowerActive(bool state)
     {
-        return cardId;
+        isTowerActive = state;
     }
 
-    public bool IsPlacementActive()
+    public bool GetTowerActive()
     {
-        return isPlacementActive;
+        return isTowerActive;
     }
 }

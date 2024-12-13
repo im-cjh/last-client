@@ -55,6 +55,9 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_MonsterDeathNotification] = HandleMonsterDeath;
         handlerMapping[ePacketID.G2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
 
+        handlerMapping[ePacketID.B2C_MonsterBuffNotification] = HandleMonsterBuff;
+
+
         //300번
         //handlerMapping[ePacketID.B2C_TowerBuildResponse] = HandleBuildTowerResponse;
         handlerMapping[ePacketID.G2C_TowerBuildNotification] = HandleBuildTowerNotification;
@@ -97,6 +100,7 @@ public class PacketHandler
         G2C_MonsterAttackTowerNotification pkt = G2C_MonsterAttackTowerNotification.Parser.ParseFrom(pBuffer);
         Debug.Log(pkt.MonsterId);
         EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+
         Tower tower = TowerManager.instance.GetTowerByUuid(pkt.TargetId);
 
         if (tower != null)
@@ -116,7 +120,7 @@ public class PacketHandler
     {
         G2C_MonsterPositionUpdateNotification pkt = Protocol.G2C_MonsterPositionUpdateNotification.Parser.ParseFrom(pBuffer);
 
-        EnemySpawner.instance.HandleMonsterMove(pkt.PosInfo);
+        MonsterManager.instance.HandleMonsterMove(pkt.PosInfo);
     }
 
     static void HandleInitPacket(byte[] pBuffer)
@@ -231,10 +235,10 @@ public class PacketHandler
     }
 
     // 캐릭터 초기화 메서드 (독립적인 메서드로 분리)
-    private static void InitializeCharacters()
+    private static async void InitializeCharacters()
     {
         Debug.Log("게임 씬 로드 완료. 캐릭터 초기화 시작");
-        CharacterManager.Instance.InitializeCharacters();
+        await CharacterManager.instance.InitializeCharacters();
 
         //장애물도 일단 여기서 처리해주기...
         RandomObstacleSpawner.instance.HandleSpawnObstacle(PlayerInfoManager.instance.tmp_obstaclePosInfos);
@@ -256,14 +260,14 @@ public class PacketHandler
             var posInfo = response.PosInfo;
             // Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
             // 3. 캐릭터 검색
-            Character character = CharacterManager.Instance.GetCharacter(posInfo.Uuid);
+            Character character = CharacterManager.instance.GetCharacter(posInfo.Uuid);
 
             if (character != null)
             {
                 // 로컬 플레이어가 아닌 경우에만 업데이트
                 if (!character.isLocalPlayer)
                 {
-                    character.UpdatePositionFromServer(posInfo.X, posInfo.Y);
+                    character.UpdatePositionFromServer(posInfo.X, posInfo.Y, response.Parameter, response.State);
                 }
             }
             else
@@ -277,13 +281,27 @@ public class PacketHandler
         }
     }
 
+    // 캐릭터 애니메이션 동기화
+    // static void HandleCharacterAnimation(byte[] pBuffer)
+    // {
+    //     Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
+    //     Debug.Log("HandleCharacterAnimation Called: packet: " + packet);
+
+    //     Character character = CharacterManager.instance.GetCharacter(packet.CharacterId);
+
+    //     if (character != null)
+    //     {
+    //         character.UpdateAnimationFromServer(packet.Parameter, packet.State);
+    //     }
+    // }
+
     static void HandleSpawnMonster(byte[] pBuffer)
     {
         Debug.Log("HandleSpawnMonster Called");
 
         G2C_SpawnMonsterNotification packet = Protocol.G2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
 
-        EnemySpawner.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
+        MonsterManager.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
     }
 
     static void HandleMonsterHealthUpdateNotification(byte[] pBuffer)
@@ -292,7 +310,7 @@ public class PacketHandler
 
         G2C_MonsterHealthUpdateNotification packet = Protocol.G2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
-        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        Monster monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
         monster.SetHp(packet.Hp, packet.MaxHp);
     }
 
@@ -305,7 +323,7 @@ public class PacketHandler
         Debug.Log("Monster Death: MonsterId: " + packet.MonsterId);
         Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
         monster.Die();
-        EnemySpawner.instance.RemoveMonster(packet.MonsterId);
+        MonsterManager.instance.RemoveMonster(packet.MonsterId);
         ScoreManager.instance.AddScore(packet.Score);
 
     }
@@ -375,9 +393,7 @@ public class PacketHandler
 
         G2C_UseSkillNotification packet = Protocol.G2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
 
-        Debug.Log("HandleUseSkillNotification packet: " + packet);
-
-        SkillUser.instance.UseSkill(packet.Skill);
+        SkillManager.instance.UseSkill(packet.OwnerId, packet.Skill);
     }
 
     static void HandleInitCardData(byte[] pBuffer)
@@ -391,11 +407,23 @@ public class PacketHandler
 
     static void HandleSkillResponse(byte[] pBuffer)
     {
-        Debug.Log("HandleSkillResponse Called");
 
-        //B2C_InitCardData packet = Protocol.B2C_InitCardData.Parser.ParseFrom(pBuffer);
+    }
 
-        //HandManager.instance.AddInitCard(packet.CardData);
+    static void HandleMonsterBuff(byte[] pBuffer)
+    {
+        B2C_MonsterBuffNotification packet = Protocol.B2C_MonsterBuffNotification.Parser.ParseFrom(pBuffer);
+
+        MonsterManager.instance.SetBuffState(packet.BuffType, packet.State);
+    }
+
+    static void HandleTowerBuffNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleTowerBuffNotification Called");
+
+        B2C_TowerBuffNotification packet = Protocol.B2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
+
+        TowerManager.instance.GetTowerByUuid(packet.TowerId).SetBuffEffect(packet.IsBuffed);
     }
 }
 

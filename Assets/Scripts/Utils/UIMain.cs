@@ -49,7 +49,7 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void SetList()
     {
-        
+
         ClearList();
         for (int i = 0; i < rooms.Count; i++)
         {

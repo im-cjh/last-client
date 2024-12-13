@@ -13,10 +13,8 @@ GameObject:
   - component: {fileID: 2385078100372050194}
   - component: {fileID: 4280969950144920185}
   - component: {fileID: 6681292788127677118}
-  - component: {fileID: -11309774062441031}
-  - component: {fileID: 2164616751854903744}
   - component: {fileID: 7498682887664863199}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shark
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -32,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6963965405315877273}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.92, y: 11.24, z: 0}
+  m_LocalPosition: {x: -19.873, y: 11.973, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -85,7 +83,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -6443143152671075294, guid: d1c8b79577a809444a69dbf02ac0ba09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.8, y: 1.8}
@@ -177,48 +175,18 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.051377296, y: 0.26292753}
+  m_Offset: {x: 0.056845665, y: -0.21915674}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.28}
     oldSize: {x: 1.8, y: 1.8}
     newSize: {x: 1.8, y: 1.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.6388836, y: 0.36144924}
+  m_Size: {x: 0.6323223, y: 0.35488987}
   m_EdgeRadius: 0
---- !u!114 &-11309774062441031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6963965405315877273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dfac22033940a544a1ba1296f425c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  isValidTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  isUnvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
---- !u!114 &2164616751854903744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6963965405315877273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a91f59407b986a84a88e7414663e505c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPlacementDistance: 5
-  isValidTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
-  isUnvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!114 &7498682887664863199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +202,10 @@ MonoBehaviour:
   nickname: Test123
   speed: 5
   isLocalPlayer: 0
+  isTowerActive: 0
+  isSkillActive: 0
+  validTile: {fileID: 3592396460811087768, guid: 0c6dd674668bdb749bb16f0c1f9aee2d, type: 3}
+  unvalidTile: {fileID: 8191359907537190792, guid: a83d60c86f26a194aa8b08fe4d60299b, type: 3}
 --- !u!1 &8339019819721504761
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.9}
+  m_AnchoredPosition: {x: 0, y: 1.369}
   m_SizeDelta: {x: 2, y: 1.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1623193264541699706
