@@ -63,7 +63,6 @@ public class Tower : MonoBehaviour
             Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
             bulletScript.destroyAfter = travelTime / 1000;
         }
-
         // // 타겟의 방향, 각도 계산
         // Vector3 direction = targetPos - cannon.position;
         // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

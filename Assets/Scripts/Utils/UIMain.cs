@@ -9,7 +9,7 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void Opened(object[] param)
     {
-        // UI∞° ø≠∑»¿ª ∂ß √ ±‚»≠∞° « ø‰«œ∏È ±∏«ˆ
+        // UIÍ∞Ä Ïó¥Î†∏ÏùÑ Îïå Ï¥àÍ∏∞ÌôîÍ∞Ä ÌïÑÏöîÌïòÎ©¥ Íµ¨ÌòÑ
     }
 
     private void Update()
@@ -36,9 +36,10 @@ public class UIMain : UIListBase<ItemRoom>
 
     public void OnRefreshRoomList()
     {
-        Protocol.C2L_GetRoomListRequest pkt = new Protocol.C2L_GetRoomListRequest();
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_GetRoomListRequest, 0);
-        NetworkManager.instance.SendLobbyPacket(sendBuffer);
+        Protocol.C2G_GetRoomListRequest pkt = new Protocol.C2G_GetRoomListRequest();
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_GetRoomListRequest, 0);
+
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     public override void HideDirect()
@@ -70,10 +71,12 @@ public class UIMain : UIListBase<ItemRoom>
 
     public void OnClickJoinRoom(int roomId)
     {  
-        Protocol.C2L_JoinRoomRequest pkt = new Protocol.C2L_JoinRoomRequest();
+        Protocol.C2G_JoinRoomRequest pkt = new Protocol.C2G_JoinRoomRequest();
         pkt.RoomId = roomId;
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_JoinRoomRequest, 0);
+        pkt.Nickname = PlayerInfoManager.instance.nickname;
+        
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_JoinRoomRequest, 0);
 
-        NetworkManager.instance.SendLobbyPacket(sendBuffer);
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 }

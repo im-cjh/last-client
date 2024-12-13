@@ -59,8 +59,8 @@ public class LobbyManager : MonoBehaviour
             return;
         }
         PlayerInfoManager.instance.roomId = -1;
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_LeaveRoomRequest, 0);
+        //byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_LeaveRoomRequest, 0);
 
-        NetworkManager.instance.SendLobbyPacket(sendBuffer);
+        //NetworkManager.instance.SendPacket(sendBuffer);
     }
 }

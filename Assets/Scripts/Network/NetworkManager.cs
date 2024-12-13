@@ -12,10 +12,6 @@ public class NetworkManager : MonoBehaviour
     private TcpClient mLobbyTcpClient;
     private NetworkStream mLobbyStream;
 
-    private TcpClient mBattleTcpClient;
-    private NetworkStream mBattleStream;
-
-    WaitForSecondsRealtime wait;
 
     private byte[] mRecvBuffer = new byte[4096];
     private List<byte> incompleteData = new List<byte>();
@@ -24,78 +20,31 @@ public class NetworkManager : MonoBehaviour
     {
         instance = this;
         DontDestroyOnLoad(this);
-        wait = new WaitForSecondsRealtime(5);
     }
 
-    private void Start()
-    {
-        string ip = "127.0.0.1";
-        //string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com";
-        int port = 3000;
-
-        if (ConnectToLobbyServer(ip, port))
-        {
-            StartGame();
-        }
-    }
-
-    bool ConnectToLobbyServer(string ip, int port)
+    public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
     {
         try
         {
             mLobbyTcpClient = new TcpClient(ip, port);
             mLobbyStream = mLobbyTcpClient.GetStream();
-            Debug.Log("로비 서버 연결");
-            return true;
+            Debug.Log("게이트웨이 서버 연결");
+
+            StartGame();
         }
         catch (SocketException e)
         {
             Debug.LogError($"SocketException: {e}");
-            return false;
         }
     }
 
-    public bool ConnectToBattleServer(string ip, int port, int pRoomId)
-    {
-        try
-        {
-            mBattleTcpClient = new TcpClient(ip, port);
-            mBattleStream = mBattleTcpClient.GetStream();
-
-            StartBattleReceiving();
-
-            Protocol.C2B_Init pkt = new Protocol.C2B_Init();
-            
-            pkt.RoomId = pRoomId;
-            pkt.PlayerData = new Protocol.GamePlayerData
-            {
-                Position = new Protocol.PosInfo
-                {
-                    Uuid = PlayerInfoManager.instance.userId,
-                    X = 0,
-                    Y = 0,
-                },
-                Nickname= PlayerInfoManager.instance.nickname,
-                PrefabId = PlayerInfoManager.instance.prefabId,
-            };
-
-            byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_Init, 0);
-            SendBattlePacket(sendBuffer);
-            return true;
-        }
-        catch (SocketException e)
-        {
-            Debug.LogError($"SocketException: {e}");
-            return false;
-        }
-    }
     void StartGame()
     {
         // 게임 시작 코드 작성
         StartLobbyReceiving(); // Start receiving data
         SendInitialPacket();
     }
-    public async void SendLobbyPacket(byte[] sendBuffer)
+    public async void SendPacket(byte[] sendBuffer)
     {
 
         await Task.Delay(PlayerInfoManager.instance.latency);
@@ -104,33 +53,21 @@ public class NetworkManager : MonoBehaviour
         mLobbyStream.Write(sendBuffer, 0, sendBuffer.Length);
     }
 
-    public async void SendBattlePacket(byte[] sendBuffer)
-    {
-        await Task.Delay(PlayerInfoManager.instance.latency);
-
-        // 패킷 전송
-        mBattleStream.Write(sendBuffer, 0, sendBuffer.Length);
-    }
 
     void SendInitialPacket()
     {
-        Protocol.C2L_Init pkt = new Protocol.C2L_Init();
-        pkt.UserId = PlayerInfoManager.instance.userId;
-        pkt.Nickname = PlayerInfoManager.instance.nickname;
-
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_Init, PlayerInfoManager.instance.GetNextSequence());
+        Protocol.C2G_Init pkt = new Protocol.C2G_Init();
+        pkt.Token = PlayerInfoManager.instance.token;
         
-        SendLobbyPacket(sendBuffer);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_Init, PlayerInfoManager.instance.GetNextSequence());
+        
+        SendPacket(sendBuffer);
     }
     void StartLobbyReceiving()
     {
         _ = RecvLobbyPacketsAsync();
     }
 
-    void StartBattleReceiving()
-    {
-        _ = RecvBattlePacketsAsync();
-    }
 
     /*---------------------------------------------
 [RegisterRecv]
@@ -143,30 +80,6 @@ public class NetworkManager : MonoBehaviour
             try
             {
                 int bytesRead = await mLobbyStream.ReadAsync(mRecvBuffer, 0, mRecvBuffer.Length);
-                if (bytesRead > 0)
-                {
-                    OnData(mRecvBuffer, bytesRead);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Receive error: {e.Message}");
-                break;
-            }
-        }
-    }
-
-    /*---------------------------------------------
-[RegisterRecv]
-    -배틀서버
----------------------------------------------*/
-    async System.Threading.Tasks.Task RecvBattlePacketsAsync()
-    {
-        while (mBattleTcpClient.Connected)
-        {
-            try
-            {
-                int bytesRead = await mBattleStream.ReadAsync(mRecvBuffer, 0, mRecvBuffer.Length);
                 if (bytesRead > 0)
                 {
                     OnData(mRecvBuffer, bytesRead);
@@ -229,6 +142,7 @@ public class NetworkManager : MonoBehaviour
         Action<byte[]> handler;
         try
         {
+            Debug.Log("아이디는 " + pId);
             handler = PacketHandler.handlerMapping[pId];
         }
         catch (Exception e)

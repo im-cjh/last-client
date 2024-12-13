@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -24,8 +24,12 @@ public class SceneChanger : MonoBehaviour
         string sceneName = GetSceneName(sceneType);
         Debug.Log($"씬 전환 요청: {sceneName}");
         SceneManager.LoadScene(sceneName);
-        SceneManager.sceneLoaded -= OnSceneLoadedHandler; // 중복 제거
-        SceneManager.sceneLoaded += OnSceneLoadedHandler;
+
+        if(sceneType == SceneType.TestGame)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoadedHandler; // 중복 제거
+            SceneManager.sceneLoaded += OnSceneLoadedHandler;
+        }
     }
 
     // 열거형을 기반으로 씬 이름 반환

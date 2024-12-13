@@ -82,8 +82,8 @@ public class SkillUser : TowerPlacer
             CardId = uuid,
         };
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_SkillRequest, PlayerInfoManager.instance.GetNextSequence());
-        NetworkManager.instance.SendBattlePacket(sendBuffer);
+       // byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_SkillRequest, PlayerInfoManager.instance.GetNextSequence());
+        //NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     public void UseSkill(SkillData skillData)

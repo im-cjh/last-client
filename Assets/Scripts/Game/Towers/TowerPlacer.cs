@@ -95,7 +95,7 @@ public class TowerPlacer : MonoBehaviour
     {
         // tower의 uuid는 서버에서 만들어서 보내줌
         Debug.Log($"서버에게 타워 설치 요청: prefabId:{prefabId}, x:{x}, y:{y}");
-        Protocol.C2B_TowerBuildRequest pkt = new Protocol.C2B_TowerBuildRequest
+        Protocol.C2G_TowerBuildRequest pkt = new Protocol.C2G_TowerBuildRequest
         {
             Tower = new Protocol.TowerData
             {
@@ -111,8 +111,8 @@ public class TowerPlacer : MonoBehaviour
             CardId = uuid,
         };
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
-        NetworkManager.instance.SendBattlePacket(sendBuffer);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     public void BuildTower(TowerData towerData)
