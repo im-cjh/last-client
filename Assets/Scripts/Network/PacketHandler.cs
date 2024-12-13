@@ -69,6 +69,8 @@ public class PacketHandler
         handlerMapping[ePacketID.B2C_InitCardData] = HandleInitCardData;
         handlerMapping[ePacketID.B2C_SkillResponse] = HandleSkillResponse;
         handlerMapping[ePacketID.B2C_AddCard] = HandleAddCard;
+
+        handlerMapping[ePacketID.B2C_PlayerUseAbilityNotification] = HandlePlayerUseAbilityNotification;
     }
 
     private static void HandleAddCard(byte[] pBuffer)
@@ -330,6 +332,8 @@ public class PacketHandler
 
     static void HandleTowerHealthUpdateNotification(byte[] pBuffer)
     {
+        Debug.Log("HandleTowerHealthUpdateNotification Called");
+
         B2C_TowerHealthUpdateNotification packet = Protocol.B2C_TowerHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
         Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
@@ -389,7 +393,19 @@ public class PacketHandler
 
         B2C_TowerBuffNotification packet = Protocol.B2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
 
-        TowerManager.instance.GetTowerByUuid(packet.TowerId).SetBuffEffect(packet.IsBuffed);
+        foreach (string towerId in packet.TowerId)
+        {
+            TowerManager.instance.GetTowerByUuid(towerId).SetBuffEffect(packet.BuffType, packet.IsBuffed);
+        }
+    }
+
+    static void HandlePlayerUseAbilityNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandlePlayerUseAbilityNotification Called");
+
+        B2C_PlayerUseAbilityNotification packet = Protocol.B2C_PlayerUseAbilityNotification.Parser.ParseFrom(pBuffer);
+
+
     }
 }
 
