@@ -9,8 +9,8 @@ public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
 
-    private TcpClient mLobbyTcpClient;
-    private NetworkStream mLobbyStream;
+    private TcpClient mTcpClient;
+    private NetworkStream mGatewayStream;
 
 
     private byte[] mRecvBuffer = new byte[4096];
@@ -26,41 +26,49 @@ public class NetworkManager : MonoBehaviour
     {
         try
         {
-            mLobbyTcpClient = new TcpClient(ip, port);
-            mLobbyStream = mLobbyTcpClient.GetStream();
-            Debug.Log("게이트웨이 서버 연결");
+            mTcpClient = new TcpClient(ip, port);
+            mGatewayStream = mTcpClient.GetStream();
+            UnityEngine.Debug.Log("게이트웨이 서버 연결");
+            UnityEngine.Debug.Log(mGatewayStream);
 
             StartGame();
         }
         catch (SocketException e)
         {
-            Debug.LogError($"SocketException: {e}");
+            UnityEngine.Debug.LogError($"SocketException: {e}");
         }
     }
 
     void StartGame()
     {
         // 게임 시작 코드 작성
+        Debug.Log(mGatewayStream);
         StartLobbyReceiving(); // Start receiving data
         SendInitialPacket();
     }
     public async void SendPacket(byte[] sendBuffer)
     {
-
         await Task.Delay(PlayerInfoManager.instance.latency);
-
         // 패킷 전송
-        mLobbyStream.Write(sendBuffer, 0, sendBuffer.Length);
+        Debug.Log(mGatewayStream);
+        mGatewayStream.Write(sendBuffer, 0, sendBuffer.Length);
     }
 
     void SendInitialPacket()
     {
-        Protocol.C2G_Init pkt = new Protocol.C2G_Init();
-        pkt.Token = PlayerInfoManager.instance.token;
-        
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_Init, PlayerInfoManager.instance.GetNextSequence());
-        
-        SendPacket(sendBuffer);
+        try
+        {
+            Protocol.C2G_Init pkt = new Protocol.C2G_Init();
+            pkt.Token = PlayerInfoManager.instance.token;
+
+            byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_Init, PlayerInfoManager.instance.GetNextSequence());
+
+            SendPacket(sendBuffer);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
 
     void StartLobbyReceiving()
@@ -75,11 +83,11 @@ public class NetworkManager : MonoBehaviour
 ---------------------------------------------*/
     async System.Threading.Tasks.Task RecvLobbyPacketsAsync()
     {
-        while (mLobbyTcpClient.Connected)
+        while (mTcpClient.Connected)
         {
             try
             {
-                int bytesRead = await mLobbyStream.ReadAsync(mRecvBuffer, 0, mRecvBuffer.Length);
+                int bytesRead = await mGatewayStream.ReadAsync(mRecvBuffer, 0, mRecvBuffer.Length);
                 if (bytesRead > 0)
                 {
                     OnData(mRecvBuffer, bytesRead);

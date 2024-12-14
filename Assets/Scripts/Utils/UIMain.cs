@@ -39,6 +39,7 @@ public class UIMain : UIListBase<ItemRoom>
         Protocol.C2G_GetRoomListRequest pkt = new Protocol.C2G_GetRoomListRequest();
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_GetRoomListRequest, 0);
 
+        Debug.Log("OnRefreshRoomList");
         NetworkManager.instance.SendPacket(sendBuffer);
     }
 

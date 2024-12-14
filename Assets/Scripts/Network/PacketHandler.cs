@@ -55,7 +55,7 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_MonsterDeathNotification] = HandleMonsterDeath;
         handlerMapping[ePacketID.G2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
 
-        handlerMapping[ePacketID.B2C_MonsterBuffNotification] = HandleMonsterBuff;
+        handlerMapping[ePacketID.G2C_MonsterBuffNotification] = HandleMonsterBuff;
 
 
         //300번
@@ -91,7 +91,7 @@ public class PacketHandler
     private static void HandleMonsterAttackBase(byte[] pBuffer)
     {
         G2C_MonsterAttackBaseNotification pkt = G2C_MonsterAttackBaseNotification.Parser.ParseFrom(pBuffer);
-        EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+        MonsterManager.instance.HandleMonsterAttackTower(pkt.MonsterId);
         Base.instance.GetDamage(pkt.AttackDamage);
     }
 
@@ -99,7 +99,7 @@ public class PacketHandler
     {
         G2C_MonsterAttackTowerNotification pkt = G2C_MonsterAttackTowerNotification.Parser.ParseFrom(pBuffer);
         Debug.Log(pkt.MonsterId);
-        EnemySpawner.instance.HandleMonsterAttackTower(pkt.MonsterId);
+        MonsterManager.instance.HandleMonsterAttackTower(pkt.MonsterId);
 
         Tower tower = TowerManager.instance.GetTowerByUuid(pkt.TargetId);
 
@@ -321,7 +321,7 @@ public class PacketHandler
         G2C_MonsterDeathNotification packet = Protocol.G2C_MonsterDeathNotification.Parser.ParseFrom(pBuffer);
 
         Debug.Log("Monster Death: MonsterId: " + packet.MonsterId);
-        Enemy monster = EnemySpawner.instance.GetMonsterByUuid(packet.MonsterId);
+        Monster monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
         monster.Die();
         MonsterManager.instance.RemoveMonster(packet.MonsterId);
         ScoreManager.instance.AddScore(packet.Score);
@@ -333,8 +333,8 @@ public class PacketHandler
         Debug.Log("HandleBuildTowerNotification Called");
 
         G2C_TowerBuildNotification packet = Protocol.G2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
-        
-        TowerPlacer.instance.BuildTower(packet.Tower);
+
+        TowerPlacementManager.instance.BuildTower(packet.OwnerId, packet.Tower);
     }
 
     static void HandleTowerAttackMonsterNotification(byte[] pBuffer)
@@ -412,18 +412,18 @@ public class PacketHandler
 
     static void HandleMonsterBuff(byte[] pBuffer)
     {
-        B2C_MonsterBuffNotification packet = Protocol.B2C_MonsterBuffNotification.Parser.ParseFrom(pBuffer);
+        G2C_MonsterBuffNotification packet = Protocol.G2C_MonsterBuffNotification.Parser.ParseFrom(pBuffer);
 
         MonsterManager.instance.SetBuffState(packet.BuffType, packet.State);
     }
 
-    static void HandleTowerBuffNotification(byte[] pBuffer)
-    {
-        Debug.Log("HandleTowerBuffNotification Called");
+    //static void HandleTowerBuffNotification(byte[] pBuffer)
+    //{
+    //    Debug.Log("HandleTowerBuffNotification Called");
 
-        B2C_TowerBuffNotification packet = Protocol.B2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
+    //    B2C_TowerBuffNotification packet = Protocol.B2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
 
-        TowerManager.instance.GetTowerByUuid(packet.TowerId).SetBuffEffect(packet.IsBuffed);
-    }
+    //    TowerManager.instance.GetTowerByUuid(packet.TowerId).SetBuffEffect(packet.IsBuffed);
+    //}
 }
 

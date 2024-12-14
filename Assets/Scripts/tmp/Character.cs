@@ -191,7 +191,7 @@ public class Character : MonoBehaviour
     {
         // tower의 uuid는 서버에서 만들어서 보내줌
         Debug.Log($"서버에게 타워 설치 요청: prefabId:{cardPrefabId}, x:{x}, y:{y}");
-        Protocol.C2B_TowerBuildRequest pkt = new Protocol.C2B_TowerBuildRequest
+        Protocol.C2G_TowerBuildRequest pkt = new Protocol.C2G_TowerBuildRequest
         {
             Tower = new Protocol.TowerData
             {
@@ -207,14 +207,14 @@ public class Character : MonoBehaviour
             CardId = cardId,
         };
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
-        NetworkManager.instance.SendBattlePacket(sendBuffer);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_TowerBuildRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     private void SendSkillRequestToServer(float x, float y)
     {
         Debug.Log($"서버에게 스킬 사용 요청: prefabId:{cardPrefabId}, x:{x}, y:{y}");
-        Protocol.C2B_SkillRequest pkt = new Protocol.C2B_SkillRequest
+        Protocol.C2G_UseSkillRequest pkt = new Protocol.C2G_UseSkillRequest
         {
             Skill = new Protocol.SkillData
             {
@@ -229,8 +229,8 @@ public class Character : MonoBehaviour
             CardId = cardId,
         };
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_SkillRequest, PlayerInfoManager.instance.GetNextSequence());
-        NetworkManager.instance.SendBattlePacket(sendBuffer);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_UseSkillRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     private void FixedUpdate()
