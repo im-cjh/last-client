@@ -16,7 +16,8 @@ public class Tower : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Color hitColor;
     private Color originalColor;
-    private GameObject buffEffect;
+    private GameObject atkBuffEffect;
+    private GameObject asBuffEffect;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +27,8 @@ public class Tower : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         cannon = transform.Find("Cannon");
-        buffEffect = transform.Find("BuffEffect")?.gameObject;
+        atkBuffEffect = transform.Find("AtkBuffEffect")?.gameObject;
+        asBuffEffect = transform.Find("AsBuffEffect")?.gameObject;
         firePoint = cannon.transform.Find("FirePoint");
         originalColor = spriteRenderer.color;
     }
@@ -77,9 +79,17 @@ public class Tower : MonoBehaviour
         Invoke("ResetColor", 0.1f);
     }
 
-    public void SetBuffEffect(bool state)
+    public void SetBuffEffect(string buffType, bool state)
     {
-        buffEffect.SetActive(state);
+        switch (buffType)
+        {
+            case "atkBuff":
+                atkBuffEffect.SetActive(state);
+                break;
+            case "asBuff":
+                asBuffEffect.SetActive(state);
+                break;
+        }
     }
 
     public void Destroy()

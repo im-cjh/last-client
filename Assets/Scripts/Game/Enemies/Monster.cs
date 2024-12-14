@@ -23,7 +23,6 @@ public class Monster : MonoBehaviour
     private Rigidbody2D rigid;       // Rigidbody2D컴포넌트
     private UnityEngine.Vector2? nextPos = null;
     private GameObject atkBuffEffect;
-    private GameObject asBuffEffect;
 
     private void Awake()
     {
@@ -40,14 +39,12 @@ public class Monster : MonoBehaviour
         originalColor = spriteRenderer.color;
 
         atkBuffEffect = transform.Find("MonsterAttackBuffEffect")?.gameObject;
-        asBuffEffect = transform.Find("MonsterAttackSpeedBuffEffect")?.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
         atkBuffEffect.SetActive(MonsterManager.instance.GetBuffState("atkBuff"));
-        asBuffEffect.SetActive(MonsterManager.instance.GetBuffState("asBuff"));
 
         UnityEngine.Vector3 curScale = transform.localScale;
         UnityEngine.Vector3 curHpBarScale = transform.localScale;
