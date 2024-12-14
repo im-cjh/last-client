@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     public void SendLocationUpdatePacket(float x, float y, string parameter, bool state)
     {
         // Debug.Log("my pos: " + x + " , " + y);
-        Protocol.C2B_PlayerPositionUpdateRequest pkt = new Protocol.C2B_PlayerPositionUpdateRequest
+        Protocol.C2G_PlayerPositionUpdateRequest pkt = new Protocol.C2G_PlayerPositionUpdateRequest
         {
             PosInfo = new Protocol.PosInfo
             {
@@ -68,8 +68,8 @@ public class GameManager : MonoBehaviour
             RoomId = PlayerInfoManager.instance.roomId
         };
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PositionUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
-        NetworkManager.instance.SendBattlePacket(sendBuffer);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_PlayerPositionUpdateRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     // public void SendAnimationUpdatePacket(string parameter, bool state)

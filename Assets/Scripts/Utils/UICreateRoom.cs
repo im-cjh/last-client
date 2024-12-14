@@ -18,12 +18,13 @@ public class UICreateRoom : UIBase
 
     public void RequestCreateRoom()
     {
-        Protocol.C2L_CreateRoomRequest pkt = new C2L_CreateRoomRequest();
+        Debug.Log("ㅇㅇ");
+        Protocol.C2G_CreateRoomRequest pkt = new C2G_CreateRoomRequest();
         pkt.Name = roomName.text;
-        pkt.MaxUserNum = count.value + 1; // 0���� �����ؼ� +1����� ��
-
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_CreateRoomRequest, 0);
-        NetworkManager.instance.SendLobbyPacket(sendBuffer);
+        pkt.MaxUserNum = count.value+1; // 0부터 시작해서 +1해줘야 됨
+        
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_CreateRoomRequest, 0);
+        NetworkManager.instance.SendPacket(sendBuffer);
 
         this.Closed();
     }

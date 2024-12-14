@@ -67,6 +67,11 @@ public class Tower : MonoBehaviour
         }
     }
 
+    private void InterpolatePosition(Vector3 serverPosition, Vector3 clientPosition)
+    {
+
+    }
+
     public void SetHp(float curHp, float maxHp)
     {
         hpBar.SetHp(curHp, maxHp);

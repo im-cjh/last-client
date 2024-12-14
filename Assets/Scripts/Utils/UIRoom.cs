@@ -70,13 +70,13 @@ public class UIRoom : UIBase
     private void RequestStartGame()
     {
         // 게임 시작 로직
-        Protocol.C2L_GameStart pkt = new Protocol.C2L_GameStart();
+        Protocol.C2G_GameStartRequest pkt = new Protocol.C2G_GameStartRequest();
         pkt.RoomId = roomData.Id;
         //로비서버에서 방장인지 검증하기 위해서
         pkt.UserId = PlayerInfoManager.instance.userId;
-
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_GameStart, 0);
-        NetworkManager.instance.SendLobbyPacket(sendBuffer);
+        
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_GameStartRequest, 0);
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     public void HideDirect()

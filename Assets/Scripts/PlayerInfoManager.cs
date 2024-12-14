@@ -14,24 +14,20 @@ public class PlayerInfoManager : MonoBehaviour
 
     [Header("# Player Info")]
     public string userId;
-    public string nickname = "test";
+    public string nickname = "";
+    public string token = "";
     public int roomId = -1;
     public string prefabId = "Red";
 
     public RepeatedField<Protocol.PosInfo> tmp_obstaclePosInfos;
 
-    void Awake()
+    void Start()
     {
         instance = this;
         DontDestroyOnLoad(this);
         Application.targetFrameRate = targetFrameRate;
     }
 
-    private void Start()
-    {
-        //TODO 임시로 작성, 추후에 로그인 서버로부터 받아야 함 
-        userId = Guid.NewGuid().ToString();
-    }
 
     public int GetNextSequence()
     {
