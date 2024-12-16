@@ -51,7 +51,7 @@ public class LobbyManager : MonoBehaviour
         uiMain.gameObject.SetActive(true);
         uiRoom.gameObject.SetActive(false);
 
-        Protocol.C2L_LeaveRoomRequest pkt = new C2L_LeaveRoomRequest();
+        Protocol.C2G_LeaveRoomRequest pkt = new C2G_LeaveRoomRequest();
         pkt.RoomId = PlayerInfoManager.instance.roomId;
         if(PlayerInfoManager.instance.roomId == -1)
         {

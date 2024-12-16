@@ -94,7 +94,7 @@ public class PacketHandler
 
     private static void HandleLeaveRoomNotificationPacket(byte[] pBuffer)
     {
-        Protocol.L2C_LeaveRoomNotification pkt = L2C_LeaveRoomNotification.Parser.ParseFrom(pBuffer);
+        Protocol.G2C_LeaveRoomNotification pkt = G2C_LeaveRoomNotification.Parser.ParseFrom(pBuffer);
 
         LobbyManager.instance.uiRoom.RemoveUserFromSlot(pkt.UserId);
     }
