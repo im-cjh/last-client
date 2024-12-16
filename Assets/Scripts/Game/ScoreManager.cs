@@ -35,4 +35,9 @@ public class ScoreManager : MonoBehaviour
         curWave++;
         waveText.text = $"{curWave} Wave";
     }
+
+    public int GetWave()
+    {
+        return curWave;
+    }
 }
