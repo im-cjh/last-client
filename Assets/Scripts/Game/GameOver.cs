@@ -2,10 +2,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameOver : MonoBehaviour
 {
-    public static bool isGameOver { get; private set; }
+    public static bool isGameOver;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text waveText;
@@ -30,6 +31,8 @@ public class GameOver : MonoBehaviour
     private void ShowGameOver()
     {
         gameOverPanel.SetActive(true);
+        gameOverPanel.transform.localScale = Vector3.zero;
+        gameOverPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
 
         scoreText.text = $": {ScoreManager.instance.GetScore()}";
         waveText.text = $"Wave: {ScoreManager.instance.GetWave()}";
@@ -41,5 +44,6 @@ public class GameOver : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("LobbyScene");
+        gameOverPanel.SetActive(false);
     }
 }
