@@ -161,6 +161,16 @@ public class Character : MonoBehaviour
             return false;
         }
 
+        Vector3 cellworldPosition = tilemap.GetCellCenterWorld(cellPosition);
+        float distance = Vector3.Distance(transform.position, cellworldPosition);
+
+        // 거리 판정
+        if (distance > maxPlacementDistance)
+        {
+            return false;
+        }
+
+        // 타워일 경우 안 겹쳐지게
         if (isTowerActive)
         {
             Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
@@ -174,25 +184,22 @@ public class Character : MonoBehaviour
             }
         }
 
+        // 타워 수리는 타워에만 되게
         if (cardPrefabId == "TowerRepair")
         {
             Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
             Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
             foreach (var collider in hitcolliders)
             {
-                if (!collider.CompareTag("Tower"))
+                if (collider.CompareTag("Tower"))
+                {
+                    return true;
+                }
+                else
                 {
                     return false;
                 }
             }
-        }
-
-        Vector3 cellworldPosition = tilemap.GetCellCenterWorld(cellPosition);
-        float distance = Vector3.Distance(transform.position, cellworldPosition);
-
-        if (distance > maxPlacementDistance)
-        {
-            return false;
         }
 
         return true;

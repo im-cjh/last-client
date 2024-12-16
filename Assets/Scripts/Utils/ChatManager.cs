@@ -48,10 +48,7 @@ public class ChatManager : MonoBehaviour
 
             if (!string.IsNullOrEmpty(inputField.text))
             {
-                // SendMessageRequest();
-                GameObject newMessage = Instantiate(messagePrefab, contentTransform);
-                TMP_Text messageText = newMessage.GetComponent<TMP_Text>();
-                messageText.text = $"You: {inputField.text}";
+                SendMessageRequest();
 
                 inputField.text = string.Empty;
 
