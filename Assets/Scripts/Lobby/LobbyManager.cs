@@ -42,7 +42,6 @@ public class LobbyManager : MonoBehaviour
 
     public void OnJoinedRoomSomeone(Protocol.UserData userData)
     {
-        Debug.Log(userData.PrefabId);
         uiRoom.AddUserToSlot(userData);
     }
 
@@ -59,8 +58,8 @@ public class LobbyManager : MonoBehaviour
             return;
         }
         PlayerInfoManager.instance.roomId = -1;
-        //byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_LeaveRoomRequest, 0);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_LeaveRoomRequest, 0);
 
-        //NetworkManager.instance.SendPacket(sendBuffer);
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 }

@@ -43,7 +43,7 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_GetRoomListResponse] = HandleRoomsPacket;
         handlerMapping[ePacketID.G2C_JoinRoomResponse] = HandleJoinRoomResponsePacket;
         handlerMapping[ePacketID.G2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
-        //handlerMapping[ePacketID.L2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
+        handlerMapping[ePacketID.G2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
         handlerMapping[ePacketID.G2C_ChatMessageNotification] = HandleChatMessageNotification;
 
 
@@ -94,8 +94,9 @@ public class PacketHandler
 
     private static void HandleLeaveRoomNotificationPacket(byte[] pBuffer)
     {
+        Debug.Log("HandleLeaveRoomNotificationPacket");
         Protocol.G2C_LeaveRoomNotification pkt = G2C_LeaveRoomNotification.Parser.ParseFrom(pBuffer);
-
+        Debug.Log(pkt.UserId);
         LobbyManager.instance.uiRoom.RemoveUserFromSlot(pkt.UserId);
     }
 
@@ -162,12 +163,15 @@ public class PacketHandler
     {
         Debug.Log("HandleJoinRoomResponsePacket");
         Protocol.G2C_JoinRoomResponse pkt = Protocol.G2C_JoinRoomResponse.Parser.ParseFrom(pBuffer);
+        Debug.Log(pkt.RoomInfo.Users.Count);
+
+        Debug.Log(pkt.RoomInfo);
         LobbyManager.instance.OnEnteredRoom(pkt.RoomInfo);
 
     }
     static void HandleJoinRoomNotificationPacket(byte[] pBuffer)
     {
-        Debug.Log("dd");
+        Debug.Log("나 참여");
         //패킷 역직렬화
         Protocol.G2C_JoinRoomNotification pkt = Protocol.G2C_JoinRoomNotification.Parser.ParseFrom(pBuffer);
 
