@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEditor.VersionControl;
 using UnityEngine.EventSystems;
 
 public class ChatManager : MonoBehaviour
@@ -90,7 +89,7 @@ public class ChatManager : MonoBehaviour
     public void AddMessageOnDisPlay(string nickname, string message)
     {
         GameObject newMessage = Instantiate(messagePrefab, contentTransform);
-        Text messageText = newMessage.GetComponent<Text>();
+        TMP_Text messageText = newMessage.GetComponent<TMP_Text>();
         messageText.text = $"{nickname}: {message}";
     }
 
