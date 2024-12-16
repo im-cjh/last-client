@@ -21,6 +21,7 @@ public class Base : MonoBehaviour
     void Start()
     {
         hpBar = GetComponentInChildren<HpBar>();
+        hpBar.SetMaxHp(maxHp);
         hp = maxHp;
     }
 

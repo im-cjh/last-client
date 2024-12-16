@@ -50,7 +50,7 @@ public class Character : MonoBehaviour
         tilemap = Utilities.FindAndAssign<Tilemap>("Grid/Tile");
     }
 
-    private void OnEnable()
+    public void Init()
     {
         nicknameText.text = nickname;
         nicknameText.GetComponent<MeshRenderer>().sortingOrder = 6;

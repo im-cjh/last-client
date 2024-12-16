@@ -50,7 +50,9 @@ public class CharacterManager : MonoBehaviour
 
         if (chara != null)
         {
+            Debug.Log(playerData.Nickname);
             chara.nickname = playerData.Nickname;
+            chara.Init();
             if (playerData.Position.Uuid == PlayerInfoManager.instance.userId)
             {
                 chara.isLocalPlayer = true;
