@@ -50,8 +50,6 @@ public class ChatManager : MonoBehaviour
             {
                 SendMessageRequest();
 
-                inputField.text = string.Empty;
-
                 Canvas.ForceUpdateCanvases();
                 scrollRect.verticalNormalizedPosition = 0f;
 
@@ -84,6 +82,8 @@ public class ChatManager : MonoBehaviour
 
             byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_ChatMessageRequest, PlayerInfoManager.instance.GetNextSequence());
             NetworkManager.instance.SendPacket(sendBuffer);
+
+            inputField.text = string.Empty;
         }
     }
 
