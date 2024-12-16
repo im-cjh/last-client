@@ -38,7 +38,7 @@ public class MonsterManager : MonoBehaviour
         -��ϵ� �������� ����Ͽ� ���͸� �����մϴ�.
     ---------------------------------------------*/
 
-    public void SpawnMonster(string prefabId, PosInfo pos)
+    public void SpawnMonster(string prefabId, PosInfo pos, int maxHp)
     {
         //Debug.Log(prefabId);
         if (prefabMap.TryGetValue(prefabId, out GameObject prefab))
@@ -47,6 +47,15 @@ public class MonsterManager : MonoBehaviour
             GameObject monster = Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
             Monster chara = monster.GetComponent<Monster>();
             chara.SetMonsterId(pos.Uuid);
+            HpBar hpBar = chara.GetComponentInChildren<HpBar>();
+            if (hpBar != null)
+            {
+                hpBar.SetMaxHp(maxHp);
+            }
+            else
+            {
+                Debug.LogWarning("HpBar를 찾을 수 없습니다.");
+            }
             enemies[pos.Uuid] = chara;
 
         }

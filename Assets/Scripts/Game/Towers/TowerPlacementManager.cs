@@ -27,19 +27,30 @@ public class TowerPlacementManager : MonoBehaviour
         await Utilities.RegisterPrefab("Prefab/Towers/ThunderTower", prefabMap);
     }
 
-    public void BuildTower(string ownerId, TowerData towerData)
+    public void BuildTower(string ownerId, TowerData towerData, int maxHp)
     {
         Vector3 cellCenterWorld = new Vector3(towerData.TowerPos.X, towerData.TowerPos.Y);
 
         GameObject newTower = Instantiate(prefabMap[towerData.PrefabId], cellCenterWorld, Quaternion.identity);
         Debug.Log($"타워가 {cellCenterWorld} 위치에 설치되었습니다.");
-
+        
         Tower towerScript = newTower.GetComponent<Tower>();
         if (towerScript != null)
         {
+            HpBar hpBar = towerScript.GetComponentInChildren<HpBar>();
+            if (hpBar != null)
+            {
+                hpBar.SetMaxHp(maxHp);
+            }
+            else
+            {
+                Debug.LogWarning("HpBar를 찾을 수 없습니다.");
+            }
             towerScript.SetTowerId(towerData.TowerPos.Uuid);
             TowerManager.instance.AddTower(towerData.TowerPos.Uuid, towerScript);
         }
+
+        
 
         // 로컬 플레이어의 타워 설치 모드 비활성화
         CharacterManager.instance.GetCharacter(ownerId).isTowerActive = false;

@@ -36,22 +36,20 @@ public class AbilityManager : MonoBehaviour
         if (isCooldown) return;
 
         Debug.Log("Ability 사용");
-        Protocol.C2B_PlayerUseAbilityRequest pkt = new Protocol.C2B_PlayerUseAbilityRequest
+        Protocol.C2G_PlayerUseAbilityRequest pkt = new Protocol.C2G_PlayerUseAbilityRequest
         {
-            PlayerData = new Protocol.GamePlayerData
-            {
                 Position = new Protocol.PosInfo
                 {
                     Uuid = PlayerInfoManager.instance.userId,
+                    
                 },
-                Nickname = PlayerInfoManager.instance.nickname,
                 PrefabId = PlayerInfoManager.instance.prefabId,
-            },
+            
             RoomId = PlayerInfoManager.instance.roomId,
         };
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2B_PlayerUseAbilityRequest, PlayerInfoManager.instance.GetNextSequence());
-        NetworkManager.instance.SendBattlePacket(sendBuffer);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_PlayerUseAbilityRequest, PlayerInfoManager.instance.GetNextSequence());
+        NetworkManager.instance.SendPacket(sendBuffer);
 
         StartCoroutine(Cooldown());
     }

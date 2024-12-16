@@ -75,7 +75,8 @@ public class UIMain : UIListBase<ItemRoom>
         Protocol.C2G_JoinRoomRequest pkt = new Protocol.C2G_JoinRoomRequest();
         pkt.RoomId = roomId;
         pkt.Nickname = PlayerInfoManager.instance.nickname;
-        
+        pkt.PrefabId = PlayerInfoManager.instance.prefabId;
+
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_JoinRoomRequest, 0);
 
         NetworkManager.instance.SendPacket(sendBuffer);

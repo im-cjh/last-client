@@ -94,9 +94,9 @@ public class Monster : MonoBehaviour
         monsterId = uuid;
     }
 
-    public void SetHp(float curHp, float maxHp)
+    public void SetHp(float curHp)
     {
-        hpBar.SetHp(curHp, maxHp);
+        hpBar.SetHp(curHp);
         spriteRenderer.color = hitColor;
         Invoke("ResetColor", 0.1f);
     }

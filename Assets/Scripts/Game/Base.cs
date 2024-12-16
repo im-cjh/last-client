@@ -27,7 +27,7 @@ public class Base : MonoBehaviour
     public void GetDamage(float damage)
     {
         hp -= damage;
-        hpBar.SetHp(hp, maxHp);
+        hpBar.SetHp(hp);
         Debug.Log($"BaseHp: {hp}/{maxHp}");
 
         if (hp <= 0)

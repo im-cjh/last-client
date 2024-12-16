@@ -42,7 +42,7 @@ public class LobbyManager : MonoBehaviour
 
     public void OnJoinedRoomSomeone(Protocol.UserData userData)
     {
-
+        Debug.Log(userData.PrefabId);
         uiRoom.AddUserToSlot(userData);
     }
 

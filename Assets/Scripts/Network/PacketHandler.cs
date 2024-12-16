@@ -36,9 +36,6 @@ public class PacketHandler
 ---------------------------------------------*/
     static void Init()
     {
-
-        //handlerMapping[ePacketID.B2C_PlayerUseAbilityNotification] = HandlePlayerUseAbilityNotification;
-
         //100번
         handlerMapping[ePacketID.G2C_CreateRoomResponse] = HandleCreateRoomResponsePacket;
         handlerMapping[ePacketID.G2C_CreateGameRoomNotification] = HandleCreateGameRoomNotification;
@@ -48,7 +45,6 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
         //handlerMapping[ePacketID.L2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
 
-        //handlerMapping[ePacketID.B2C_increaseWaveNotification] = HandleIncreaseWaveNotification;
 
         //200번
         handlerMapping[ePacketID.G2C_SpawnMonsterNotification] = HandleSpawnMonster;
@@ -57,8 +53,8 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_MonsterAttackBaseNotification] = HandleMonsterAttackBase;
         handlerMapping[ePacketID.G2C_MonsterDeathNotification] = HandleMonsterDeath;
         handlerMapping[ePacketID.G2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
-
         handlerMapping[ePacketID.G2C_MonsterBuffNotification] = HandleMonsterBuff;
+        handlerMapping[ePacketID.G2C_IncreaseWaveNotification] = HandleIncreaseWaveNotification;
 
 
         //300번
@@ -67,6 +63,7 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
         handlerMapping[ePacketID.G2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
         handlerMapping[ePacketID.G2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
+        
 
         //400번
         handlerMapping[ePacketID.G2C_UseSkillResponse] = HandleSkillResponse;
@@ -74,11 +71,14 @@ public class PacketHandler
         //500번
         handlerMapping[ePacketID.G2C_InitCardData] = HandleInitCardData;
         handlerMapping[ePacketID.G2C_PlayerPositionUpdateNotification] = HandleMove;
-        //handlerMapping[ePacketID.B2C_AddCard] = HandleAddCard;
+        handlerMapping[ePacketID.G2C_PlayerUseAbilityNotification] = HandlePlayerUseAbilityNotification;
+        handlerMapping[ePacketID.G2C_TowerBuffNotification] = HandleTowerBuffNotification;
+        handlerMapping[ePacketID.G2C_AddCard] = HandleAddCard;
     }
 
     private static void HandleAddCard(byte[] pBuffer)
     {
+        Debug.Log("HandleAddCard");
         Protocol.G2C_AddCard packet = G2C_AddCard.Parser.ParseFrom(pBuffer);
 
         HandManager.instance.AddCard(packet.CardData);
@@ -108,7 +108,7 @@ public class PacketHandler
 
         if (tower != null)
         {
-            tower.SetHp(pkt.Hp, pkt.MaxHp);
+            tower.SetHp(pkt.Hp);
         }
         else
         {
@@ -261,7 +261,7 @@ public class PacketHandler
 
             // 2. 단일 위치 정보 처리
             var posInfo = response.PosInfo;
-            // Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
+            Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
             // 3. 캐릭터 검색
             Character character = CharacterManager.instance.GetCharacter(posInfo.Uuid);
 
@@ -304,7 +304,7 @@ public class PacketHandler
 
         G2C_SpawnMonsterNotification packet = Protocol.G2C_SpawnMonsterNotification.Parser.ParseFrom(pBuffer);
 
-        MonsterManager.instance.SpawnMonster(packet.PrefabId, packet.PosInfo);
+        MonsterManager.instance.SpawnMonster(packet.PrefabId, packet.PosInfo, packet.MaxHp);
     }
 
     static void HandleMonsterHealthUpdateNotification(byte[] pBuffer)
@@ -314,7 +314,7 @@ public class PacketHandler
         G2C_MonsterHealthUpdateNotification packet = Protocol.G2C_MonsterHealthUpdateNotification.Parser.ParseFrom(pBuffer);
 
         Monster monster = MonsterManager.instance.GetMonsterByUuid(packet.MonsterId);
-        monster.SetHp(packet.Hp, packet.MaxHp);
+        monster.SetHp(packet.Hp);
     }
 
     static void HandleMonsterDeath(byte[] pBuffer)
@@ -337,7 +337,7 @@ public class PacketHandler
 
         G2C_TowerBuildNotification packet = Protocol.G2C_TowerBuildNotification.Parser.ParseFrom(pBuffer);
 
-        TowerPlacementManager.instance.BuildTower(packet.OwnerId, packet.Tower);
+        TowerPlacementManager.instance.BuildTower(packet.OwnerId, packet.Tower, packet.MaxHp);
     }
 
     static void HandleTowerAttackMonsterNotification(byte[] pBuffer)
@@ -366,7 +366,7 @@ public class PacketHandler
         Tower tower = TowerManager.instance.GetTowerByUuid(packet.TowerId);
         if (tower != null)
         {
-            tower.SetHp(packet.Hp, packet.MaxHp);
+            tower.SetHp(packet.Hp);
         }
     }
 
@@ -420,23 +420,24 @@ public class PacketHandler
         MonsterManager.instance.SetBuffState(packet.BuffType, packet.State);
     }
 
-    //static void HandleTowerBuffNotification(byte[] pBuffer)
-    //{
-    //    Debug.Log("HandleTowerBuffNotification Called");
+    static void HandleTowerBuffNotification(byte[] pBuffer)
+    {
+        Debug.Log("HandleTowerBuffNotification Called");
+      
 
-    //    B2C_TowerBuffNotification packet = Protocol.B2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
+        G2C_TowerBuffNotification packet = Protocol.G2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
 
-//         foreach (string towerId in packet.TowerId)
-//         {
-//             TowerManager.instance.GetTowerByUuid(towerId).SetBuffEffect(packet.BuffType, packet.IsBuffed);
-//         }
-//     }
+        foreach (string towerId in packet.TowerId)
+        {
+            TowerManager.instance.GetTowerByUuid(towerId).SetBuffEffect(packet.BuffType, packet.IsBuffed);
+        }
+    }
 
     static void HandlePlayerUseAbilityNotification(byte[] pBuffer)
     {
         Debug.Log("HandlePlayerUseAbilityNotification Called");
 
-        B2C_PlayerUseAbilityNotification packet = Protocol.B2C_PlayerUseAbilityNotification.Parser.ParseFrom(pBuffer);
+        //B2C_PlayerUseAbilityNotification packet = Protocol.B2C_PlayerUseAbilityNotification.Parser.ParseFrom(pBuffer);
 
 
     }

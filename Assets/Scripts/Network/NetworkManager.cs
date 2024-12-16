@@ -150,7 +150,7 @@ public class NetworkManager : MonoBehaviour
         Action<byte[]> handler;
         try
         {
-            Debug.Log("아이디는 " + pId);
+            //Debug.Log("아이디는 " + pId);
             handler = PacketHandler.handlerMapping[pId];
         }
         catch (Exception e)
