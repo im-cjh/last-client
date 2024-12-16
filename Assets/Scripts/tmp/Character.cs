@@ -73,7 +73,7 @@ public class Character : MonoBehaviour
 
                 if (cellPosition != previousCellPosition)
                 {
-                    HighlightTile(cellPosition, true);
+                    HighlightTile(cellPosition);
                     previousCellPosition = cellPosition;
                 }
 
@@ -95,7 +95,7 @@ public class Character : MonoBehaviour
 
                 if (cellPosition != previousCellPosition)
                 {
-                    HighlightTile(cellPosition, false);
+                    HighlightTile(cellPosition);
                     previousCellPosition = cellPosition;
                 }
 
@@ -131,7 +131,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void HighlightTile(Vector3Int cellPosition, bool isTower)
+    private void HighlightTile(Vector3Int cellPosition)
     {
         // 기존 하이라이트 제거
         if (currentHighlight != null)
@@ -140,7 +140,7 @@ public class Character : MonoBehaviour
         }
 
         // 유효한 타일인지 검사
-        isValidTile = CheckPlacement(cellPosition, isTower);
+        isValidTile = CheckPlacement(cellPosition);
 
         // 적절한 하이라이트 생성
         Vector3 worldPosition = tilemap.GetCellCenterWorld(cellPosition);
@@ -150,20 +150,33 @@ public class Character : MonoBehaviour
         currentHighlight = Instantiate(isValidTile ? validTile : unvalidTile, worldPosition, Quaternion.identity);
     }
 
-    private bool CheckPlacement(Vector3Int cellPosition, bool isTower)
+    private bool CheckPlacement(Vector3Int cellPosition)
     {
         if (!tilemap.HasTile(cellPosition))
         {
             return false;
         }
 
-        if (isTower)
+        if (isTowerActive)
         {
             Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
             Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
             foreach (var collider in hitcolliders)
             {
                 if (collider.CompareTag("Obstacle") || collider.CompareTag("Tower") || collider.CompareTag("Enemy") || collider.CompareTag("Player"))
+                {
+                    return false;
+                }
+            }
+        }
+
+        if (cardPrefabId == "TowerRepair")
+        {
+            Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
+            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
+            foreach (var collider in hitcolliders)
+            {
+                if (!collider.CompareTag("Tower"))
                 {
                     return false;
                 }

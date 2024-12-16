@@ -44,6 +44,7 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_JoinRoomResponse] = HandleJoinRoomResponsePacket;
         handlerMapping[ePacketID.G2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
         //handlerMapping[ePacketID.L2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
+        handlerMapping[ePacketID.G2C_ChatMessageNotification] = HandleChatMessageNotification;
 
 
         //200번
@@ -63,7 +64,7 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
         handlerMapping[ePacketID.G2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
         handlerMapping[ePacketID.G2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
-        
+
 
         //400번
         handlerMapping[ePacketID.G2C_UseSkillResponse] = HandleSkillResponse;
@@ -423,7 +424,7 @@ public class PacketHandler
     static void HandleTowerBuffNotification(byte[] pBuffer)
     {
         Debug.Log("HandleTowerBuffNotification Called");
-      
+
 
         G2C_TowerBuffNotification packet = Protocol.G2C_TowerBuffNotification.Parser.ParseFrom(pBuffer);
 
@@ -442,5 +443,14 @@ public class PacketHandler
 
     }
 
+    // 채팅
+    static void HandleChatMessageNotification(byte[] pBuffer)
+    {
+        G2C_ChatMessageNotification packet = Protocol.G2C_ChatMessageNotification.Parser.ParseFrom(pBuffer);
+
+        Character character = CharacterManager.instance.GetCharacter(packet.UserId);
+
+        ChatManager.instance.AddMessageOnDisPlay(character.nickname, packet.Message);
+    }
 }
 

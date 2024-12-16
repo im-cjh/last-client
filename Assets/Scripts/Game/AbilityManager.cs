@@ -38,13 +38,13 @@ public class AbilityManager : MonoBehaviour
         Debug.Log("Ability 사용");
         Protocol.C2G_PlayerUseAbilityRequest pkt = new Protocol.C2G_PlayerUseAbilityRequest
         {
-                Position = new Protocol.PosInfo
-                {
-                    Uuid = PlayerInfoManager.instance.userId,
-                    
-                },
-                PrefabId = PlayerInfoManager.instance.prefabId,
-            
+            Position = new Protocol.PosInfo
+            {
+                Uuid = PlayerInfoManager.instance.userId,
+
+            },
+            PrefabId = PlayerInfoManager.instance.prefabId,
+
             RoomId = PlayerInfoManager.instance.roomId,
         };
 
