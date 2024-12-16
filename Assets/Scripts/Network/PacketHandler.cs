@@ -63,6 +63,7 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_TowerAttackMonsterNotification] = HandleTowerAttackMonsterNotification;
         handlerMapping[ePacketID.G2C_TowerDestroyNotification] = HandleTowerDestroyNotification;
         handlerMapping[ePacketID.G2C_TowerHealthUpdateNotification] = HandleTowerHealthUpdateNotification;
+        handlerMapping[ePacketID.G2C_BaseDestroyNotification] = HandleBaseDestroyNotification;
         
 
         //400번
@@ -74,6 +75,12 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_PlayerUseAbilityNotification] = HandlePlayerUseAbilityNotification;
         handlerMapping[ePacketID.G2C_TowerBuffNotification] = HandleTowerBuffNotification;
         handlerMapping[ePacketID.G2C_AddCard] = HandleAddCard;
+    }
+
+    private static void HandleBaseDestroyNotification(byte[] pBuffer)
+    {
+        Debug.Log("게임 종료");
+        SceneChanger.ChangeScene(SceneChanger.SceneType.Lobby);
     }
 
     private static void HandleAddCard(byte[] pBuffer)
@@ -261,7 +268,7 @@ public class PacketHandler
 
             // 2. 단일 위치 정보 처리
             var posInfo = response.PosInfo;
-            Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
+            //Debug.Log("HandleMove" + posInfo.X + ", " + posInfo.Y);
             // 3. 캐릭터 검색
             Character character = CharacterManager.instance.GetCharacter(posInfo.Uuid);
 
