@@ -81,7 +81,8 @@ public class PacketHandler
     private static void HandleBaseDestroyNotification(byte[] pBuffer)
     {
         Debug.Log("게임 종료");
-        SceneChanger.ChangeScene(SceneChanger.SceneType.Lobby);
+        // SceneChanger.ChangeScene(SceneChanger.SceneType.Lobby);
+        GameOver.isGameOver = true;
     }
 
     private static void HandleAddCard(byte[] pBuffer)
