@@ -63,7 +63,11 @@ public class Character : MonoBehaviour
             isWalking = inputVec.magnitude > 0;
             animator.SetBool("isWalk", isWalking);
 
-            HandleInput();          // 로컬 플레이어만 입력 처리
+            // 채팅중일땐 이동 안되게
+            if (!ChatManager.isChatting)
+            {
+                HandleInput();          // 로컬 플레이어만 입력 처리
+            }
             TrySendPositionToServer(); // 로컬 플레이어 위치 동기화
 
             if (isTowerActive)

@@ -3,13 +3,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEditor.VersionControl;
+using UnityEngine.EventSystems;
 
 public class ChatManager : MonoBehaviour
 {
+    public static bool isChatting { get; private set; }
+
     [SerializeField] private GameObject chatPanel;
     [SerializeField] private RectTransform chatPanelTranfrom;
     [SerializeField] private TMP_InputField inputField;
-    [SerializeField] private TMP_Text chatDisplay;
+    [SerializeField] private GameObject messagePrefab;
+    [SerializeField] private Transform contentTransform;
+    [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private Button chatButton;
     private bool isChatVisible = false;
     public static ChatManager instance = null;
@@ -32,9 +37,29 @@ public class ChatManager : MonoBehaviour
 
     void Update()
     {
+        isChatting = inputField.isFocused;
+
         if (isChatVisible && Input.GetKeyDown(KeyCode.Return))
         {
-            SendMessageRequest();
+            if (!isChatting)
+            {
+                inputField.Select();
+            }
+
+            if (!string.IsNullOrEmpty(inputField.text))
+            {
+                // SendMessageRequest();
+                GameObject newMessage = Instantiate(messagePrefab, contentTransform);
+                TMP_Text messageText = newMessage.GetComponent<TMP_Text>();
+                messageText.text = $"You: {inputField.text}";
+
+                inputField.text = string.Empty;
+
+                Canvas.ForceUpdateCanvases();
+                scrollRect.verticalNormalizedPosition = 0f;
+
+                EventSystem.current.SetSelectedGameObject(null);
+            }
         }
     }
 
@@ -67,7 +92,9 @@ public class ChatManager : MonoBehaviour
 
     public void AddMessageOnDisPlay(string nickname, string message)
     {
-        chatDisplay.text += $"{nickname}: {message}\n";
+        GameObject newMessage = Instantiate(messagePrefab, contentTransform);
+        Text messageText = newMessage.GetComponent<Text>();
+        messageText.text = $"{nickname}: {message}";
     }
 
     private void OpenChat()
