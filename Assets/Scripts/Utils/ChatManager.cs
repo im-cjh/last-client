@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEditor.VersionControl;
 using UnityEngine.EventSystems;
 
 public class ChatManager : MonoBehaviour
