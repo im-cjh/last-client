@@ -19,14 +19,14 @@ public class GameOver : MonoBehaviour
     void Start()
     {
         instance = this;
-        gameOverPanel.SetActive(false);
+        //ShowGameOver();
     }
 
     public void ShowGameOver()
     {
         gameOverPanel.SetActive(true);
-        gameOverPanel.transform.localScale = Vector3.zero;
-        gameOverPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+        //gameOverPanel.transform.localScale = Vector3.zero;
+        //gameOverPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
 
         scoreText.text = $": {ScoreManager.instance.GetScore()}";
         waveText.text = $"Wave: {ScoreManager.instance.GetWave()}";
