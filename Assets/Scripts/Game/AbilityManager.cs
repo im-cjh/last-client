@@ -9,7 +9,7 @@ public class AbilityManager : MonoBehaviour
 {
     [SerializeField] private Button abilityButton;
     [SerializeField] private Image cooldownImage;
-    public static float cooldown { get; set; } = 3f;
+    public float cooldown { get; set; } = 0f;
     private bool isCooldown = false;
     public static AbilityManager instance = null;
     [SerializeField] private GameObject redAbility;

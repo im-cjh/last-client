@@ -58,6 +58,7 @@ public class CharacterManager : MonoBehaviour
                 chara.isLocalPlayer = true;
                 localPlayer = chara;
                 chara.SetCharacterId(playerData.Position.Uuid);
+                AbilityManager.instance.cooldown = playerData.CoolDown;
                 if (CameraFollow.instance != null)
                 {
                     CameraFollow.instance.SetPlayer(chara.gameObject);

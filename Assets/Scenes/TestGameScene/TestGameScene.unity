@@ -12821,12 +12821,12 @@ GameObject:
   - component: {fileID: 931290188}
   - component: {fileID: 931290192}
   m_Layer: 5
-  m_Name: GameOver
+  m_Name: GameOverManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &931290188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12903,7 +12903,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1293252285}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1342644454}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -26057,7 +26057,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1293252285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26155,6 +26155,7 @@ Transform:
   - {fileID: 1930171560}
   - {fileID: 589498325}
   - {fileID: 1802786484}
+  - {fileID: 931290191}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1343399847
@@ -27650,4 +27651,3 @@ SceneRoots:
   - {fileID: 746469190}
   - {fileID: 487398433}
   - {fileID: 702406}
-  - {fileID: 931290191}

@@ -7,6 +7,9 @@ using DG.Tweening;
 public class GameOver : MonoBehaviour
 {
     public static bool isGameOver;
+
+    public static GameOver instance;
+
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text waveText;
@@ -15,20 +18,11 @@ public class GameOver : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        instance = this;
         gameOverPanel.SetActive(false);
     }
 
-    void Update()
-    {
-        if (isGameOver)
-        {
-            Invoke("ShowGameOver", 1f);
-        }
-
-        lobbyButton.onClick.AddListener(BackToLobby);
-    }
-
-    private void ShowGameOver()
+    public void ShowGameOver()
     {
         gameOverPanel.SetActive(true);
         gameOverPanel.transform.localScale = Vector3.zero;
@@ -36,14 +30,14 @@ public class GameOver : MonoBehaviour
 
         scoreText.text = $": {ScoreManager.instance.GetScore()}";
         waveText.text = $"Wave: {ScoreManager.instance.GetWave()}";
-
+        lobbyButton.onClick.AddListener(BackToLobby);
         Time.timeScale = 0f;
     }
 
     private void BackToLobby()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("LobbyScene");
+        SceneChanger.ChangeScene(SceneChanger.SceneType.Lobby);
         gameOverPanel.SetActive(false);
     }
 }

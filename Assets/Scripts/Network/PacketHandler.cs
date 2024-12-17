@@ -83,7 +83,8 @@ public class PacketHandler
     {
         Debug.Log("게임 종료");
         // SceneChanger.ChangeScene(SceneChanger.SceneType.Lobby);
-        GameOver.isGameOver = true;
+        //GameOver.isGameOver = true;
+        GameOver.instance.ShowGameOver();
     }
 
     private static void HandleAddCard(byte[] pBuffer)
