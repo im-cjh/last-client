@@ -18,7 +18,6 @@ public class LobbyManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        DontDestroyOnLoad(this);
     }
 
     public void OnRecvRooms(List<RoomData> rooms)

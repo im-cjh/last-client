@@ -54,7 +54,6 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_MonsterAttackBaseNotification] = HandleMonsterAttackBase;
         handlerMapping[ePacketID.G2C_MonsterDeathNotification] = HandleMonsterDeath;
         handlerMapping[ePacketID.G2C_MonsterHealthUpdateNotification] = HandleMonsterHealthUpdateNotification;
-        handlerMapping[ePacketID.G2C_MonsterBuffNotification] = HandleMonsterBuff;
         handlerMapping[ePacketID.G2C_IncreaseWaveNotification] = HandleIncreaseWaveNotification;
 
 
@@ -428,13 +427,6 @@ public class PacketHandler
 
     }
 
-    static void HandleMonsterBuff(byte[] pBuffer)
-    {
-        G2C_MonsterBuffNotification packet = Protocol.G2C_MonsterBuffNotification.Parser.ParseFrom(pBuffer);
-
-        MonsterManager.instance.SetBuffState(packet.BuffType, packet.State);
-    }
-
     static void HandleTowerBuffNotification(byte[] pBuffer)
     {
         Debug.Log("HandleTowerBuffNotification Called");
@@ -450,7 +442,7 @@ public class PacketHandler
 
     static void HandlePlayerUseAbilityNotification(byte[] pBuffer)
     {
-        Debug.Log("HandlePlayerUseAbilityNotification Called");
+        //Debug.Log("HandlePlayerUseAbilityNotification Called");
 
         G2C_PlayerUseAbilityNotification packet = Protocol.G2C_PlayerUseAbilityNotification.Parser.ParseFrom(pBuffer);
 

@@ -48,7 +48,7 @@ public class AbilityManager : MonoBehaviour
     {
         if (isCooldown) return;
 
-        Debug.Log("Ability 사용");
+        //Debug.Log("Ability 사용");
         Protocol.C2G_PlayerUseAbilityRequest pkt = new Protocol.C2G_PlayerUseAbilityRequest
         {
             Position = new Protocol.PosInfo

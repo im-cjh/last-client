@@ -36,7 +36,7 @@ public class Character : MonoBehaviour
     //public Camera cam;
 
     // Constants
-    private const float SyncThreshold = 0.1f; // ���� ����ȭ �ּ� �Ÿ�
+    private const float SyncThreshold = 0.1f; 
 
     private void Awake()
     {
@@ -158,7 +158,7 @@ public class Character : MonoBehaviour
     {
         if (!tilemap.HasTile(cellPosition))
         {
-            return false;
+            return false; // 타일이 없으면 바로 false
         }
 
         Vector3 cellworldPosition = tilemap.GetCellCenterWorld(cellPosition);
@@ -167,19 +167,21 @@ public class Character : MonoBehaviour
         // 거리 판정
         if (distance > maxPlacementDistance)
         {
-            return false;
+            return false; // 거리 초과시 false
         }
 
-        // 타워일 경우 안 겹쳐지게
+        // 타워가 활성 상태일 경우 충돌 검사
         if (isTowerActive)
         {
             Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
-            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
+            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellworldPosition + offset);
+
             foreach (var collider in hitcolliders)
             {
-                if (collider.CompareTag("Obstacle") || collider.CompareTag("Tower") || collider.CompareTag("Enemy") || collider.CompareTag("Player"))
+                if (collider.CompareTag("Obstacle") || collider.CompareTag("Tower") ||
+                    collider.CompareTag("Enemy") || collider.CompareTag("Player"))
                 {
-                    return false;
+                    return false; // 겹치는 오브젝트가 있으면 false
                 }
             }
         }
@@ -188,22 +190,22 @@ public class Character : MonoBehaviour
         if (cardPrefabId == "TowerRepair")
         {
             Vector3 offset = new Vector3(tilemap.cellSize.x * 0.5f, tilemap.cellSize.y * 0.5f, 0);
-            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(tilemap.GetCellCenterWorld(cellPosition) + offset);
+            Collider2D[] hitcolliders = Physics2D.OverlapPointAll(cellworldPosition + offset);
+
             foreach (var collider in hitcolliders)
             {
                 if (collider.CompareTag("Tower"))
                 {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    return true; // 타워와 겹치면 true
                 }
             }
+            return false; // 타워와 겹치지 않으면 false
         }
 
+        // 일반적인 경우 타일이 유효하므로 true 반환
         return true;
     }
+
 
     public void SetPrefabId(string prefabId, string uuid)
     {

@@ -33,14 +33,4 @@ public class PlayerInfoManager : MonoBehaviour
     {
         return sequence++;
     }
-
-    public string GetPrefabId()
-    {
-        return prefabId;
-    }
-
-    public void SetPrefabId(string characterPrefabId)
-    {
-        prefabId = characterPrefabId;
-    }
 }

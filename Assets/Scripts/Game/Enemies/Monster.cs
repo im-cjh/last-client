@@ -24,6 +24,8 @@ public class Monster : MonoBehaviour
     private UnityEngine.Vector2? nextPos = null;
     private GameObject atkBuffEffect;
 
+    private string prefabId;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -44,7 +46,7 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        atkBuffEffect.SetActive(MonsterManager.instance.GetBuffState("atkBuff"));
+        atkBuffEffect.SetActive(MonsterManager.instance.GetBuffState(eBuffType.ATK_INC));
 
         UnityEngine.Vector3 curScale = transform.localScale;
         UnityEngine.Vector3 curHpBarScale = transform.localScale;
@@ -93,6 +95,17 @@ public class Monster : MonoBehaviour
     {
         monsterId = uuid;
     }
+
+    public string GetPrefabId()
+    {
+        return prefabId;
+    }
+
+    public void SetPrefabId(string prefabId)
+    {
+        this.prefabId = prefabId;
+    }
+
 
     public void SetHp(float curHp)
     {

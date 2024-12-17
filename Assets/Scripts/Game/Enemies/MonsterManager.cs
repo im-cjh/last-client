@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum eBuffType
+{
+    ATK_INC = 1,
+}
+
 public class MonsterManager : MonoBehaviour
 {
     /*---------------------------------------------
@@ -11,8 +16,7 @@ public class MonsterManager : MonoBehaviour
     public static MonsterManager instance;
     private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
     private Dictionary<string, Monster> enemies = new Dictionary<string, Monster>();
-    private bool atkBuff;
-    private bool asBuff;
+    private int numBuffMonsters = 0;
 
     void Awake()
     {
@@ -45,8 +49,17 @@ public class MonsterManager : MonoBehaviour
         {
             // 2D 게임에서는 rotation 기본값으로 Quaternion.identity 사용
             GameObject monster = Instantiate(prefab, new Vector2(pos.X, pos.Y), Quaternion.identity);
+
+            //Robot5가 존재하면 버프 상태 렌더링
+            if(prefabId == "Robot5")
+            {
+                numBuffMonsters += 1;
+            }
+
             Monster chara = monster.GetComponent<Monster>();
             chara.SetMonsterId(pos.Uuid);
+            chara.SetPrefabId(prefabId);
+
             HpBar hpBar = chara.GetComponentInChildren<HpBar>();
             if (hpBar != null)
             {
@@ -69,6 +82,10 @@ public class MonsterManager : MonoBehaviour
     {
         if (enemies.ContainsKey(uuid))
         {
+            if(enemies[uuid].GetPrefabId() == "Robot5")
+            {
+                numBuffMonsters -= 1;
+            }
             enemies.Remove(uuid);
             Debug.Log("몬스터 제거: uuid: " + uuid);
         }
@@ -127,27 +144,12 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    public void SetBuffState(string buffType, bool state)
+    public bool GetBuffState(eBuffType buffType)
     {
         switch (buffType)
         {
-            case "atkBuff":
-                atkBuff = state;
-                break;
-            case "asBuff":
-                asBuff = state;
-                break;
-        }
-    }
-
-    public bool GetBuffState(string buffType)
-    {
-        switch (buffType)
-        {
-            case "atkBuff":
-                return atkBuff;
-            case "asBuff":
-                return asBuff;
+            case eBuffType.ATK_INC:
+                return numBuffMonsters > 0;
             default:
                 return false;
         }

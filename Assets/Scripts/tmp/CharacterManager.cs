@@ -50,7 +50,7 @@ public class CharacterManager : MonoBehaviour
 
         if (chara != null)
         {
-            Debug.Log(playerData.Nickname);
+            Debug.Log(playerData.PrefabId);
             chara.nickname = playerData.Nickname;
             chara.Init();
             if (playerData.Position.Uuid == PlayerInfoManager.instance.userId)

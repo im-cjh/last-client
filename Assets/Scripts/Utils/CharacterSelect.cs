@@ -39,7 +39,7 @@ public class CharacterSelect : MonoBehaviour
                 break;
         }
 
-        PlayerInfoManager.instance.SetPrefabId(prefabId);
+        PlayerInfoManager.instance.prefabId = prefabId;
     }
 
     private void UpdateSelectionUI()
