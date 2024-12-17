@@ -9,8 +9,21 @@ public class AbilityManager : MonoBehaviour
 {
     [SerializeField] private Button abilityButton;
     [SerializeField] private Image cooldownImage;
-    private float cooldown = 3f;
+    public static float cooldown { get; set; } = 3f;
     private bool isCooldown = false;
+    public static AbilityManager instance = null;
+    [SerializeField] private GameObject redAbility;
+    [SerializeField] private GameObject sharkAbility;
+    [SerializeField] private GameObject malangAbility;
+    [SerializeField] private GameObject frogAbility;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
@@ -77,5 +90,45 @@ public class AbilityManager : MonoBehaviour
         RectTransform rectTransform = abilityButton.GetComponent<RectTransform>();
         Vector2 localMousePosition = rectTransform.InverseTransformPoint(Input.mousePosition);
         return rectTransform.rect.Contains(localMousePosition);
+    }
+
+    public void HandleAbility(string prefabId, Protocol.PosInfo position)
+    {
+        Vector3 pos = new Vector3(position.X, position.Y, 0);
+        switch (prefabId)
+        {
+            case "Red":
+                RedAbility(pos);
+                break;
+            case "Shark":
+                SharkAbility(pos);
+                break;
+            case "Malang":
+                MalangAbility(pos);
+                break;
+            case "Frog":
+                FrogAbility(pos);
+                break;
+        }
+    }
+
+    private void RedAbility(Vector3 position)
+    {
+
+    }
+
+    private void SharkAbility(Vector3 position)
+    {
+        Instantiate(sharkAbility, position, Quaternion.identity);
+    }
+
+    private void MalangAbility(Vector3 position)
+    {
+        Instantiate(malangAbility, position, Quaternion.identity);
+    }
+
+    private void FrogAbility(Vector3 position)
+    {
+        Instantiate(frogAbility, position, Quaternion.identity);
     }
 }

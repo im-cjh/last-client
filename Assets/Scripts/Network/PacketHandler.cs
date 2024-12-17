@@ -70,6 +70,7 @@ public class PacketHandler
         //400번
         handlerMapping[ePacketID.G2C_UseSkillResponse] = HandleSkillResponse;
         handlerMapping[ePacketID.G2C_UseSkillNotification] = HandleUseSkillNotification;
+
         //500번
         handlerMapping[ePacketID.G2C_InitCardData] = HandleInitCardData;
         handlerMapping[ePacketID.G2C_PlayerPositionUpdateNotification] = HandleMove;
@@ -450,9 +451,9 @@ public class PacketHandler
     {
         Debug.Log("HandlePlayerUseAbilityNotification Called");
 
-        //B2C_PlayerUseAbilityNotification packet = Protocol.B2C_PlayerUseAbilityNotification.Parser.ParseFrom(pBuffer);
+        G2C_PlayerUseAbilityNotification packet = Protocol.G2C_PlayerUseAbilityNotification.Parser.ParseFrom(pBuffer);
 
-
+        AbilityManager.instance.HandleAbility(packet.PrefabId, packet.Position);
     }
 
     // 채팅
