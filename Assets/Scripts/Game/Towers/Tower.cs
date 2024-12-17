@@ -19,6 +19,7 @@ public class Tower : MonoBehaviour
     private GameObject atkBuffEffect;
     private GameObject asBuffEffect;
 
+    public AudioSource audioSource; // Inspector에서 할당
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,6 +32,7 @@ public class Tower : MonoBehaviour
         asBuffEffect = transform.Find("AsBuffEffect")?.gameObject;
         firePoint = cannon.transform.Find("FirePoint");
         originalColor = spriteRenderer.color;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void SetTowerId(string uuid)
@@ -60,6 +62,12 @@ public class Tower : MonoBehaviour
 
             // 총알 발사
             GameObject spawnedBullet = Instantiate(bullet, firePoint.position, cannon.rotation);
+
+            //소리 재생
+            if (audioSource != null)
+            {
+                audioSource.Play(); 
+            }
 
             // travelTime 동안 날아가고 사라짐
             Bullet bulletScript = spawnedBullet.GetComponent<Bullet>();
