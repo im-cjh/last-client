@@ -15,6 +15,21 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 683d04a4952c4474392bc7cfaa83384a
   m_SerializeEntries:
+  - m_GUID: 20438bb634884c748a035e25cbbe208e
+    m_Address: Prefab/Sound/basicTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 20946f365f6b59749becb91128b7faf9
+    m_Address: Prefab/Sound/buffTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 210dfdcd250c612408f8f20b550479a4
+    m_Address: Prefab/Sound/tankTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 241786b619e78554b804dfa495dd1941
     m_Address: Prefab/Cards/TankTower
     m_ReadOnly: 0
@@ -55,6 +70,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 390ad8133c8dd524990e8cb63c3bd159
+    m_Address: Prefab/Sound/thunderTower
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4299633116b461d44b3504def32ed79a
     m_Address: Prefab/Cards/OrbitalBeam
     m_ReadOnly: 0
@@ -62,6 +82,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4e51f709590a7a54088250e866ebf69f
     m_Address: Thumbnail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6243be313dd5f28409b85b4d1416bbfc
+    m_Address: Prefab/Sound/iceTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -82,6 +107,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6cad44fec0958b3498b3e95087c591db
     m_Address: Prefab/Enemy/Robot5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73478c51859f94f448f3eace4b052fa5
+    m_Address: Prefab/Sound/missileTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -137,6 +167,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dae543b8df7760a48ba44ff9e4dda93f
     m_Address: Prefab/Enemy/Robot2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc0468891afae6d4d83154d4f1e51bb4
+    m_Address: Prefab/Sound/strongTower
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
