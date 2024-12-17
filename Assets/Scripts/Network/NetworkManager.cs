@@ -22,8 +22,8 @@ public class NetworkManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-   public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
-    //public void ConnectToGatewayServer(string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com", int port = 9000)
+    // public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
+    public void ConnectToGatewayServer(string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com", int port = 9000)
     {
         try
         {

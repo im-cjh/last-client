@@ -43,8 +43,8 @@ public class LoginManager : MonoBehaviour
     public async void SignIn()
     {
         Debug.Log("ㅇㅇ로그인");
-       // string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
-       string url = "http://localhost:4000/api/sign/signin";
+        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
+        // string url = "http://localhost:4000/api/sign/signin";
         string json = JsonConvert.SerializeObject(new { email = SignInEmailField.text, password = SignInPwdField.text });
 
         try
