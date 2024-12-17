@@ -21,7 +21,7 @@ public class LoginManager : MonoBehaviour
     private TMP_InputField SignUpPwdField;
     private TMP_InputField SignUpNameField;
     private Button PostSignUpButton;
-    
+
 
     [Header("# UI References")]
     public Button EnableSignUpButton;
@@ -29,7 +29,7 @@ public class LoginManager : MonoBehaviour
     public GameObject SignUpPanel;
     public GameObject SignInPanel;
     public Text MessageText;
-    
+
 
 
     private void Start()
@@ -43,7 +43,7 @@ public class LoginManager : MonoBehaviour
     public async void SignIn()
     {
         Debug.Log("ㅇㅇ로그인");
-        string url = "http://localhost:4000/api/sign/signin";
+        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
         string json = JsonConvert.SerializeObject(new { email = SignInEmailField.text, password = SignInPwdField.text });
 
         try
@@ -100,7 +100,7 @@ public class LoginManager : MonoBehaviour
 
 
         // HTTP POST 요청을 보낼 엔드포인트 URL
-        string url = "http://localhost:4000/api/sign/signup";
+        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signup";
 
 
         // 사용자 입력 데이터를 JSON 형식으로 직렬화
@@ -150,8 +150,8 @@ public class LoginManager : MonoBehaviour
                 Debug.Log(e.Message);
 
 
-         //           messageManager.ShowMessage("네트워크를 확인해주세요");
-         
+                //           messageManager.ShowMessage("네트워크를 확인해주세요");
+
             }
         }
     }
@@ -170,7 +170,7 @@ public class LoginManager : MonoBehaviour
         Debug.Log(PostSignUpButton);
     }
 
-    
+
     private void HideSignUpPanel()
     {
         SignUpPanel.SetActive(false); // 패널 비활성화
