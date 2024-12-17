@@ -533,7 +533,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uC801\uB4E4\uC744 \uC5BC\uB824 \uB290\uB824\uC9C0\uAC8C \uB9CC\uB4DC\uB294\n\uAD11\uC120\uC744
-    \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
+    \uBC1C\uC0AC\uD569\uB2C8\uB2E4. (\uBBF8\uAD6C\uD604)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
   m_sharedMaterial: {fileID: 6586925509857614065, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}

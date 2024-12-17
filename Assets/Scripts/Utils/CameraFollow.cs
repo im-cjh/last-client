@@ -20,7 +20,7 @@ public class CameraFollow : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("CameraFollow: Player가 null입니다.");
+            // Debug.LogWarning("CameraFollow: Player가 null입니다.");
         }
     }
 
