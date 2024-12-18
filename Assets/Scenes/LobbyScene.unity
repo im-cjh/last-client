@@ -1439,7 +1439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1541739881
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1447,15 +1447,15 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1541739880}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 7b932dfda75f062479021f8abbace0e1, type: 2}
   m_audioClip: {fileID: 8300000, guid: d2bc601e4ad52c74692fc6c831600d4d, type: 3}
   m_Resource: {fileID: 8300000, guid: d2bc601e4ad52c74692fc6c831600d4d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.05
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2866,7 +2866,7 @@ MonoBehaviour:
   m_text: Ironcow
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 6586925509857614065, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9505,8 +9505,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Ironcow
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
+  m_sharedMaterial: {fileID: 6586925509857614065, guid: 95f1e8f6394eaec478a67c9d2043a3af, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

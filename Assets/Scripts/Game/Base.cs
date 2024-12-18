@@ -5,7 +5,7 @@ public class Base : MonoBehaviour
 {
     [SerializeField] private GameObject baseExplosion;
     private HpBar hpBar; // 체력바
-    private float maxHp = 300; // 최대체력
+    private float maxHp = 2500; // 최대체력
     private float hp; // 현재 체력
     public static Base instance = null;
 
