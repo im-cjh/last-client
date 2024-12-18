@@ -1,23 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Protocol; // Protobuf ¸Ş½ÃÁö »ç¿ë
+using Protocol; // Protobuf ë©”ì‹œì§€ ì‚¬ìš©
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager Instance { get; private set; }
+    public static PlayerManager instance { get; private set; }
 
     private Dictionary<string, GamePlayerData> players = new Dictionary<string, GamePlayerData>();
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // ¾À ÀüÈ¯ ½Ã ÆÄ±«µÇÁö ¾ÊÀ½
+            instance = this;
+            DontDestroyOnLoad(gameObject); // ì”¬ ì „í™˜ ì‹œ íŒŒê´´ë˜ì§€ ì•ŠìŒ
         }
         else
         {
-            Destroy(gameObject); // Áßº¹ »ı¼º ¹æÁö
+            Destroy(gameObject); // ì¤‘ë³µ ìƒì„± ë°©ì§€
         }
     }
 
@@ -36,12 +36,17 @@ public class PlayerManager : MonoBehaviour
             return playerData;
         }
 
-        Debug.LogError($"UUID {uuid}¿¡ ÇØ´çÇÏ´Â ÇÃ·¹ÀÌ¾î¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+        Debug.LogError($"UUID {uuid}ì— í•´ë‹¹í•˜ëŠ” í”Œë ˆì´ì–´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         return null;
     }
 
     public List<GamePlayerData> GetAllPlayers()
     {
         return new List<GamePlayerData>(players.Values);
+    }
+
+    public void ClearPlayers()
+    {
+        players.Clear();
     }
 }

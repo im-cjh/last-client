@@ -225,12 +225,12 @@ public class PacketHandler
 
         //temp
         PlayerInfoManager.instance.tmp_obstaclePosInfos = pkt.ObstaclePosInfos;
-
         // 2. PlayerManager에 데이터 저장
+        PlayerManager.instance.ClearPlayers();
         foreach (var playerData in pkt.PlayerDatas)
         {
             Debug.Log(playerData);
-            PlayerManager.Instance.AddPlayer(playerData);
+            PlayerManager.instance.AddPlayer(playerData);
         }
 
         // 3. 게임 씬으로 전환

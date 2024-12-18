@@ -86,13 +86,17 @@ public class CharacterManager : MonoBehaviour
     // 모든 플레이어 캐릭터 생성
     public async Task InitializeCharacters()
     {
+        ClearCharacters(); // 기존 캐릭터 초기화
+        ClearPrefabMap(); // 프리팹 초기화
+
         await Utilities.RegisterPrefab("Prefab/Characters/Red", prefabMap);
         await Utilities.RegisterPrefab("Prefab/Characters/Shark", prefabMap);
         await Utilities.RegisterPrefab("Prefab/Characters/Malang", prefabMap);
         await Utilities.RegisterPrefab("Prefab/Characters/Frog", prefabMap);
 
-        foreach (var playerData in PlayerManager.Instance.GetAllPlayers())
+        foreach (var playerData in PlayerManager.instance.GetAllPlayers())
         {
+            Debug.Log(playerData.PrefabId);
             SpawnCharacter(playerData);
         }
     }
@@ -112,5 +116,24 @@ public class CharacterManager : MonoBehaviour
     public Character GetLocalPlayer()
     {
         return localPlayer;
+    }
+
+    private void ClearPrefabMap()
+    {
+        prefabMap.Clear(); // 프리팹 맵 초기화
+    }
+
+    public void ClearCharacters()
+    {
+        foreach (var character in characters.Values)
+        {
+            if (character != null)
+            {
+                Destroy(character.gameObject); 
+            }
+        }
+
+        characters.Clear();
+        localPlayer = null; 
     }
 }
