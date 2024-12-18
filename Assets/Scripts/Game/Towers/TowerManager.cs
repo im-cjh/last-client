@@ -19,7 +19,6 @@ public class TowerManager : MonoBehaviour
         if (!towers.ContainsKey(uuid))
         {
             towers.Add(uuid, tower);
-            Debug.Log("타워 추가: uuid: " + uuid);
         }
     }
 

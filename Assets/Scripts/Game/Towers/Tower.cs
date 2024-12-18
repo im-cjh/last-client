@@ -16,10 +16,10 @@ public class Tower : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Color hitColor;
     private Color originalColor;
-    private GameObject atkBuffEffect;
-    private GameObject asBuffEffect;
+    public GameObject atkBuffEffect;
+    public GameObject asBuffEffect;
 
-    public AudioSource audioSource; // Inspector에서 할당
+    private AudioSource audioSource; // Inspector에서 할당
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,8 +28,6 @@ public class Tower : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         cannon = transform.Find("Cannon");
-        atkBuffEffect = transform.Find("AtkBuffEffect")?.gameObject;
-        asBuffEffect = transform.Find("AsBuffEffect")?.gameObject;
         firePoint = cannon.transform.Find("FirePoint");
         originalColor = spriteRenderer.color;
         audioSource = GetComponent<AudioSource>();

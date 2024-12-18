@@ -22,15 +22,14 @@ public class NetworkManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
-    //public void ConnectToGatewayServer(string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com", int port = 9000)
+    //public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
+    public void ConnectToGatewayServer(string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com", int port = 9000)
     {
         try
         {
             mTcpClient = new TcpClient(ip, port);
             mGatewayStream = mTcpClient.GetStream();
             UnityEngine.Debug.Log("게이트웨이 서버 연결");
-            UnityEngine.Debug.Log(mGatewayStream);
 
             StartGame();
         }
@@ -51,7 +50,6 @@ public class NetworkManager : MonoBehaviour
     {
         await Task.Delay(PlayerInfoManager.instance.latency);
         // 패킷 전송
-        Debug.Log(mGatewayStream);
         mGatewayStream.Write(sendBuffer, 0, sendBuffer.Length);
     }
 

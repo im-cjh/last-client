@@ -582,6 +582,8 @@ MonoBehaviour:
   towerExplosion: {fileID: 5218235734879889509, guid: 79d7c360e08092a458cfd28862483a9d, type: 3}
   bullet: {fileID: 7942084093754132198, guid: a9976d99e0ebbdd428cd296e42c9a531, type: 3}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
+  atkBuffEffect: {fileID: 1185675963586614899}
+  asBuffEffect: {fileID: 7124259277544648784}
   audioSource: {fileID: 0}
 --- !u!82 &7195982886033985376
 AudioSource:
@@ -737,6 +739,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3df9406fd79099649a6eabed464ef40d, type: 3}
+--- !u!1 &1185675963586614899 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4015735939414771497, guid: 3df9406fd79099649a6eabed464ef40d, type: 3}
+  m_PrefabInstance: {fileID: 2868402147468955994}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4554605443173841783 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1800218339376966189, guid: 3df9406fd79099649a6eabed464ef40d, type: 3}
@@ -802,5 +809,10 @@ PrefabInstance:
 --- !u!4 &5593223982967364948 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4008076058651717395, guid: e6240f5fcf5b8ac4b9b1ad6b98129e93, type: 3}
+  m_PrefabInstance: {fileID: 8791189632015004231}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7124259277544648784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1792116497616568855, guid: e6240f5fcf5b8ac4b9b1ad6b98129e93, type: 3}
   m_PrefabInstance: {fileID: 8791189632015004231}
   m_PrefabAsset: {fileID: 0}

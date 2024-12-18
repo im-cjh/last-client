@@ -67,7 +67,6 @@ public class PacketHandler
 
 
         //400번
-        handlerMapping[ePacketID.G2C_UseSkillResponse] = HandleSkillResponse;
         handlerMapping[ePacketID.G2C_UseSkillNotification] = HandleUseSkillNotification;
 
         //500번
@@ -406,6 +405,7 @@ public class PacketHandler
 
     static void HandleUseSkillNotification(byte[] pBuffer)
     {
+        //2번 호출되는 중...
         Debug.Log("HandleUseSkillNotification Called");
 
         G2C_UseSkillNotification packet = Protocol.G2C_UseSkillNotification.Parser.ParseFrom(pBuffer);
