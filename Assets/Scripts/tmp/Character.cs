@@ -310,8 +310,10 @@ public class Character : MonoBehaviour
         if (!isLocalPlayer) // 로컬 플레이어는 서버에서 받은 위치를 적용하지 않음
         {
             Vector2 serverPosition = new Vector2(x, y);
-            rigid.MovePosition(serverPosition); // �����̵�
+            rigid.MovePosition(serverPosition); 
             animator.SetBool(parameter, state);
+
+            Debug.Log(parameter + ", " + state);
         }
     }
 

@@ -299,18 +299,18 @@ public class PacketHandler
     }
 
     // 캐릭터 애니메이션 동기화
-    // static void HandleCharacterAnimation(byte[] pBuffer)
-    // {
-    //     Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
-    //     Debug.Log("HandleCharacterAnimation Called: packet: " + packet);
+    //static void HandleCharacterAnimation(byte[] pBuffer)
+    //{
+    //    Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
+    //    Debug.Log("HandleCharacterAnimation Called: packet: " + packet);
 
-    //     Character character = CharacterManager.instance.GetCharacter(packet.CharacterId);
+    //    Character character = CharacterManager.instance.GetCharacter(packet.CharacterId);
 
-    //     if (character != null)
-    //     {
-    //         character.UpdateAnimationFromServer(packet.Parameter, packet.State);
-    //     }
-    // }
+    //    if (character != null)
+    //    {
+    //        character.UpdateAnimationFromServer(packet.Parameter, packet.State);
+    //    }
+    //}
 
     static void HandleSpawnMonster(byte[] pBuffer)
     {
