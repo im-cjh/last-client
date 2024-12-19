@@ -16,6 +16,7 @@ public class UIRoom : UIBase
     private List<UserData> users = new List<UserData>();
     private int maxUserCount;
     private Protocol.RoomData roomData;
+    public LobbyChatManager roomChatManager;
 
     public override void Opened(object[] param)
     {
@@ -125,5 +126,21 @@ public class UIRoom : UIBase
         roomCount.text = $"{users.Count}/{maxUserCount}";
     }
 
+    public string GetUserNicknameOrNull(string uuid)
+    {
+        foreach (var user in users)
+        {
+            if (user.Id== uuid)
+            {
+                return user.Name;
+            }
+        }
 
+        return null;
+    }
+
+    public void onRecvLobbyChat()
+    {
+
+    }
 }

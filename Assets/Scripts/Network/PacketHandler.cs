@@ -136,15 +136,6 @@ public class PacketHandler
         MonsterManager.instance.HandleMonsterMove(pkt.PosInfo);
     }
 
-    static void HandleInitPacket(byte[] pBuffer)
-    {
-        //패킷 역직렬화
-        Protocol.L2C_Init pkt = Protocol.L2C_Init.Parser.ParseFrom(pBuffer);
-        //임시
-        // SceneChanger.ChangeLobbyScene();
-        //GameManager.instance.GameStart();
-    }
-
     static void HandleRoomsPacket(byte[] pBuffer)
     {
         //패킷 역직렬화
@@ -454,9 +445,15 @@ public class PacketHandler
     {
         G2C_ChatMessageNotification packet = Protocol.G2C_ChatMessageNotification.Parser.ParseFrom(pBuffer);
 
-        Character character = CharacterManager.instance.GetCharacter(packet.UserId);
-
-        ChatManager.instance.AddMessageOnDisPlay(character.nickname, packet.Message);
+        if(packet.IsLobbyChat)
+        {
+            LobbyManager.instance.handleLobbyChat(packet);
+        }
+        else
+        {
+            Character character = CharacterManager.instance.GetCharacter(packet.UserId);
+            ChatManager.instance.AddMessageOnDisPlay(character.nickname, packet.Message);
+        }
     }
 }
 

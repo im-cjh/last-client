@@ -9,40 +9,29 @@ public class UITutorial : UIBase
     [SerializeField] private Button closeButton;
     private int curentPageIndex = 0;
 
-    void Start()
-    {
-        UpdatePage();
-
-        nextButton.onClick.AddListener(NextPage);
-        prevButton.onClick.AddListener(PrevPage);
-    }
-
     private void UpdatePage()
     {
-        for (int i = 0; i < pages.Length; i++)
-        {
-            pages[i].SetActive(i == curentPageIndex);
-        }
+        pages[curentPageIndex].SetActive(true);
 
-        prevButton.interactable = curentPageIndex > 0;
-        nextButton.interactable = curentPageIndex < pages.Length - 1;
+        //prevButton.interactable = (curentPageIndex != 0);
+        //nextButton.interactable = (curentPageIndex != pages.Length - 1);        
+
+        prevButton.gameObject.SetActive(curentPageIndex != 0);
+        nextButton.gameObject.SetActive(curentPageIndex != pages.Length - 1);
+
     }
 
-    private void NextPage()
+    public void NextPage()
     {
-        if (curentPageIndex < pages.Length - 1)
-        {
-            curentPageIndex++;
-            UpdatePage();
-        }
+        pages[curentPageIndex].SetActive(false);
+        curentPageIndex = Mathf.Clamp(curentPageIndex + 1, 0, pages.Length - 1);
+        UpdatePage();
     }
 
-    private void PrevPage()
+    public void PrevPage()
     {
-        if (curentPageIndex > 0)
-        {
-            curentPageIndex--;
-            UpdatePage();
-        }
+        pages[curentPageIndex].SetActive(false);
+        curentPageIndex = Mathf.Clamp(curentPageIndex -1, 0, pages.Length - 1);
+        UpdatePage();
     }
 }

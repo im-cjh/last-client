@@ -4,19 +4,14 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 
-public class ChatManager : MonoBehaviour
+public class LobbyChatManager : MonoBehaviour
 {
     public static bool isChatting { get; private set; }
-
-    [SerializeField] private GameObject chatPanel;
-    [SerializeField] private RectTransform chatPanelTranfrom;
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private GameObject messagePrefab;
     [SerializeField] private Transform contentTransform;
     [SerializeField] private ScrollRect scrollRect;
-    [SerializeField] private Button chatButton;
-    private bool isChatVisible = false;
-    public static ChatManager instance = null;
+    public static LobbyChatManager instance = null;
 
     void Awake()
     {
@@ -26,19 +21,11 @@ public class ChatManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        chatPanel.SetActive(false);
-        chatPanelTranfrom.localScale = Vector3.zero;
-
-        chatButton.onClick.AddListener(ToggleChat);
-    }
-
     void Update()
     {
         isChatting = inputField.isFocused;
 
-        if (isChatVisible && Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             if (!isChatting)
             {
@@ -47,7 +34,7 @@ public class ChatManager : MonoBehaviour
 
             if (!string.IsNullOrEmpty(inputField.text))
             {
-                SendMessageRequest();
+                SendLobbyMessageRequest();
 
                 Canvas.ForceUpdateCanvases();
                 scrollRect.verticalNormalizedPosition = 0f;
@@ -57,19 +44,8 @@ public class ChatManager : MonoBehaviour
         }
     }
 
-    private void ToggleChat()
-    {
-        if (!isChatVisible)
-        {
-            OpenChat();
-        }
-        else
-        {
-            CloseChat();
-        }
-    }
 
-    private void SendMessageRequest()
+    private void SendLobbyMessageRequest()
     {
         if (!string.IsNullOrEmpty(inputField.text))
         {
@@ -77,7 +53,7 @@ public class ChatManager : MonoBehaviour
             {
                 Message = inputField.text,
                 RoomId = PlayerInfoManager.instance.roomId,
-                IsLobbyChat = false,
+                IsLobbyChat = true,
             };
 
             byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_ChatMessageRequest, PlayerInfoManager.instance.GetNextSequence());
@@ -92,20 +68,5 @@ public class ChatManager : MonoBehaviour
         GameObject newMessage = Instantiate(messagePrefab, contentTransform);
         TMP_Text messageText = newMessage.GetComponent<TMP_Text>();
         messageText.text = $"{nickname}: {message}";
-    }
-
-    private void OpenChat()
-    {
-        chatPanel.SetActive(true);
-        chatPanelTranfrom.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBack);
-        inputField.text = string.Empty;
-        inputField.Select();
-        isChatVisible = true;
-    }
-
-    private void CloseChat()
-    {
-        chatPanelTranfrom.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(() => chatPanel.SetActive(false));
-        isChatVisible = false;
     }
 }

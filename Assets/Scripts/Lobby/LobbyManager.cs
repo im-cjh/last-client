@@ -15,6 +15,7 @@ public class LobbyManager : MonoBehaviour
     public UICreateRoom uiCreate;
     public UIRoom uiRoom;
     public UITutorial uiTutorial;
+    
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class LobbyManager : MonoBehaviour
 
     public void OnClickTutorial()
     {
+        uiTutorial.gameObject.SetActive(true);
         // uiTutorial.Opened();
     }
 
@@ -66,5 +68,10 @@ public class LobbyManager : MonoBehaviour
         byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_LeaveRoomRequest, 0);
 
         NetworkManager.instance.SendPacket(sendBuffer);
+    }
+
+    public void handleLobbyChat(G2C_ChatMessageNotification packet)
+    {
+        
     }
 }
