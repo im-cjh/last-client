@@ -73,4 +73,9 @@ public class LobbyManager : MonoBehaviour
     {
         uiRoom.onRecvLobbyChat(packet);
     }
+
+    internal void onRecvGameReady(G2C_GameReadyNotification pkt)
+    {
+        uiRoom.onRecvGameReady(pkt.UserId);
+    }
 }

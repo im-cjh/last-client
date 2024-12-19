@@ -65,18 +65,17 @@ public class UIRoom : UIBase
 
     public void OnClickGameStart()
     {
-        RequestStartGame();
+        RequesGameReady();
     }
 
-    private void RequestStartGame()
+    private void RequesGameReady()
     {
-        // 게임 시작 로직
-        Protocol.C2G_GameStartRequest pkt = new Protocol.C2G_GameStartRequest();
+        //준비 로직
+        Protocol.C2G_GameReadyRequest pkt = new Protocol.C2G_GameReadyRequest();
         pkt.RoomId = roomData.Id;
-        //로비서버에서 방장인지 검증하기 위해서
         pkt.UserId = PlayerInfoManager.instance.userId;
         
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_GameStartRequest, 0);
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_GameReadyRequest, 0);
         NetworkManager.instance.SendPacket(sendBuffer);
     }
 
@@ -143,5 +142,20 @@ public class UIRoom : UIBase
     {
         string nickname = GetUserNicknameOrNull(packet.UserId);
         roomChatManager.AddMessageOnDisPlay(nickname, packet.Message);
+    }
+
+    public void onRecvGameReady(string userId)
+    {
+        // 슬롯 리스트에서 해당 userId를 가진 슬롯 찾기
+        for (int i = 0; i < slots.Count; i++)
+        {
+            // 슬롯에 해당 유저가 있는지 확인
+            if (slots[i].HasUser(userId))
+            {
+                // 준비 상태를 활성화
+                slots[i].EnableReadyObject();
+                return;
+            }
+        }
     }
 }

@@ -43,6 +43,9 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_GetRoomListResponse] = HandleRoomsPacket;
         handlerMapping[ePacketID.G2C_JoinRoomResponse] = HandleJoinRoomResponsePacket;
         handlerMapping[ePacketID.G2C_JoinRoomNotification] = HandleJoinRoomNotificationPacket;
+
+        handlerMapping[ePacketID.G2C_GameReadyRequest] = HandleGameReadyNotificationPacket;
+
         handlerMapping[ePacketID.G2C_LeaveRoomNotification] = HandleLeaveRoomNotificationPacket;
         handlerMapping[ePacketID.G2C_ChatMessageNotification] = HandleChatMessageNotification;
 
@@ -75,6 +78,14 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_PlayerUseAbilityNotification] = HandlePlayerUseAbilityNotification;
         handlerMapping[ePacketID.G2C_TowerBuffNotification] = HandleTowerBuffNotification;
         handlerMapping[ePacketID.G2C_AddCard] = HandleAddCard;
+    }
+
+    private static void HandleGameReadyNotificationPacket(byte[] pBuffer)
+    {
+        Debug.Log("준비완료");
+        Protocol.G2C_GameReadyNotification pkt = G2C_GameReadyNotification.Parser.ParseFrom(pBuffer);
+
+        LobbyManager.instance.onRecvGameReady(pkt);
     }
 
     private static void HandleBaseDestroyNotification(byte[] pBuffer)

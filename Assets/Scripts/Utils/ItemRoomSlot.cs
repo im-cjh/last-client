@@ -13,6 +13,7 @@ public class ItemRoomSlot : MonoBehaviour
     [SerializeField] private TMP_Text nickname;   // 사용자 닉네임
     [SerializeField] private Image character;     // 캐릭터 이미지
     private UserData userData;
+    public GameObject readyObject;
 
     // 슬롯 데이터를 설정
     public void SetItem(UserData pUserData)
@@ -60,5 +61,15 @@ public class ItemRoomSlot : MonoBehaviour
     public bool HasUser(string userId)
     {
         return userData != null && userData.Id == userId;
+    }
+
+    public void EnableReadyObject()
+    {
+        readyObject.SetActive(true);
+    }
+
+    public void DisableReadyObject()
+    {
+        readyObject.SetActive(false);
     }
 }
