@@ -139,8 +139,9 @@ public class UIRoom : UIBase
         return null;
     }
 
-    public void onRecvLobbyChat()
+    public void onRecvLobbyChat(G2C_ChatMessageNotification packet)
     {
-
+        string nickname = GetUserNicknameOrNull(packet.UserId);
+        roomChatManager.AddMessageOnDisPlay(nickname, packet.Message);
     }
 }

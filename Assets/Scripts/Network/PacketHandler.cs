@@ -166,7 +166,7 @@ public class PacketHandler
         Debug.Log("나 참여");
         //패킷 역직렬화
         Protocol.G2C_JoinRoomNotification pkt = Protocol.G2C_JoinRoomNotification.Parser.ParseFrom(pBuffer);
-
+        Debug.Log(pkt.JoinUser.PrefabId);
         LobbyManager.instance.OnJoinedRoomSomeone(pkt.JoinUser);
     }
 

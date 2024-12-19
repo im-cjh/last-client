@@ -35,7 +35,6 @@ public class LobbyManager : MonoBehaviour
     public void OnClickTutorial()
     {
         uiTutorial.gameObject.SetActive(true);
-        // uiTutorial.Opened();
     }
 
     public void OnEnteredRoom(RoomData roomData)
@@ -72,6 +71,6 @@ public class LobbyManager : MonoBehaviour
 
     public void handleLobbyChat(G2C_ChatMessageNotification packet)
     {
-        
+        uiRoom.onRecvLobbyChat(packet);
     }
 }

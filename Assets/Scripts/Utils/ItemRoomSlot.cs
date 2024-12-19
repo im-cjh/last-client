@@ -39,6 +39,10 @@ public class ItemRoomSlot : MonoBehaviour
             // 리소스 로드 후 캐릭터 이미지 설정
             character.sprite = await AssetManager.LoadAsset<Sprite>("Thumbnail/"+characterType+".png", eAddressableType.Thumbnail);
         }
+        else
+        {
+            Debug.Log("리소스 로드 실패" + characterType);
+        }
     }
     public void ClearItem()
     {
