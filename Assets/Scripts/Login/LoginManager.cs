@@ -6,6 +6,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using System.Threading.Tasks;
+
+enum eInputMode
+{
+    None = 0,
+    SignIn = 1,
+    SignUp = 2,
+}
 
 public class LoginManager : MonoBehaviour
 {
@@ -28,18 +38,100 @@ public class LoginManager : MonoBehaviour
     public GameObject SignUpPanel;
     public GameObject SignInPanel;
 
+    private List<TMP_InputField> signInInputFields;
+    private List<TMP_InputField> signUpInputFields;
+    private eInputMode inputMode = eInputMode.None;
+
     private void Start()
     {
-        PostSignInButton.onClick.AddListener(SignIn);
-        PostSignUpButton.onClick.AddListener(SignUp);
+        PostSignInButton.onClick.AddListener(RegisterSignIn);
+        PostSignUpButton.onClick.AddListener(RegisterSignUp);
+
+        signInInputFields = new List<TMP_InputField>
+        {
+            SignInEmailField,
+            SignInPwdField,
+        };
+
+        signUpInputFields = new List<TMP_InputField>
+        {
+            SignUpEmailField,
+            SignUpPwdField,
+            SignUpNameField
+        };
+    }
+
+    private async void Update()
+    {
+        // Tab 키 입력 감지
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            // 현재 활성화된 패널의 Input Field 리스트 가져오기
+            List<TMP_InputField> activeInputFields;
+
+            switch(inputMode)
+            {
+                case eInputMode.SignIn:
+                    activeInputFields = signInInputFields;
+                    break;
+                case eInputMode.SignUp:
+                    activeInputFields = signUpInputFields;
+                    break;
+                default:
+                    return;
+            }
+
+            if (activeInputFields == null || activeInputFields.Count == 0)
+                return;
+
+            // 현재 선택된 UI 요소 가져오기
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+
+
+            // 현재 활성화된 Input Field 내에서 포커스 전환
+            for (int i = 0; i < activeInputFields.Count; i++)
+            {
+                if (current == activeInputFields[i].gameObject)
+                {
+                    // Shift+Tab이면 이전 Input Field로 이동
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    {
+                        int previousIndex = (i - 1 + activeInputFields.Count) % activeInputFields.Count;
+                        activeInputFields[previousIndex].Select();
+                    }
+                    // Tab이면 다음 Input Field로 이동
+                    else
+                    {
+                        int nextIndex = (i + 1) % activeInputFields.Count;
+                        activeInputFields[nextIndex].Select();
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) 
+        {
+            switch (inputMode)
+            {
+                case eInputMode.SignIn:
+                    await SignIn();
+                    break;
+                case eInputMode.SignUp:
+                    await SignUp();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 
-    public async void SignIn()
+    public async Task SignIn()
     {
         Debug.Log("ㅇㅇ로그인");
         string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
-        //string url = "http://localhost:4000/api/sign/signin";
+
         string json = JsonConvert.SerializeObject(new { email = SignInEmailField.text, password = SignInPwdField.text });
 
         try
@@ -55,7 +147,6 @@ public class LoginManager : MonoBehaviour
 
                 if (response.IsSuccessStatusCode)
                 {
-
                     string token = jsonObj["token"].ToString();
                     string userId = jsonObj["userId"].ToString();
                     string nickname = jsonObj["nickname"].ToString();
@@ -79,16 +170,14 @@ public class LoginManager : MonoBehaviour
         catch (HttpRequestException ex)
         {
             Debug.LogError("HTTP 요청 예외 발생: " + ex.Message);
-            //messageManager.ShowMessage("네트워크 연결을 확인해주세요.");
         }
         catch (Exception ex)
         {
             Debug.Log("예외 발생: " + ex);
-            //messageManager.ShowMessage("네트워크 연결에 실패했습니다.");
         }
     }
 
-    public async void SignUp()
+    public async Task SignUp()
     {
         // HTTP POST 요청을 보낼 엔드포인트 URL
         string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signup";
@@ -145,22 +234,38 @@ public class LoginManager : MonoBehaviour
 
     public void ShowSignInPanel()
     {
-        SignUpPanel.SetActive(false); //패널 활성화
         SignInPanel.SetActive(true);
-
-        Debug.Log(PostSignUpButton);
+        inputMode = eInputMode.SignIn;
+        signInInputFields[0].Select();
     }
 
     public void ShowSignUpPanel()
     {
         SignUpPanel.SetActive(true); //패널 활성화
-        SignInPanel.SetActive(false);
+        inputMode = eInputMode.SignUp;
+        signUpInputFields[0].Select();
     }
 
 
-    private void HideSignUpPanel()
+    public void HideSignInPanel()
+    {
+        SignInPanel.SetActive(false); // 패널 비활성화
+        inputMode = eInputMode.None;
+    }
+
+    public void HideSignUpPanel()
     {
         SignUpPanel.SetActive(false); // 패널 비활성화
-        SignInPanel.SetActive(true);
+        inputMode = eInputMode.None;
+    }
+
+    public void RegisterSignIn()
+    {
+        _ = SignIn(); // 비동기 메서드 호출
+    }
+
+    public void RegisterSignUp()
+    {
+        _ = SignUp(); // 비동기 메서드 호출
     }
 }
