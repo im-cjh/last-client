@@ -14,7 +14,8 @@ public class LobbyManager : MonoBehaviour
     public UIMain uiMain;
     public UICreateRoom uiCreate;
     public UIRoom uiRoom;
-    
+    public UITutorial uiTutorial;
+
     void Awake()
     {
         instance = this;
@@ -28,6 +29,11 @@ public class LobbyManager : MonoBehaviour
     public void OnClickCreateRoom()
     {
         uiCreate.Opened();
+    }
+
+    public void OnClickTutorial()
+    {
+        // uiTutorial.Opened();
     }
 
     public void OnEnteredRoom(RoomData roomData)
@@ -51,7 +57,7 @@ public class LobbyManager : MonoBehaviour
 
         Protocol.C2G_LeaveRoomRequest pkt = new C2G_LeaveRoomRequest();
         pkt.RoomId = PlayerInfoManager.instance.roomId;
-        if(PlayerInfoManager.instance.roomId == -1)
+        if (PlayerInfoManager.instance.roomId == -1)
         {
             Debug.LogError("[onExitRoom] 유효하지 않은 roomId");
             return;
