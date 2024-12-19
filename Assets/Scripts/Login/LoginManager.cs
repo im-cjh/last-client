@@ -10,41 +10,36 @@ using Newtonsoft.Json.Linq;
 public class LoginManager : MonoBehaviour
 {
     [Header("# SignIn")]
-    public Text SignInID_text;
-    public Text SignInPwd_text;
+    public TMP_Text SignInErrorText;
+
     public TMP_InputField SignInEmailField;
     public TMP_InputField SignInPwdField;
     public Button PostSignInButton;
 
     [Header("# SignUp")]
-    private TMP_InputField SignUpEmailField;
-    private TMP_InputField SignUpPwdField;
-    private TMP_InputField SignUpNameField;
-    private Button PostSignUpButton;
+    public TMP_Text SignUpErrorText;
+    public TMP_InputField SignUpEmailField;
+    public TMP_InputField SignUpPwdField;
+    public TMP_InputField SignUpNameField;
+    public Button PostSignUpButton;
 
 
     [Header("# UI References")]
-    public Button EnableSignUpButton;
-    public Button DisableSignUpButton;
     public GameObject SignUpPanel;
     public GameObject SignInPanel;
-    public Text MessageText;
-
-
 
     private void Start()
     {
-        EnableSignUpButton.onClick.AddListener(ShowSignInPanel);
-        DisableSignUpButton.onClick.AddListener(HideSignUpPanel);
         PostSignInButton.onClick.AddListener(SignIn);
+        PostSignUpButton.onClick.AddListener(SignUp);
     }
 
 
     public async void SignIn()
     {
         Debug.Log("ㅇㅇ로그인");
-        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
-        //string url = "http://localhost:4000/api/sign/signin";
+        //string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
+        string url = "http://localhost:4000/api/sign/signin";
         string json = JsonConvert.SerializeObject(new { email = SignInEmailField.text, password = SignInPwdField.text });
 
         try
@@ -55,10 +50,11 @@ public class LoginManager : MonoBehaviour
 
                 HttpResponseMessage response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
 
+                string jsonString = await response.Content.ReadAsStringAsync();
+                JObject jsonObj = JObject.Parse(jsonString);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    JObject jsonObj = JObject.Parse(jsonString);
 
                     string token = jsonObj["token"].ToString();
                     string userId = jsonObj["userId"].ToString();
@@ -74,11 +70,9 @@ public class LoginManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("로그인 실패: " + response.StatusCode);
-                    SignInID_text.text = "이메일 - 유효하지 않은 아이디 또는 비밀번호입니다.";
-                    SignInID_text.color = Color.red;
-                    SignInPwd_text.text = "비밀번호 - 유효하지 않은 아이디 또는 비밀번호입니다.";
-                    SignInPwd_text.color = Color.red;
+                    string errorMessage = jsonObj["message"].ToString();
+                    SignInErrorText.text = errorMessage;
+                    SignInErrorText.color = Color.red;
                 }
             }
         }
@@ -96,13 +90,9 @@ public class LoginManager : MonoBehaviour
 
     public async void SignUp()
     {
-
-        Debug.Log("ㅇㅇ 나임");
-
-
         // HTTP POST 요청을 보낼 엔드포인트 URL
-        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signup";
-
+        //string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signup";
+        string url = "http://localhost:4000/api/sign/signup";
 
         // 사용자 입력 데이터를 JSON 형식으로 직렬화
         string json = JsonConvert.SerializeObject(new
@@ -122,26 +112,22 @@ public class LoginManager : MonoBehaviour
                 // HTTP POST 요청을 만들고 전송
                 HttpResponseMessage response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
 
-                // 응답 메시지를 확인
+                string jsonString = await response.Content.ReadAsStringAsync();
+                JObject jsonObj = JObject.Parse(jsonString);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    var rc = await response.Content.ReadAsStringAsync();
-                    // 성공적으로 요청이 완료되었을 때
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    JObject jsonObj = JObject.Parse(jsonString);
-
-                    // 회원가입 성공 메시지를 표시
                     Debug.Log("회원가입 성공");
-                    //messageManager.ShowMessage("회원가입이 완료되었습니다. 로그인 해주세요");
-                    MessageText.text = "회원가입 성공";
-                    MessageText.color = Color.blue;
+                    SignUpErrorText.text = "회원가입이 완료되었습니다. 로그인 해주세요";
+                    SignUpErrorText.color = Color.blue;
 
                 }
                 else
                 {
                     // 요청이 실패한 경우
-                    MessageText.text = "유효하지 않은 이메일/비밀번호입니다.";
-                    MessageText.color = Color.red;
+                    string errorMessage = jsonObj["message"].ToString();
+                    SignUpErrorText.text = errorMessage;
+                    SignUpErrorText.color = Color.red;
                 }
             }
             catch (Exception e)
@@ -157,18 +143,18 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    private void ShowSignInPanel()
+    public void ShowSignInPanel()
+    {
+        SignUpPanel.SetActive(false); //패널 활성화
+        SignInPanel.SetActive(true);
+
+        Debug.Log(PostSignUpButton);
+    }
+
+    public void ShowSignUpPanel()
     {
         SignUpPanel.SetActive(true); //패널 활성화
         SignInPanel.SetActive(false);
-
-        SignUpEmailField = Utilities.FindAndAssign<TMP_InputField>("Canvas/SignUpPanel/InputGroup/ID");
-        SignUpPwdField = Utilities.FindAndAssign<TMP_InputField>("Canvas/SignUpPanel/InputGroup/PASSWORD");
-        SignUpNameField = Utilities.FindAndAssign<TMP_InputField>("Canvas/SignUpPanel/InputGroup/NICKNAME");
-        PostSignUpButton = Utilities.FindAndAssign<Button>("Canvas/SignUpPanel/SignUpBtn");
-
-        PostSignUpButton.onClick.AddListener(SignUp);
-        Debug.Log(PostSignUpButton);
     }
 
 
