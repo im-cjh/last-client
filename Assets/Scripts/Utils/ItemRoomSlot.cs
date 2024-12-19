@@ -39,6 +39,10 @@ public class ItemRoomSlot : MonoBehaviour
         {
             // 리소스 로드 후 캐릭터 이미지 설정
             character.sprite = await AssetManager.LoadAsset<Sprite>("Thumbnail/"+characterType+".png", eAddressableType.Thumbnail);
+
+            Color color = character.color;
+            color.a = 1;
+            character.color = color;
         }
         else
         {
