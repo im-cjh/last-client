@@ -46,7 +46,6 @@ public enum ePacketID : UInt16
     G2B_JoinGameRoomRequest = 134,
     B2G_JoinGameRoomResponse = 135,
     G2C_JoinGameRoomResponse = 136,
-    //
     B2G_SpawnMonsterNotification = 201,
     G2C_SpawnMonsterNotification = 202,
     B2G_MonsterPositionUpdateNotification = 203,
@@ -59,8 +58,6 @@ public enum ePacketID : UInt16
     G2C_MonsterDeathNotification = 210,
     B2G_MonsterHealthUpdateNotification = 211,
     G2C_MonsterHealthUpdateNotification = 212,
-    B2G_MonsterBuffNotification = 213,
-    G2C_MonsterBuffNotification = 214,
     B2G_IncreaseWaveNotification = 215,
     G2C_IncreaseWaveNotification = 216,
     C2G_TowerBuildRequest = 301,
