@@ -6,107 +6,184 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using System.Threading.Tasks;
+
+enum eInputMode
+{
+    None = 0,
+    SignIn = 1,
+    SignUp = 2,
+}
 
 public class LoginManager : MonoBehaviour
 {
     [Header("# SignIn")]
-    public Text SignInID_text;
-    public Text SignInPwd_text;
-    public InputField SignInEmailField;
-    public InputField SignInPwdField;
+    public TMP_Text SignInErrorText;
+
+    public TMP_InputField SignInEmailField;
+    public TMP_InputField SignInPwdField;
     public Button PostSignInButton;
 
     [Header("# SignUp")]
-    private InputField SignUpEmailField;
-    private InputField SignUpPwdField;
-    private InputField SignUpNameField;
-    private Button PostSignUpButton;
-    
+    public TMP_Text SignUpErrorText;
+    public TMP_InputField SignUpEmailField;
+    public TMP_InputField SignUpPwdField;
+    public TMP_InputField SignUpNameField;
+    public Button PostSignUpButton;
+
 
     [Header("# UI References")]
-    public Button EnableSignUpButton;
-    public Button DisableSignUpButton;
     public GameObject SignUpPanel;
     public GameObject SignInPanel;
-    public Text MessageText;
-    
 
+    private List<TMP_InputField> signInInputFields;
+    private List<TMP_InputField> signUpInputFields;
+    private eInputMode inputMode = eInputMode.None;
 
     private void Start()
     {
-        EnableSignUpButton.onClick.AddListener(ShowSignInPanel);
-        DisableSignUpButton.onClick.AddListener(HideSignUpPanel);
-        PostSignInButton.onClick.AddListener(SignIn);
+        PostSignInButton.onClick.AddListener(RegisterSignIn);
+        PostSignUpButton.onClick.AddListener(RegisterSignUp);
+
+        signInInputFields = new List<TMP_InputField>
+        {
+            SignInEmailField,
+            SignInPwdField,
+        };
+
+        signUpInputFields = new List<TMP_InputField>
+        {
+            SignUpEmailField,
+            SignUpPwdField,
+            SignUpNameField
+        };
+    }
+
+    private async void Update()
+    {
+        // Tab í‚¤ ì…ë ¥ ê°ì§€
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            // í˜„ì¬ í™œì„±í™”ëœ íŒ¨ë„ì˜ Input Field ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+            List<TMP_InputField> activeInputFields;
+
+            switch(inputMode)
+            {
+                case eInputMode.SignIn:
+                    activeInputFields = signInInputFields;
+                    break;
+                case eInputMode.SignUp:
+                    activeInputFields = signUpInputFields;
+                    break;
+                default:
+                    return;
+            }
+
+            if (activeInputFields == null || activeInputFields.Count == 0)
+                return;
+
+            // í˜„ì¬ ì„ íƒëœ UI ìš”ì†Œ ê°€ì ¸ì˜¤ê¸°
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+
+
+            // í˜„ì¬ í™œì„±í™”ëœ Input Field ë‚´ì—ì„œ í¬ì»¤ìŠ¤ ì „í™˜
+            for (int i = 0; i < activeInputFields.Count; i++)
+            {
+                if (current == activeInputFields[i].gameObject)
+                {
+                    // Shift+Tabì´ë©´ ì´ì „ Input Fieldë¡œ ì´ë™
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                    {
+                        int previousIndex = (i - 1 + activeInputFields.Count) % activeInputFields.Count;
+                        activeInputFields[previousIndex].Select();
+                    }
+                    // Tabì´ë©´ ë‹¤ìŒ Input Fieldë¡œ ì´ë™
+                    else
+                    {
+                        int nextIndex = (i + 1) % activeInputFields.Count;
+                        activeInputFields[nextIndex].Select();
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) 
+        {
+            switch (inputMode)
+            {
+                case eInputMode.SignIn:
+                    await SignIn();
+                    break;
+                case eInputMode.SignUp:
+                    await SignUp();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 
-    public async void SignIn()
+    public async Task SignIn()
     {
-        Debug.Log("¤·¤··Î±×ÀÎ");
-        string url = "http://localhost:4000/api/sign/signin";
+        Debug.Log("ã…‡ã…‡ë¡œê·¸ì¸");
+        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
+
         string json = JsonConvert.SerializeObject(new { email = SignInEmailField.text, password = SignInPwdField.text });
 
         try
         {
             using (HttpClient client = new HttpClient())
             {
-                client.Timeout = TimeSpan.FromSeconds(3); // Timeout ¼³Á¤
+                client.Timeout = TimeSpan.FromSeconds(3); // Timeout ì„¤ì •
 
                 HttpResponseMessage response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
 
+                string jsonString = await response.Content.ReadAsStringAsync();
+                JObject jsonObj = JObject.Parse(jsonString);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    JObject jsonObj = JObject.Parse(jsonString);
+                    string token = jsonObj["token"].ToString();
+                    string userId = jsonObj["userId"].ToString();
+                    string nickname = jsonObj["nickname"].ToString();
 
-                    //User.Instance.userName = jsonObj["name"].ToString();
-                    //User.Instance.id = Convert.ToInt32(jsonObj["id"].ToString());
+                    PlayerInfoManager.instance.userId = userId;
+                    PlayerInfoManager.instance.nickname = nickname;
+                    PlayerInfoManager.instance.token = token;
 
-                    // Ãß°¡ ÀÛ¾÷ ¼öÇà
-                    //LobbySession.Instance.Connect("127.0.0.1", 7777);
+                    NetworkManager.instance.ConnectToGatewayServer();
 
-                    //Protocol.C2SLoginSuccess pkt = new Protocol.C2SLoginSuccess();
-                    //pkt.UserName = jsonObj["name"].ToString();
-                    //pkt.UserID = Convert.ToInt32(jsonObj["id"].ToString());
-
-                    //byte[] sendBuffer = PacketHandler.SerializePacket(pkt, ePacketID.LOGIN_SUCCESS);
-                    //await LobbySession.Instance.Send(sendBuffer);
-
-                    SceneChanger.ChangeLobbyScene();
+                    SceneChanger.ChangeScene(SceneChanger.SceneType.Lobby);
                 }
                 else
                 {
-                    Debug.LogWarning("·Î±×ÀÎ ½ÇÆĞ: " + response.StatusCode);
-                    SignInID_text.text = "ÀÌ¸ŞÀÏ - À¯È¿ÇÏÁö ¾ÊÀº ¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.";
-                    SignInID_text.color = Color.red;
-                    SignInPwd_text.text = "ºñ¹Ğ¹øÈ£ - À¯È¿ÇÏÁö ¾ÊÀº ¾ÆÀÌµğ ¶Ç´Â ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.";
-                    SignInPwd_text.color = Color.red;
+                    string errorMessage = jsonObj["message"].ToString();
+                    SignInErrorText.text = errorMessage;
+                    SignInErrorText.color = Color.red;
                 }
             }
         }
         catch (HttpRequestException ex)
         {
-            Debug.LogError("HTTP ¿äÃ» ¿¹¿Ü ¹ß»ı: " + ex.Message);
-            //messageManager.ShowMessage("³×Æ®¿öÅ© ¿¬°áÀ» È®ÀÎÇØÁÖ¼¼¿ä.");
+            Debug.LogError("HTTP ìš”ì²­ ì˜ˆì™¸ ë°œìƒ: " + ex.Message);
         }
         catch (Exception ex)
         {
-            Debug.Log("¿¹¿Ü ¹ß»ı: " + ex.Message);
-            //messageManager.ShowMessage("³×Æ®¿öÅ© ¿¬°á¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+            Debug.Log("ì˜ˆì™¸ ë°œìƒ: " + ex);
         }
     }
 
-    public async void SignUp()
+    public async Task SignUp()
     {
+        // HTTP POST ìš”ì²­ì„ ë³´ë‚¼ ì—”ë“œí¬ì¸íŠ¸ URL
+        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signup";
+        //string url = "http://localhost:4000/api/sign/signup";
 
-        Debug.Log("¤·¤· ³ªÀÓ");
-
-
-        // HTTP POST ¿äÃ»À» º¸³¾ ¿£µåÆ÷ÀÎÆ® URL
-        string url = "http://localhost:4000/api/sign/signup";
-
-
-        // »ç¿ëÀÚ ÀÔ·Â µ¥ÀÌÅÍ¸¦ JSON Çü½ÄÀ¸·Î Á÷·ÄÈ­
+        // ì‚¬ìš©ì ì…ë ¥ ë°ì´í„°ë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ì§ë ¬í™”
         string json = JsonConvert.SerializeObject(new
         {
             email = SignUpEmailField.text,
@@ -115,68 +192,80 @@ public class LoginManager : MonoBehaviour
         });
         Debug.Log(json);
 
-        // HttpClient ÀÎ½ºÅÏ½º »ı¼º
+        // HttpClient ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
         using (HttpClient client = new HttpClient())
         {
-            client.Timeout = TimeSpan.FromSeconds(5); // ½Ã°£ Á¦ÇÑ ¼³Á¤
+            client.Timeout = TimeSpan.FromSeconds(5); // ì‹œê°„ ì œí•œ ì„¤ì •
             try
             {
-                // HTTP POST ¿äÃ»À» ¸¸µé°í Àü¼Û
+                // HTTP POST ìš”ì²­ì„ ë§Œë“¤ê³  ì „ì†¡
                 HttpResponseMessage response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
 
-                // ÀÀ´ä ¸Ş½ÃÁö¸¦ È®ÀÎ
+                string jsonString = await response.Content.ReadAsStringAsync();
+                JObject jsonObj = JObject.Parse(jsonString);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    var rc = await response.Content.ReadAsStringAsync();
-                    // ¼º°øÀûÀ¸·Î ¿äÃ»ÀÌ ¿Ï·áµÇ¾úÀ» ¶§
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    JObject jsonObj = JObject.Parse(jsonString);
-
-                    // È¸¿ø°¡ÀÔ ¼º°ø ¸Ş½ÃÁö¸¦ Ç¥½Ã
-                    Debug.Log("È¸¿ø°¡ÀÔ ¼º°ø");
-                    //messageManager.ShowMessage("È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. ·Î±×ÀÎ ÇØÁÖ¼¼¿ä");
-                    MessageText.text = "È¸¿ø°¡ÀÔ ¼º°ø";
-                    MessageText.color = Color.blue;
+                    Debug.Log("íšŒì›ê°€ì… ì„±ê³µ");
+                    SignUpErrorText.text = "íšŒì›ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ë¡œê·¸ì¸ í•´ì£¼ì„¸ìš”";
+                    SignUpErrorText.color = Color.blue;
 
                 }
                 else
                 {
-                    // ¿äÃ»ÀÌ ½ÇÆĞÇÑ °æ¿ì
-                    MessageText.text = "À¯È¿ÇÏÁö ¾ÊÀº ÀÌ¸ŞÀÏ/ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù.";
-                    MessageText.color = Color.red;
+                    // ìš”ì²­ì´ ì‹¤íŒ¨í•œ ê²½ìš°
+                    string errorMessage = jsonObj["message"].ToString();
+                    SignUpErrorText.text = errorMessage;
+                    SignUpErrorText.color = Color.red;
                 }
             }
             catch (Exception e)
             {
-                // ¿À·ù Ã³¸®
-                Debug.Log("È®ÀÎÇØÁÖ¼¼¿ä");
+                // ì˜¤ë¥˜ ì²˜ë¦¬
+                Debug.Log("í™•ì¸í•´ì£¼ì„¸ìš”");
                 Debug.Log(e.Message);
 
 
-         //           messageManager.ShowMessage("³×Æ®¿öÅ©¸¦ È®ÀÎÇØÁÖ¼¼¿ä");
-         
+                //           messageManager.ShowMessage("ë„¤íŠ¸ì›Œí¬ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”");
+
             }
         }
     }
 
-    private void ShowSignInPanel()
+    public void ShowSignInPanel()
     {
-        SignUpPanel.SetActive(true); //ÆĞ³Î È°¼ºÈ­
-        SignInPanel.SetActive(false);
-
-        SignUpEmailField = Utilities.FindAndAssign<InputField>("Canvas/SignUpPanel/InputGroup/ID");
-        SignUpPwdField = Utilities.FindAndAssign<InputField>("Canvas/SignUpPanel/InputGroup/PASSWORD");
-        SignUpNameField = Utilities.FindAndAssign<InputField>("Canvas/SignUpPanel/InputGroup/NICKNAME");
-        PostSignUpButton = Utilities.FindAndAssign<Button>("Canvas/SignUpPanel/SignUpBtn");
-
-        PostSignUpButton.onClick.AddListener(SignUp);
-        Debug.Log(PostSignUpButton);
+        SignInPanel.SetActive(true);
+        inputMode = eInputMode.SignIn;
+        signInInputFields[0].Select();
     }
 
-    
-    private void HideSignUpPanel()
+    public void ShowSignUpPanel()
     {
-        SignUpPanel.SetActive(false); // ÆĞ³Î ºñÈ°¼ºÈ­
-        SignInPanel.SetActive(true);
+        SignUpPanel.SetActive(true); //íŒ¨ë„ í™œì„±í™”
+        inputMode = eInputMode.SignUp;
+        signUpInputFields[0].Select();
+    }
+
+
+    public void HideSignInPanel()
+    {
+        SignInPanel.SetActive(false); // íŒ¨ë„ ë¹„í™œì„±í™”
+        inputMode = eInputMode.None;
+    }
+
+    public void HideSignUpPanel()
+    {
+        SignUpPanel.SetActive(false); // íŒ¨ë„ ë¹„í™œì„±í™”
+        inputMode = eInputMode.None;
+    }
+
+    public void RegisterSignIn()
+    {
+        _ = SignIn(); // ë¹„ë™ê¸° ë©”ì„œë“œ í˜¸ì¶œ
+    }
+
+    public void RegisterSignUp()
+    {
+        _ = SignUp(); // ë¹„ë™ê¸° ë©”ì„œë“œ í˜¸ì¶œ
     }
 }

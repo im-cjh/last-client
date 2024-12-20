@@ -1,3 +1,4 @@
+using Google.Protobuf.Collections;
 using System;
 using UnityEngine;
 
@@ -8,20 +9,25 @@ public class PlayerInfoManager : MonoBehaviour
     [Header("# Game Control")]
     public int targetFrameRate;
     public string version = "1.0.0";
-    public int latency = 2;
+    public int latency = 200;
     public int sequence = 0;
 
     [Header("# Player Info")]
-    public int playerId = 1;
-    public string nickname = "test";
-    public int roomId;
+    public string userId;
+    public string nickname = "";
+    public string token = "";
+    public int roomId = -1;
+    public string prefabId = "Red";
 
-    void Awake()
+    public RepeatedField<Protocol.PosInfo> tmp_obstaclePosInfos;
+
+    void Start()
     {
         instance = this;
         DontDestroyOnLoad(this);
         Application.targetFrameRate = targetFrameRate;
     }
+
 
     public int GetNextSequence()
     {

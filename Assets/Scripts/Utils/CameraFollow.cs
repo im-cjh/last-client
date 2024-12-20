@@ -2,16 +2,39 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Transform target; // µû¶ó°¥ ´ë»ó (Ä³¸¯ÅÍ)
-    [SerializeField] private Vector3 offset = new Vector3(0, 0, -10); // Ä«¸Ş¶ó ¿ÀÇÁ¼Â
-    [SerializeField] private float smoothSpeed = 0.125f; // µû¶ó°¡´Â ¼Óµµ
+    [SerializeField]
+    private GameObject player;
+    public static CameraFollow instance;
 
-    private void LateUpdate()
+    private void Awake()
     {
-        // ¸ñÇ¥ À§Ä¡ °è»ê
-        Vector3 targetPosition = target.position + offset;
+        instance = this;
+    }
 
-        // ºÎµå·´°Ô ÀÌµ¿ (SmoothDamp ¶Ç´Â Lerp »ç¿ë °¡´É)
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed);
+    void Update()
+    {
+        if (player != null)
+        {
+            transform.position = player.transform.position + new Vector3(0, 0, -10f);
+            //Debug.Log($"ì¹´ë©”ë¼ ìœ„ì¹˜ ì—…ë°ì´íŠ¸. í”Œë ˆì´ì–´ ìœ„ì¹˜: {player.transform.position}");
+        }
+        else
+        {
+            // Debug.LogWarning("CameraFollow: Playerê°€ nullì…ë‹ˆë‹¤.");
+        }
+    }
+
+
+    public void SetPlayer(GameObject pPlayer)
+    {
+        if (pPlayer == null)
+        {
+            Debug.LogError("SetPlayer: ì „ë‹¬ë°›ì€ í”Œë ˆì´ì–´ê°€ nullì…ë‹ˆë‹¤.");
+            return;
+        }
+
+        player = pPlayer;
+        transform.position = player.transform.position;
+        Debug.Log($"SetPlayer í˜¸ì¶œë¨. í”Œë ˆì´ì–´ ì´ë¦„: {player.name}, ìœ„ì¹˜: {player.transform.position}");
     }
 }

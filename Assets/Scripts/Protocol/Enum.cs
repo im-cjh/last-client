@@ -24,20 +24,45 @@ namespace Protocol {
     static EnumReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgplbnVtLnByb3RvEghQcm90b2NvbCo1CgpPYmplY3RUeXBlEgoKBlBMQVlF",
-            "UhAAEgsKB01PTlNURVIQARIOCgpQUk9KRUNUSUxFEAJiBnByb3RvMw=="));
+            "CgplbnVtLnByb3RvEghQcm90b2NvbCopCg1Sb29tU3RhdGVUeXBlEgsKB1BS",
+            "RVBBUkUQABILCgdJTkFHQU1FEAEqSQoKT2JqZWN0VHlwZRIJCgVUT1dFUhAA",
+            "EgoKBlBMQVlFUhABEgsKB01PTlNURVIQAhIOCgpQUk9KRUNUSUxFEAMSBwoD",
+            "RU5WEAQqMgoRT0JKRUNUX1NUQVRFX1RZUEUSCAoESURMRRAAEggKBE1PVkUQ",
+            "ARIJCgVTS0lMTBACKjQKCENhcmRUeXBlEhMKD0NBUkRfVFlQRV9UT1dFUhAA",
+            "EhMKD0NBUkRfVFlQRV9TS0lMTBABYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.ObjectType), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.RoomStateType), typeof(global::Protocol.ObjectType), typeof(global::Protocol.OBJECT_STATE_TYPE), typeof(global::Protocol.CardType), }, null, null));
     }
     #endregion
 
   }
   #region Enums
+  /// <summary>
+  ///변경 주의(클라 의존성)
+  /// </summary>
+  public enum RoomStateType {
+    [pbr::OriginalName("PREPARE")] Prepare = 0,
+    [pbr::OriginalName("INAGAME")] Inagame = 1,
+  }
+
   public enum ObjectType {
-    [pbr::OriginalName("PLAYER")] Player = 0,
-    [pbr::OriginalName("MONSTER")] Monster = 1,
-    [pbr::OriginalName("PROJECTILE")] Projectile = 2,
+    [pbr::OriginalName("TOWER")] Tower = 0,
+    [pbr::OriginalName("PLAYER")] Player = 1,
+    [pbr::OriginalName("MONSTER")] Monster = 2,
+    [pbr::OriginalName("PROJECTILE")] Projectile = 3,
+    [pbr::OriginalName("ENV")] Env = 4,
+  }
+
+  public enum OBJECT_STATE_TYPE {
+    [pbr::OriginalName("IDLE")] Idle = 0,
+    [pbr::OriginalName("MOVE")] Move = 1,
+    [pbr::OriginalName("SKILL")] Skill = 2,
+  }
+
+  public enum CardType {
+    [pbr::OriginalName("CARD_TYPE_TOWER")] Tower = 0,
+    [pbr::OriginalName("CARD_TYPE_SKILL")] Skill = 1,
   }
 
   #endregion

@@ -9,13 +9,9 @@ public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager instance;
 
-    private TcpClient mLobbyTcpClient;
-    private NetworkStream mLobbyStream;
+    private TcpClient mTcpClient;
+    private NetworkStream mGatewayStream;
 
-    private TcpClient mBattleTcpClient;
-    private NetworkStream mBattleStream;
-
-    WaitForSecondsRealtime wait;
 
     private byte[] mRecvBuffer = new byte[4096];
     private List<byte> incompleteData = new List<byte>();
@@ -24,123 +20,73 @@ public class NetworkManager : MonoBehaviour
     {
         instance = this;
         DontDestroyOnLoad(this);
-        wait = new WaitForSecondsRealtime(5);
     }
 
-    private void Start()
-    {
-        string ip = "127.0.0.1";
-        int port = 3000;
-
-        if (ConnectToLobbyServer(ip, port))
-        {
-            StartGame();
-        }
-    }
-
-    bool ConnectToLobbyServer(string ip, int port)
+    public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
+    //public void ConnectToGatewayServer(string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com", int port = 9000)
     {
         try
         {
-            mLobbyTcpClient = new TcpClient(ip, port);
-            mLobbyStream = mLobbyTcpClient.GetStream();
-            Debug.Log($"Connected to {ip}:{port}");
+            mTcpClient = new TcpClient(ip, port);
+            mGatewayStream = mTcpClient.GetStream();
+            UnityEngine.Debug.Log("ê²Œì´íŠ¸ì›¨ì´ ì„œë²„ ì—°ê²°");
 
-            return true;
+            StartGame();
         }
         catch (SocketException e)
         {
-            Debug.LogError($"SocketException: {e}");
-            return false;
+            UnityEngine.Debug.LogError($"SocketException: {e}");
         }
     }
 
     void StartGame()
     {
-        // °ÔÀÓ ½ÃÀÛ ÄÚµå ÀÛ¼º
-        Debug.Log("Game Started");
+        // ê²Œì„ ì‹œì‘ ì½”ë“œ ì‘ì„±
+        Debug.Log(mGatewayStream);
         StartLobbyReceiving(); // Start receiving data
         SendInitialPacket();
     }
-    public async void SendLobbyPacket(byte[] sendBuffer)
-    {
-
-        await Task.Delay(PlayerInfoManager.instance.latency);
-        //await Task.Delay(GameManager.instance.latency);
-
-        // ÆĞÅ¶ Àü¼Û
-        mLobbyStream.Write(sendBuffer, 0, sendBuffer.Length);
-    }
-    public async void SendBattlePacket(byte[] sendBuffer)
+    public async void SendPacket(byte[] sendBuffer)
     {
         await Task.Delay(PlayerInfoManager.instance.latency);
-
-        // ÆĞÅ¶ Àü¼Û
-        mBattleStream.Write(sendBuffer, 0, sendBuffer.Length);
+        // íŒ¨í‚· ì „ì†¡
+        mGatewayStream.Write(sendBuffer, 0, sendBuffer.Length);
     }
 
     void SendInitialPacket()
     {
-        Protocol.C2L_InitialPacket pkt = new Protocol.C2L_InitialPacket();
-        pkt.Meta = new Protocol.C2S_Metadata
+        try
         {
-            ClientVersion = PlayerInfoManager.instance.version,
-            UserId = PlayerInfoManager.instance.playerId,
-        };
-        pkt.Latency = PlayerInfoManager.instance.latency;
-        pkt.Nickname = PlayerInfoManager.instance.nickname;
+            Protocol.C2G_Init pkt = new Protocol.C2G_Init();
+            pkt.Token = PlayerInfoManager.instance.token;
 
-        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2L_Init, PlayerInfoManager.instance.GetNextSequence());
-        
-        Debug.Log(sendBuffer.Length);
-        
-        SendLobbyPacket(sendBuffer);
+            byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_Init, PlayerInfoManager.instance.GetNextSequence());
+
+            SendPacket(sendBuffer);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
+
     void StartLobbyReceiving()
     {
         _ = RecvLobbyPacketsAsync();
     }
 
-    void StartBattleReceiving()
-    {
-        _ = RecvBattlePacketsAsync();
-    }
 
     /*---------------------------------------------
 [RegisterRecv]
--·Îºñ¼­¹ö
+-ë¡œë¹„ì„œë²„
 ---------------------------------------------*/
     async System.Threading.Tasks.Task RecvLobbyPacketsAsync()
     {
-        while (mLobbyTcpClient.Connected)
+        while (mTcpClient.Connected)
         {
             try
             {
-                int bytesRead = await mLobbyStream.ReadAsync(mRecvBuffer, 0, mRecvBuffer.Length);
-                if (bytesRead > 0)
-                {
-                    OnData(mRecvBuffer, bytesRead);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Receive error: {e.Message}");
-                break;
-            }
-        }
-    }
-
-    /*---------------------------------------------
-[RegisterRecv]
-    -¹èÆ²¼­¹ö
----------------------------------------------*/
-    async System.Threading.Tasks.Task RecvBattlePacketsAsync()
-    {
-        while (mBattleTcpClient.Connected)
-        {
-            try
-            {
-                int bytesRead = await mBattleStream.ReadAsync(mRecvBuffer, 0, mRecvBuffer.Length);
+                int bytesRead = await mGatewayStream.ReadAsync(mRecvBuffer, 0, mRecvBuffer.Length);
                 if (bytesRead > 0)
                 {
                     OnData(mRecvBuffer, bytesRead);
@@ -156,31 +102,31 @@ public class NetworkManager : MonoBehaviour
 
     /*---------------------------------------------
 [OnData] 
-1. ¿ÂÀüÇÑ ÆĞÅ¶ÀÌ ¿Ô´ÂÁö È®ÀÎ
-2. ÆĞÅ¶ ÃßÃâ(byte[])
-3. PacketHeader¸¦ ÀĞ¾î¼­ ePacket¿¡ ´ëÀÀµÇ´Â ÇÚµé·¯ ÇÔ¼ö È£Ãâ
+1. ì˜¨ì „í•œ íŒ¨í‚·ì´ ì™”ëŠ”ì§€ í™•ì¸
+2. íŒ¨í‚· ì¶”ì¶œ(byte[])
+3. PacketHeaderë¥¼ ì½ì–´ì„œ ePacketì— ëŒ€ì‘ë˜ëŠ” í•¸ë“¤ëŸ¬ í•¨ìˆ˜ í˜¸ì¶œ
 ---------------------------------------------*/
     void OnData(byte[] data, int length)
     {
         incompleteData.AddRange(data.AsSpan(0, length).ToArray());
 
         //Debug.Log("ProcessReceivedData" + incompleteData.Count);
-        //Çì´õ´Â ÀĞÀ» ¼ö ÀÖÀ½
+        //í—¤ë”ëŠ” ì½ì„ ìˆ˜ ìˆìŒ
         while (incompleteData.Count >= Marshal.SizeOf(typeof(PacketHeader)))
         {
-            // ÆĞÅ¶ ±æÀÌ¿Í Å¸ÀÔ ÀĞ±â
-            //¼­¹ö¿¡¼­ subarayÇÑ°Å¶û ºñ½ÁÇÑµí ¤¾¤¾
+            // íŒ¨í‚· ê¸¸ì´ì™€ íƒ€ì… ì½ê¸°
+            //ì„œë²„ì—ì„œ subarayí•œê±°ë‘ ë¹„ìŠ·í•œë“¯ ã…ã…
             byte[] lengthBytes = incompleteData.GetRange(0, Marshal.SizeOf(typeof(PacketHeader))).ToArray();
             PacketHeader header = MemoryMarshal.Read<PacketHeader>(lengthBytes);
 
-            // Çì´õ¿¡ ±â·ÏµÈ ÆĞÅ¶ Å©±â¸¦ ÆÄ½ÌÇÒ ¼ö ÀÖ¾î¾ß ÇÑ´Ù
+            // í—¤ë”ì— ê¸°ë¡ëœ íŒ¨í‚· í¬ê¸°ë¥¼ íŒŒì‹±í•  ìˆ˜ ìˆì–´ì•¼ í•œë‹¤
             if (incompleteData.Count < header.size)
             {
-                //Debug.Log("µ¥ÀÌÅÍ°¡ ÃæºĞÇÏÁö ¾ÊÀ¸¸é ¹İÈ¯" + incompleteData.Count + " : " + header.size);
+                //Debug.Log("ë°ì´í„°ê°€ ì¶©ë¶„í•˜ì§€ ì•Šìœ¼ë©´ ë°˜í™˜" + incompleteData.Count + " : " + header.size);
                 return;
             }
 
-            // ÆĞÅ¶ µ¥ÀÌÅÍ ÃßÃâ
+            // íŒ¨í‚· ë°ì´í„° ì¶”ì¶œ
             byte[] packetData = incompleteData.GetRange(Marshal.SizeOf(typeof(PacketHeader)), header.size - Marshal.SizeOf(typeof(PacketHeader))).ToArray();
             incompleteData.RemoveRange(0, header.size);
 
@@ -191,26 +137,27 @@ public class NetworkManager : MonoBehaviour
 
     /*---------------------------------------------
 [handlePacket]
-- ¸ñÀû: ¼ö½ÅÇÑ ÆĞÅ¶ÀÇ Id¿¡ ¸Â´Â ÇÔ¼ö È£Ãâ
+- ëª©ì : ìˆ˜ì‹ í•œ íŒ¨í‚·ì˜ Idì— ë§ëŠ” í•¨ìˆ˜ í˜¸ì¶œ
 
-1. ÆĞÅ¶ ID¿¡ ÇØ´çÇÏ´Â ÇÚµé·¯ È®ÀÎ
-1-1. ÇÚµé·¯°¡ Á¸ÀçÇÏÁö ¾ÊÀ» °æ¿ì ¿À·ù Ãâ·Â
-2. ÇÚµé·¯ È£Ãâ
+1. íŒ¨í‚· IDì— í•´ë‹¹í•˜ëŠ” í•¸ë“¤ëŸ¬ í™•ì¸
+1-1. í•¸ë“¤ëŸ¬ê°€ ì¡´ì¬í•˜ì§€ ì•Šì„ ê²½ìš° ì˜¤ë¥˜ ì¶œë ¥
+2. í•¸ë“¤ëŸ¬ í˜¸ì¶œ
 ---------------------------------------------*/
     private void HandlePacket(byte[] pBuffer, ePacketID pId)
     {
-        //ÇÚµé·¯°¡ Á¸ÀçÇÏÁö ¾ÊÀ» °æ¿ì ¿À·ù Ãâ·Â
+        //í•¸ë“¤ëŸ¬ê°€ ì¡´ì¬í•˜ì§€ ì•Šì„ ê²½ìš° ì˜¤ë¥˜ ì¶œë ¥
         Action<byte[]> handler;
         try
         {
+            //Debug.Log("ì•„ì´ë””ëŠ” " + pId);
             handler = PacketHandler.handlerMapping[pId];
         }
         catch (Exception e)
         {
-            Debug.Log("ÆĞÅ¶id°¡ Àß¸øµÇ¾ú½À´Ï´Ù: " + pId);
+            Debug.Log("íŒ¨í‚·idê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤: " + pId);
             return; //throw e;
         }
-        //ÇÚµé·¯ È£Ãâ
+        //í•¸ë“¤ëŸ¬ í˜¸ì¶œ
         try
         {
             handler(pBuffer);

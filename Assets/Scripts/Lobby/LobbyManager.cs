@@ -4,115 +4,78 @@ using System.Collections.Generic;
 using TMPro;
 using System;
 using Protocol;
-using UnityEditor.EditorTools;
+
 
 public class LobbyManager : MonoBehaviour
 {
     public static LobbyManager instance;
 
     [Header("UI References")]
-    public Button createRoomButton;            // ¹æ »ı¼º ¹öÆ°
-    public Transform roomListContent;          // ¹æ ¸ñ·Ï Scroll ViewÀÇ Content
-    public GameObject roomItemPrefab;          // RoomItem ÇÁ¸®ÆÕ
-    public GameObject roomCreationPanel;       // ¹æ »ı¼º ÆĞ³Î
-    public InputField roomNameInput;           // ¹æ ÀÌ¸§ ÀÔ·Â ÇÊµå
-    public Button createRoomConfirmButton;     // ¹æ »ı¼º È®ÀÎ ¹öÆ°
-    public Button cancelRoomButton;            // ¹æ »ı¼º Ãë¼Ò ¹öÆ°
+    public UIMain uiMain;
+    public UICreateRoom uiCreate;
+    public UIRoom uiRoom;
+    public UITutorial uiTutorial;
+    
 
-    private List<Protocol.RoomData> mRooms = new List<RoomData>(); // ¹æ ¸ñ·Ï µ¥ÀÌÅÍ (¿¹: ¹æ ÀÌ¸§ ¹× ÀÎ¿ø ¼ö)
-
-    void Start()
+    void Awake()
     {
         instance = this;
-        DontDestroyOnLoad(this);
-
-        // ÃÊ±â UI ¼³Á¤ ¹× ÀÌº¥Æ® ¿¬°á
-        createRoomButton.onClick.AddListener(ShowRoomCreationPanel);
-        createRoomConfirmButton.onClick.AddListener(CreateRoom);
-        cancelRoomButton.onClick.AddListener(HideRoomCreationPanel);
-
-        // ¼­¹ö·ÎºÎÅÍ ¹æ ¸ñ·Ï ¿äÃ»
-        RequestRoomList();
     }
 
-    // ¹æ »ı¼º ÆĞ³ÎÀ» Ç¥½ÃÇÏ´Â ÇÔ¼ö
-    private void ShowRoomCreationPanel()
+    public void OnRecvRooms(List<RoomData> rooms)
     {
-        roomNameInput.text = ""; // ÀÔ·Â ÇÊµå ÃÊ±âÈ­
-        roomCreationPanel.SetActive(true); // ÆĞ³Î È°¼ºÈ­
+        uiMain.SetRoomList(rooms);
     }
 
-    // ¹æ »ı¼º ÆĞ³ÎÀ» ¼û±â´Â ÇÔ¼ö
-    private void HideRoomCreationPanel()
+    public void OnClickCreateRoom()
     {
-        roomCreationPanel.SetActive(false); // ÆĞ³Î ºñÈ°¼ºÈ­
+        uiCreate.Opened();
     }
 
-    // ¹æ »ı¼º ÇÔ¼ö
-    private void CreateRoom()
+    public void OnClickTutorial()
     {
-        //string roomName = roomNameInput.text.Trim();
-
-        //// ¹æ ÀÌ¸§ÀÌ ºñ¾îÀÖ´ÂÁö È®ÀÎ
-        //if (string.IsNullOrEmpty(roomName))
-        //{
-        //    Debug.Log("¹æ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä.");
-        //    return;
-        //}
-
-        //// »õ ¹æ Ãß°¡
-        //mRooms.Add(new RoomData(1, roomName, 1, 4)); // ±âº»ÀûÀ¸·Î ÃÖ´ë ÀÎ¿ø 4¸íÀ¸·Î ¼³Á¤
-
-        //RefreshRoomList(); // ¹æ ¸ñ·Ï °»½Å
-        //HideRoomCreationPanel(); // ¹æ »ı¼º ÆĞ³Î ´İ±â
+        uiTutorial.gameObject.SetActive(true);
     }
 
-    // ¹æ ¸ñ·Ï UI °»½Å ÇÔ¼ö
-    public void RefreshRoomList()
+    public void OnEnteredRoom(RoomData roomData)
     {
-        // ±âÁ¸ ¹æ ¸ñ·Ï UI Á¦°Å
-        foreach (Transform child in roomListContent)
+        uiMain.gameObject.SetActive(false);
+        uiRoom.gameObject.SetActive(true);
+        uiRoom.SetRoomInfo(roomData);
+
+        PlayerInfoManager.instance.roomId = roomData.Id;
+    }
+
+    public void OnJoinedRoomSomeone(Protocol.UserData userData)
+    {
+        uiRoom.AddUserToSlot(userData);
+    }
+
+    public void onExitRoom()
+    {
+        uiMain.gameObject.SetActive(true);
+        uiRoom.gameObject.SetActive(false);
+
+        Protocol.C2G_LeaveRoomRequest pkt = new C2G_LeaveRoomRequest();
+        pkt.RoomId = PlayerInfoManager.instance.roomId;
+        if (PlayerInfoManager.instance.roomId == -1)
         {
-            Destroy(child.gameObject);
+            Debug.LogError("[onExitRoom] ìœ íš¨í•˜ì§€ ì•Šì€ roomId");
+            return;
         }
+        PlayerInfoManager.instance.roomId = -1;
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_LeaveRoomRequest, 0);
 
-        // »õ·Î¿î ¹æ ¸ñ·Ï UI Ãß°¡
-        foreach (var room in mRooms)
-        {
-            GameObject roomItem = Instantiate(roomItemPrefab, roomListContent);
-
-            // ¹æ ÀÌ¸§ ¼³Á¤
-            roomItem.transform.Find("RoomNameText").GetComponent<TextMeshProUGUI>().text = room.Name;
-
-            // ÀÎ¿ø ¼ö ¼³Á¤ (¿¹: "1/4")
-            roomItem.transform.Find("RoomCountText").GetComponent<TextMeshProUGUI>().text = $"ÇöÀç ÀÎ¿ø ¼ö/{room.MaxUserNum}";
-
-
-            // ÀÔÀå ¹öÆ°¿¡ ÀÌº¥Æ® Ãß°¡
-            Button enterButton = roomItem.transform.Find("EnterRoomButton").GetComponent<Button>();
-            enterButton.onClick.AddListener(() => EnterRoom(room.Id));
-        }
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
-    // ¹æ ÀÔÀå ÇÔ¼ö
-    private void EnterRoom(int pRoomId)
+    public void handleLobbyChat(G2C_ChatMessageNotification packet)
     {
-        Debug.Log("EnterRoom called");
+        uiRoom.onRecvLobbyChat(packet);
     }
 
-    public void OnRecvRooms(List<RoomData> pRoomData)
+    internal void onRecvGameReady(G2C_GameReadyNotification pkt)
     {
-        mRooms = pRoomData;
-
-        RefreshRoomList();
-    }
-
-    public void OnRecvEnterRoomMe(List<UserData> pUserDatas, RoomData pRoomInfo)
-    {
-        Debug.Log("OnRecvEnterRoomMe");
-    }
-
-    public void RequestRoomList()
-    {
+        uiRoom.onRecvGameReady(pkt.UserId);
     }
 }

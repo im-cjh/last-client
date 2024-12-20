@@ -9,7 +9,7 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void Opened(object[] param)
     {
-        // UI∞° ø≠∑»¿ª ∂ß √ ±‚»≠∞° « ø‰«œ∏È ±∏«ˆ
+        // UIÍ∞Ä Ïó¥Î†∏ÏùÑ Îïå Ï¥àÍ∏∞ÌôîÍ∞Ä ÌïÑÏöîÌïòÎ©¥ Íµ¨ÌòÑ
     }
 
     private void Update()
@@ -22,6 +22,12 @@ public class UIMain : UIListBase<ItemRoom>
         }
     }
 
+    public void SetActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+    }
+
+
     public void SetRoomList(List<RoomData> rooms)
     {
         this.rooms = rooms;
@@ -30,12 +36,11 @@ public class UIMain : UIListBase<ItemRoom>
 
     public void OnRefreshRoomList()
     {
-        //if (SocketManager.instance.isConnected)
-        //{
-        //    GamePacket packet = new GamePacket();
-        //    packet.GetRoomListRequest = new C2SGetRoomListRequest();
-        //    SocketManager.instance.Send(packet);
-        //}
+        Protocol.C2G_GetRoomListRequest pkt = new Protocol.C2G_GetRoomListRequest();
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_GetRoomListRequest, 0);
+
+        //Debug.Log("OnRefreshRoomList");
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 
     public override void HideDirect()
@@ -45,11 +50,12 @@ public class UIMain : UIListBase<ItemRoom>
 
     public override void SetList()
     {
+
         ClearList();
         for (int i = 0; i < rooms.Count; i++)
         {
             var item = AddItem();
-            item.SetItem(rooms[i], OnJoinRoom);
+            item.SetItem(rooms[i], OnClickJoinRoom);
         }
     }
 
@@ -63,18 +69,16 @@ public class UIMain : UIListBase<ItemRoom>
         //}
     }
 
-    public void OnClickCreateRoom()
-    {
-        //UIManager.Show<PopupRoomCreate>();
-    }
 
-    public void OnJoinRoom(int idx)
-    {
-        //if (SocketManager.instance.isConnected)
-        //{
-        //    GamePacket packet = new GamePacket();
-        //    packet.JoinRoomRequest = new C2SJoinRoomRequest() { RoomId = idx };
-        //    SocketManager.instance.Send(packet);
-        //}
+    public void OnClickJoinRoom(int roomId)
+    {  
+        Protocol.C2G_JoinRoomRequest pkt = new Protocol.C2G_JoinRoomRequest();
+        pkt.RoomId = roomId;
+        pkt.Nickname = PlayerInfoManager.instance.nickname;
+        pkt.PrefabId = PlayerInfoManager.instance.prefabId;
+
+        byte[] sendBuffer = PacketUtils.SerializePacket(pkt, ePacketID.C2G_JoinRoomRequest, 0);
+
+        NetworkManager.instance.SendPacket(sendBuffer);
     }
 }
