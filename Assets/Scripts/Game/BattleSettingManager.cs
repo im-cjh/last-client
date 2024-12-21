@@ -76,16 +76,6 @@ public class BattleSettingManager : MonoBehaviour
     {
         float dB = (volume <= 0.0001f) ? -80f : Mathf.Log10(volume) * 20; // 0~1 값을 dB로 변환
         audioMixer.SetFloat("EffectVolume", dB);
-
-        // Loop 중인 AudioSource들을 강제로 갱신
-        foreach (AudioSource source in FindObjectsOfType<AudioSource>())
-        {
-            if (source.isPlaying && source.loop)
-            {
-                source.Pause();  // 재생 일시정지
-                source.Play();   // 다시 재생
-            }
-        }
     }
 
     // 게임 종료 기능
