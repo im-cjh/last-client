@@ -282,7 +282,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: d2bc601e4ad52c74692fc6c831600d4d, type: 3}
   m_Resource: {fileID: 8300000, guid: d2bc601e4ad52c74692fc6c831600d4d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.05
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1934,7 +1934,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 9.527778
+  orthographic size: 7.7777777
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

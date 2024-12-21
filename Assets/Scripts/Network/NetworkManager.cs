@@ -18,12 +18,18 @@ public class NetworkManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return; // 추가 실행 방지
+        }
+
         instance = this;
         DontDestroyOnLoad(this);
     }
 
-    public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
-    //public void ConnectToGatewayServer(string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com", int port = 9000)
+    //public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
+    public void ConnectToGatewayServer(string ip = "ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com", int port = 9000)
     {
         try
         {
@@ -75,7 +81,17 @@ public class NetworkManager : MonoBehaviour
         _ = RecvLobbyPacketsAsync();
     }
 
+    public void Logout()
+    {
+        mGatewayStream.Close();
+        mGatewayStream = null;
 
+        mTcpClient.Close();
+        mTcpClient = null;
+
+        mRecvBuffer = new byte[4096];
+        incompleteData.Clear(); // 패킷 조각 리스트 초기화
+    }
     /*---------------------------------------------
 [RegisterRecv]
 -로비서버
