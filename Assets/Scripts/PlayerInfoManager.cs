@@ -23,6 +23,11 @@ public class PlayerInfoManager : MonoBehaviour
 
     void Start()
     {
+        if(instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
         DontDestroyOnLoad(this);
         Application.targetFrameRate = targetFrameRate;
@@ -32,5 +37,15 @@ public class PlayerInfoManager : MonoBehaviour
     public int GetNextSequence()
     {
         return sequence++;
+    }
+
+    public void Logout()
+    {
+        userId = null;
+        nickname = null;
+        token = null;
+        roomId = -1;
+
+        tmp_obstaclePosInfos = null;
     }
 }
