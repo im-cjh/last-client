@@ -34,9 +34,11 @@ public class Character : MonoBehaviour
     private string cardPrefabId;
     private string cardId;
     //public Camera cam;
+    private float lastSyncTime = 0f; // 마지막 패킷 전송 시간
 
     // Constants
-    private const float SyncThreshold = 0.1f; 
+    private const float SyncThreshold = 0.1f;
+    private const float SyncInterval = 0.2f;
 
     private void Awake()
     {
@@ -297,10 +299,15 @@ public class Character : MonoBehaviour
     // 서버로 위치 동기화 (로컬 플레이어 전용)
     private void TrySendPositionToServer()
     {
-        if (Vector2.Distance(lastSyncedPosition, rigid.position) > SyncThreshold)
+        float currentTime = Time.time;
+        bool hasMoved = Vector2.Distance(lastSyncedPosition, rigid.position) > SyncThreshold;
+        bool isTimeToSync = currentTime - lastSyncTime >= SyncInterval;
+
+        if (hasMoved || isTimeToSync)
         {
-            GameManager.instance.SendLocationUpdatePacket(rigid.position.x, rigid.position.y, "isWalk", isWalking);
+            GameManager.instance.SendLocationUpdatePacket(rigid.position.x, rigid.position.y, "isWalk", inputVec.magnitude > 0);
             lastSyncedPosition = rigid.position;
+            lastSyncTime = currentTime;
         }
     }
 
@@ -311,6 +318,7 @@ public class Character : MonoBehaviour
         {
             Vector2 serverPosition = new Vector2(x, y);
             rigid.MovePosition(serverPosition); 
+
             animator.SetBool(parameter, state);
 
             Debug.Log(parameter + ", " + state);
@@ -334,4 +342,11 @@ public class Character : MonoBehaviour
     {
         return characterId;
     }
+
+    Vector2 LinearMovementPrediction(Vector2 CurrentPosition, float CurrentVelocity, float PredictionTime)
+    {
+        Vector2 PredictedPosition = new Vector2(CurrentPosition.x + CurrentVelocity * PredictionTime, CurrentPosition.y + CurrentVelocity * PredictionTime);
+        return PredictedPosition;
+    }
+
 }
