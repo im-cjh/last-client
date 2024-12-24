@@ -28,8 +28,8 @@ public class NetworkManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    //public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
-    public void ConnectToGatewayServer(string ip = "ec2-52-79-226-206.ap-northeast-2.compute.amazonaws.com", int port = 9000)
+    public void ConnectToGatewayServer(string ip = "127.0.0.1", int port = 9000)
+    //public void ConnectToGatewayServer(string ip = "ec2-52-79-226-206.ap-northeast-2.compute.amazonaws.com", int port = 9000)
     {
         try
         {
@@ -48,7 +48,6 @@ public class NetworkManager : MonoBehaviour
     void StartGame()
     {
         // 게임 시작 코드 작성
-        Debug.Log(mGatewayStream);
         StartLobbyReceiving(); // Start receiving data
         SendInitialPacket();
     }
@@ -147,7 +146,7 @@ public class NetworkManager : MonoBehaviour
             incompleteData.RemoveRange(0, header.size);
 
             // Debug.Log($"Received packet: Length = {packetLength}, Type = {packetType}");
-            HandlePacket(packetData, header.id);
+            _ = HandlePacket(packetData, header.id);
         }
     }
 
@@ -159,29 +158,53 @@ public class NetworkManager : MonoBehaviour
 1-1. 핸들러가 존재하지 않을 경우 오류 출력
 2. 핸들러 호출
 ---------------------------------------------*/
-    private void HandlePacket(byte[] pBuffer, ePacketID pId)
+    private async Task HandlePacket(byte[] pBuffer, ePacketID pId)
     {
-        //핸들러가 존재하지 않을 경우 오류 출력
-        Action<byte[]> handler;
+        Debug.Log(pId);
         try
         {
-            //Debug.Log("아이디는 " + pId);
-            handler = PacketHandler.handlerMapping[pId];
+            // 동기 핸들러 검색
+            if (PacketHandler.handlerMapping.TryGetValue(pId, out var syncHandler))
+            {
+                Debug.Log("찾음");
+                try
+                {
+                    syncHandler(pBuffer);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"동기 핸들러 처리 중 오류 발생. ID: {pId}, 오류: {e}");
+                    return;
+                }
+            }
+            else
+            {
+                Debug.Log("못찾음");
+            }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
-            Debug.Log("패킷id가 잘못되었습니다: " + pId);
-            return; //throw e;
+            Debug.LogError (e);
         }
-        //핸들러 호출
-        try
+
+        // 비동기 핸들러 검색
+        if (PacketHandler.asyncHandlerMapping.TryGetValue(pId, out var asyncHandler))
         {
-            handler(pBuffer);
+            try
+            {
+                await asyncHandler(pBuffer);
+                return;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"비동기 핸들러 처리 중 오류 발생. ID: {pId}, 오류: {e}");
+                return;
+            }
         }
-        catch (Exception e)
-        {
-            Debug.LogError(e);
-            return; //throw e;
-        }
+
+        // 핸들러가 없는 경우
+        Debug.LogWarning($"핸들러를 찾을 수 없습니다. 잘못된 패킷 ID: {pId}");
     }
+
 }

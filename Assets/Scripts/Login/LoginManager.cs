@@ -130,7 +130,8 @@ public class LoginManager : MonoBehaviour
     public async Task SignIn()
     {
         Debug.Log("ㅇㅇ로그인");
-        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
+        //string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signin";
+        string url = "http://localhost:4000/api/sign/signin";
 
         string json = JsonConvert.SerializeObject(new { email = SignInEmailField.text, password = SignInPwdField.text });
 
@@ -180,7 +181,7 @@ public class LoginManager : MonoBehaviour
     public async Task SignUp()
     {
         // HTTP POST 요청을 보낼 엔드포인트 URL
-        string url = "http://ec2-13-125-207-67.ap-northeast-2.compute.amazonaws.com:4000/api/sign/signup";
+        string url = "http://localhost:4000/api/sign/signup";
 
         // 사용자 입력 데이터를 JSON 형식으로 직렬화
         string json = JsonConvert.SerializeObject(new

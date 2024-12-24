@@ -29,7 +29,6 @@ public class Base : MonoBehaviour
     {
         hp -= damage;
         hpBar.SetHp(hp);
-        Debug.Log($"BaseHp: {hp}/{maxHp}");
 
         if (hp <= 0)
         {

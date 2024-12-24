@@ -19,7 +19,6 @@ public class HpBar : MonoBehaviour
 
     public void SetHp(float hp)
     {
-        Debug.Log(hp + ": " + maxHp);
         float scale = Mathf.Clamp(hp / maxHp, 0, 1);
 
         hpLeft.localScale = new Vector3(originalScale.x * scale, originalScale.y, originalScale.z);

@@ -21,6 +21,7 @@ public class PacketHandler
         -Action은 반환 타입이 없는 delegate
 ---------------------------------------------*/
     public static Dictionary<ePacketID, Action<byte[]>> handlerMapping;
+    public static Dictionary<ePacketID, Func<byte[], Task>> asyncHandlerMapping;
 
     /*---------------------------------------------
     [생성자]
@@ -28,6 +29,7 @@ public class PacketHandler
     static PacketHandler()
     {
         handlerMapping = new Dictionary<ePacketID, Action<byte[]>>();
+        asyncHandlerMapping = new Dictionary<ePacketID, Func<byte[], Task>>();
         Init();
     }
 
@@ -73,7 +75,7 @@ public class PacketHandler
         handlerMapping[ePacketID.G2C_UseSkillNotification] = HandleUseSkillNotification;
 
         //500번
-        handlerMapping[ePacketID.G2C_InitCardData] = HandleInitCardData;
+        asyncHandlerMapping[ePacketID.G2C_InitCardData] = HandleInitCardData;
         handlerMapping[ePacketID.G2C_PlayerPositionUpdateNotification] = HandleMove;
         handlerMapping[ePacketID.G2C_PlayerUseAbilityNotification] = HandlePlayerUseAbilityNotification;
         handlerMapping[ePacketID.G2C_TowerBuffNotification] = HandleTowerBuffNotification;
@@ -189,6 +191,7 @@ public class PacketHandler
         //패킷 역직렬화
         Protocol.G2C_CreateRoomResponse pkt = Protocol.G2C_CreateRoomResponse.Parser.ParseFrom(pBuffer);
 
+        Debug.Log(pkt.Room.Id);
         //방 입장 요청 보내기
         LobbyManager.instance.uiMain.OnClickJoinRoom(pkt.Room.Id);
     }
@@ -299,20 +302,6 @@ public class PacketHandler
         }
     }
 
-    // 캐릭터 애니메이션 동기화
-    //static void HandleCharacterAnimation(byte[] pBuffer)
-    //{
-    //    Protocol.B2C_PlayerAnimationUpdateNotification packet = Protocol.B2C_PlayerAnimationUpdateNotification.Parser.ParseFrom(pBuffer);
-    //    Debug.Log("HandleCharacterAnimation Called: packet: " + packet);
-
-    //    Character character = CharacterManager.instance.GetCharacter(packet.CharacterId);
-
-    //    if (character != null)
-    //    {
-    //        character.UpdateAnimationFromServer(packet.Parameter, packet.State);
-    //    }
-    //}
-
     static void HandleSpawnMonster(byte[] pBuffer)
     {
         Debug.Log("HandleSpawnMonster Called");
@@ -415,13 +404,20 @@ public class PacketHandler
         SkillManager.instance.UseSkill(packet.OwnerId, packet.Skill);
     }
 
-    static void HandleInitCardData(byte[] pBuffer)
+    public static async Task HandleInitCardData(byte[] pBuffer)
     {
-        //Debug.Log("HandleInitCardData Called");
+        Debug.Log("HandleInitCardData Called");
 
+        // 패킷 파싱
         G2C_InitCardData packet = Protocol.G2C_InitCardData.Parser.ParseFrom(pBuffer);
 
+        // InitializeCards가 완료될 때까지 대기
+        await HandManager.instance.InitializeCards();
+
+        // 카드 추가
         HandManager.instance.AddInitCard(packet.CardData);
+
+        Debug.Log("HandleInitCardData Completed");
     }
 
     static void HandleSkillResponse(byte[] pBuffer)

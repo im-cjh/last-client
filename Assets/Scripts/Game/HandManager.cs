@@ -1,27 +1,32 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DG.Tweening;
 using Google.Protobuf.Collections;
+using Protocol;
 using UnityEngine;
 using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class HandManager : MonoBehaviour
 {
-    private Dictionary<string, GameObject> cardPrefabs = new Dictionary<string, GameObject>();
-    [SerializeField] private List<GameObject> cardPrefabList;
+    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
     [SerializeField] private Transform handZone;
     [SerializeField] private int maxHand = 7;
     private List<GameObject> hands = new List<GameObject>(); // 현재 패에 있는 카드
     private GameObject highlightedCard = null; // 마우스가 올라가있어서 강조중인 카드
     public static HandManager instance = null;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            _ = InitializeCards();
         }
-        RegisterCardPrefabs();
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -29,18 +34,22 @@ public class HandManager : MonoBehaviour
 
     }
 
-    private void RegisterCardPrefabs()
+    public async Task InitializeCards()
     {
-        foreach (GameObject prefab in cardPrefabList)
-        {
-            cardPrefabs.Add(prefab.name, prefab);
-            // Debug.Log("프리팹 등록: " + prefab.name);
-        }
+        await Utilities.RegisterPrefab("Prefab/Cards/BasicTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/BuffTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/IceTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/MissileTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/StrongTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/TankTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/ThunderTower", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/TowerRepair", prefabMap);
+        await Utilities.RegisterPrefab("Prefab/Cards/OrbitalBeam", prefabMap);
     }
 
     public void AddInitCard(Google.Protobuf.Collections.RepeatedField<Protocol.CardData> cardData)
     {
-        //Debug.Log("InitCardData: " + cardData);
+        Debug.Log("InitCardData: " + cardData);
         foreach (Protocol.CardData card in cardData)
         {
             AddCard(card);
@@ -49,21 +58,22 @@ public class HandManager : MonoBehaviour
 
     public void AddCard(Protocol.CardData card)
     {
+        Debug.Log(card);
         if (hands.Count >= maxHand)
         {
             Debug.Log("패가 가득차 카드를 받을 수 없었습니다.");
             return;
         }
 
-        if (!cardPrefabs.ContainsKey(card.PrefabId))
+        if (!prefabMap.ContainsKey(card.PrefabId))
         {
             Debug.LogError("등록되지 않은 프리팹: " + card.PrefabId);
             return;
         }
 
         // 새로운 카드 생성
-        //Debug.Log("AddCard: prefabId: " + prefabId);
-        GameObject newCard = Instantiate(cardPrefabs[card.PrefabId], handZone);
+        Debug.Log("AddCard: prefabId: " + card.PrefabId);
+        GameObject newCard = Instantiate(prefabMap[card.PrefabId], handZone);
 
         // 카드의 Card Script 불러오기
         Card cardScript = newCard.GetComponent<Card>();

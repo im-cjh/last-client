@@ -67,7 +67,7 @@ static public class Utilities
     {
         // 키를 간소화 (예: Prefab/Enemy/Robot1 -> Robot1)
         string shortKey = ExtractShortKey(key);
-
+        //Debug.Log(shortKey);
         // 이미 등록된 프리팹은 무시
         if (prefabMap.ContainsKey(shortKey))
         {
