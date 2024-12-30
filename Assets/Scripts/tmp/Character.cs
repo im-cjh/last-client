@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using UnityEngine.Animations;
+using System.Collections;
 
 public class Character : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class Character : MonoBehaviour
     private string cardId;
     //public Camera cam;
     private float lastSyncTime = 0f; // 마지막 패킷 전송 시간
+
+    //위치 보간
+    private Vector2 targetPosition;
+    private Vector2 currentVelocity; // 현재 속도 (예측에 사용)
 
     // Constants
     private const float SyncThreshold = 0.1f;
@@ -118,6 +123,9 @@ public class Character : MonoBehaviour
         }
         else
         {
+            // 현재 위치에서 목표 위치로 보간 이동
+            rigid.position = Vector2.Lerp(rigid.position, targetPosition, Time.deltaTime / SyncInterval);
+
             if (previousPosition != transform.position)
             {
                 Vector3 curScale = transform.localScale;
@@ -303,7 +311,7 @@ public class Character : MonoBehaviour
         bool hasMoved = Vector2.Distance(lastSyncedPosition, rigid.position) > SyncThreshold;
         bool isTimeToSync = currentTime - lastSyncTime >= SyncInterval;
 
-        if (hasMoved || isTimeToSync)
+        if (hasMoved && isTimeToSync)
         {
             GameManager.instance.SendLocationUpdatePacket(rigid.position.x, rigid.position.y, "isWalk", inputVec.magnitude > 0);
             lastSyncedPosition = rigid.position;
@@ -314,14 +322,19 @@ public class Character : MonoBehaviour
     // 서버로부터 받은 위치 데이터로 캐릭터 위치 업데이트
     public void UpdatePositionFromServer(float x, float y, string parameter, bool state)
     {
-        if (!isLocalPlayer) // 로컬 플레이어는 서버에서 받은 위치를 적용하지 않음
+        if (!isLocalPlayer) // 로컬 플레이어는 서버 위치 업데이트 생략
         {
+            // 서버에서 받은 위치 설정
             Vector2 serverPosition = new Vector2(x, y);
-            rigid.MovePosition(serverPosition); 
 
+            // 현재 속도 계산 (예측 이동에 활용)
+            currentVelocity = (serverPosition - rigid.position) / SyncInterval;
+
+            // 목표 위치 업데이트
+            targetPosition = serverPosition;
+
+            // 애니메이션 상태 갱신
             animator.SetBool(parameter, state);
-
-            Debug.Log(parameter + ", " + state);
         }
     }
 
